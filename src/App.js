@@ -19,6 +19,8 @@ import Calendar from "./scenes/calendar/calendar";
 import Patient from "./scenes/patient";
 import { patientInfo } from "./data/patientData";
 
+import Thanks from "./scenes/thanks";
+
 function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -37,6 +39,8 @@ function App() {
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/create-user" element={<Form />} />
+              <Route path="/created-user" element={<Thanks />} />
+
               <Route path="/bar" element={<Bar />} />
               <Route path="/line" element={<Line />} />
               <Route path="/calendar" element={<Calendar />} />

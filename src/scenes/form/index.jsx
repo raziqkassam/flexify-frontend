@@ -3,12 +3,16 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { useNavigate } from 'react-router-dom'; // Import useHistory
+
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const navigate = useNavigate(); // Get the history object
 
   const handleFormSubmit = (values) => {
     console.log(values);
+    navigate('/created-user')
   };
 
   return (
@@ -28,7 +32,7 @@ const Form = () => {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form >
             <Box
               display="grid"
               gap="30px"
@@ -104,7 +108,7 @@ const Form = () => {
               />
             </Box>
             <Box display="flex" justifyContent="center" mt="20px" >
-              <Button type="submit" color="secondary" variant="contained" >
+              <Button type="submit" color="secondary" variant="contained" onClick={(handleFormSubmit)}>
                 Add New Patient
               </Button>
             </Box>
