@@ -153,6 +153,13 @@ const SideBar = () => {
               Pages
             </Typography>
             <Item
+              title="Contacts Information"
+              to="/contacts"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="New Patient"
               to="/create-user"
               icon={<PersonOutlinedIcon />}

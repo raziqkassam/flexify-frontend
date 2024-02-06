@@ -1,145 +1,218 @@
-import { Box, Button, TextField } from "@mui/material";
-import { Formik } from "formik";
+import React, {useState} from 'react';
+// import { TextField, Button, Container, Stack } from '@mui/material';
+import { Link } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'; // Import useHistory
+
+// import * as React from 'react';
+import ReactDOM from 'react-dom';
+
+import { useTheme, Box, Button, TextField, Select, MenuItem, InputLabel, Checkbox, Stack,
+  FormControl, FormLabel, FormGroup, FormControlLabel, FormHelperText } from "@mui/material";
+import { Formik, Field } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { useNavigate } from 'react-router-dom'; // Import useHistory
+import { tokens } from "../../theme";
+import QuantityInput from '../../components/QuantityInput';
+import { exerciseInfo } from '../../data/exerciseInfoData';
+import NumberInput from '../../components/QuantityInput';
 
-
+const hands = [
+  {
+    value: 'Left',
+    label: 'Left',
+  },
+  {
+    value: 'Right',
+    label: 'Right',
+  }
+];
 const Form = () => {
-  const isNonMobile = useMediaQuery("(min-width:600px)");
-  const navigate = useNavigate(); // Get the history object
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [dateOfBirth, setDateOfBirth] = useState('')
+    const [hand, setHand] = useState('')
+    const [injury, setInjury] = useState('')
 
-  const handleFormSubmit = (values) => {
-    console.log(values);
-    navigate('/created-user')
-  };
+    const initialTargets = Array.from({ length: 4 }, () => ''); // Initialize an array with a length of 4
+    const [targets, setTargets] = useState(initialTargets); // Use useState to manage the state of the array
 
-  return (
-    <Box m="20px 80px">
+    const isNonMobile = useMediaQuery("(min-width:600px)");
+    const navigate = useNavigate(); // Get the history object
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+ 
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log(firstName, lastName, email, dateOfBirth, hand, injury) 
+        const values = {firstName, lastName, email, dateOfBirth, hand, injury, targets}
+        // new Promise((r) => setTimeout(r, 500));
+        alert(JSON.stringify(values, null, 2));
+        navigate('/created-user') // navigate to new page once form is submitted
+    }
+ 
+    return (
+        <React.Fragment>
+            
+      <Box m="20px 80px">
       <Header title="ADD NEW PATIENT" subtitle="Create a new detailed Patient Profile" />
-
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
-          <form >
-            <Box
-              display="grid"
-              gap="30px"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
-            >
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="First Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.firstName}
-                name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Last Name"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastName}
-                name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                name="email"
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Contact Number"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
-                sx={{ gridColumn: "span 4" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 1"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              />
+      
+            <form onSubmit={handleSubmit} initialValues={initialValues} >
+              <Box
+                display="grid"
+                gap="30px"
+                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                sx={{
+                  "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                }}
+              >
+                <TextField
+                    type="text"
+                    variant='outlined'
+                    color='secondary'
+                    label="First Name"
+                    onChange={e => setFirstName(e.target.value)}
+                    value={firstName}
+                    sx={{gridColumn: "span 2" }}
+                    // required
+                />
+                <TextField
+                    type="text"
+                    variant='outlined'
+                    color='secondary'
+                    label="Last Name"
+                    onChange={e => setLastName(e.target.value)}
+                    value={lastName}
+                    sx={{gridColumn: "span 2" }}
+                    // required
+                />
+                <TextField
+                    type="email"
+                    variant='outlined'
+                    color='secondary'
+                    label="Email"
+                    onChange={e => setEmail(e.target.value)}
+                    value={email}
+                    fullWidth
+                    sx={{mb: 4, gridColumn: "span 2" }}
+                />
+                <TextField
+                    type="date"
+                    variant='outlined'
+                    color='secondary'
+                    label={"Date of Birth" }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={e => setDateOfBirth(e.target.value)}
+                    value={dateOfBirth}
+                    // required
+                    fullWidth
+                    sx={{gridColumn: "span 2" }}
+                />
+                {/* <Header subtitle="Select the Injured Hand"/> */}
+                <TextField
+                  select
+                  // required
+                  label="Injured Hand"
+                  labelPlacement="bottom"
+                  variant='outlined'
+                  color='secondary'
+                  value={hand}
+                  onChange={e => setHand(e.target.value)}
+                  sx={{gridColumn: "span 2" }}
+                >
+                  {hands.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                    type="text"
+                    variant='outlined'
+                    color='secondary'
+                    label="Injury Type"
+                    onChange={e => setInjury(e.target.value)}
+                    value={injury}
+                    sx={{gridColumn: "span 2" }}
+                />
+                <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
+                  Set the Desired Target Angles (in degrees) for each exercise
+                </Box>
+                {targets.map((target, i) => (
+                  <TextField
+                    id="outlined-number"
+                    color='secondary'
+                    variant='outlined'
+                    label="Target Angle (Degrees)"
+                    type="number"
+                    inputProps={{min: 0, max: 360, style: { textAlign: 'center', fontSize:'20px' }}}
+                    onChange={(e) => {
+                      // Create a new array to maintain immutability
+                      const newTargets = [...targets];
+                      newTargets[i] = e.target.value;
+                      setTargets(newTargets);
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  ))}
+                {/* {targets.map((target, i) => (
+                  <NumberInput 
+                  
+                  onChange={(e) => {
+                    // Create a new array to maintain immutability
+                    const newTargets = [...targets];
+                    newTargets[i] = e.target.value;
+                    setTargets(newTargets);
+                  }}
+                  />
+                ))} */}
+                {exerciseInfo.map((exercise, i) => (
+                  <Box display="flex" justifyContent="center" mt="10px"  marginTop="-20px" >
+                    <Header subtitle={exercise.title} sx={{gridColumn: "span 1"}}/>
+                  </Box>
+                  
+                ))}
+                <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
+                  <Button type="submit" color="secondary" variant="contained" fullWidth>
+                    Create New Patient
+                  </Button>
+                </Box>
+              </Box>
+            </form>
             </Box>
-            <Box display="flex" justifyContent="center" mt="20px" >
-              <Button type="submit" color="secondary" variant="contained" onClick={(handleFormSubmit)}>
-                Add New Patient
-              </Button>
-            </Box>
-          </form>
-        )}
-      </Formik>
-    </Box>
-  );
-};
-
+        </React.Fragment>
+    )
+}
+ 
 const phoneRegExp =
   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
+  username: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   contact: yup
     .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
+    .matches(phoneRegExp, "Phone number is not valid"),
+    // .required("required"),
   address1: yup.string().required("required"),
   address2: yup.string().required("required"),
 });
 const initialValues = {
   firstName: "",
   lastName: "",
+  username: "",
+  dateOfBirth: "",
   email: "",
+  hand:"",
   contact: "",
-  address1: "",
-  address2: "",
+
 };
 
 export default Form;

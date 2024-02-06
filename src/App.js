@@ -44,6 +44,7 @@ function App() {
               <Route path="/bar" element={<Bar />} />
               <Route path="/line" element={<Line />} />
               <Route path="/calendar" element={<Calendar />} />
+              
               {patientInfo.map((patient, i) => (
               <Route path={`/${patient.username}`} element={<Patient patient={patient}/>} />
               ))}
