@@ -1,10 +1,5 @@
 import React, {useState} from 'react';
-// import { TextField, Button, Container, Stack } from '@mui/material';
-import { Link } from "react-router-dom"
 import { useNavigate } from 'react-router-dom'; // Import useHistory
-
-// import * as React from 'react';
-import ReactDOM from 'react-dom';
 
 import { useTheme, Box, Button, TextField, Select, MenuItem, InputLabel, Checkbox, Stack,
   FormControl, FormLabel, FormGroup, FormControlLabel, FormHelperText } from "@mui/material";
@@ -13,9 +8,7 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import QuantityInput from '../../components/QuantityInput';
 import { exerciseInfo } from '../../data/exerciseInfoData';
-import NumberInput from '../../components/QuantityInput';
 
 const hands = [
   {
@@ -30,6 +23,7 @@ const hands = [
 const Form = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
+    const [userName, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [dateOfBirth, setDateOfBirth] = useState('')
     const [hand, setHand] = useState('')
@@ -42,13 +36,14 @@ const Form = () => {
     const navigate = useNavigate(); // Get the history object
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const isRequired = false; // set to true to set parameters for being required (false for testing)
  
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(firstName, lastName, email, dateOfBirth, hand, injury) 
-        const values = {firstName, lastName, email, dateOfBirth, hand, injury, targets}
+        console.log(firstName, lastName, userName, email, dateOfBirth, hand, injury) 
+        const values = {firstName, lastName, userName, email, dateOfBirth, hand, injury, targets}
         // new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
+        alert(JSON.stringify(values, null, 2)); // make a popup to show all the inputted data
         navigate('/created-user') // navigate to new page once form is submitted
     }
  
@@ -75,7 +70,7 @@ const Form = () => {
                     onChange={e => setFirstName(e.target.value)}
                     value={firstName}
                     sx={{gridColumn: "span 2" }}
-                    // required
+                    required={isRequired}
                 />
                 <TextField
                     type="text"
@@ -85,7 +80,17 @@ const Form = () => {
                     onChange={e => setLastName(e.target.value)}
                     value={lastName}
                     sx={{gridColumn: "span 2" }}
-                    // required
+                    required={isRequired}
+                />
+                <TextField
+                    type="text"
+                    variant='outlined'
+                    color='secondary'
+                    label="Username (choose a unique patient identifier)"
+                    onChange={e => setUserName(e.target.value)}
+                    value={userName}
+                    sx={{gridColumn: "span 4" }}
+                    required={isRequired}
                 />
                 <TextField
                     type="email"
@@ -101,20 +106,20 @@ const Form = () => {
                     type="date"
                     variant='outlined'
                     color='secondary'
-                    label={"Date of Birth" }
+                    label="Date of Birth"
                     InputLabelProps={{
                       shrink: true,
                     }}
                     onChange={e => setDateOfBirth(e.target.value)}
                     value={dateOfBirth}
-                    // required
+                    required={isRequired}
                     fullWidth
                     sx={{gridColumn: "span 2" }}
                 />
                 {/* <Header subtitle="Select the Injured Hand"/> */}
                 <TextField
                   select
-                  // required
+                  required={isRequired}
                   label="Injured Hand"
                   labelPlacement="bottom"
                   variant='outlined'
@@ -139,7 +144,7 @@ const Form = () => {
                     sx={{gridColumn: "span 2" }}
                 />
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
-                  Set the Desired Target Angles (in degrees) for each exercise
+                  Set the Desired Target Angles (in degrees) for each exercise for the patient
                 </Box>
                 {targets.map((target, i) => (
                   <TextField
@@ -150,7 +155,6 @@ const Form = () => {
                     type="number"
                     inputProps={{min: 0, max: 360, style: { textAlign: 'center', fontSize:'20px' }}}
                     onChange={(e) => {
-                      // Create a new array to maintain immutability
                       const newTargets = [...targets];
                       newTargets[i] = e.target.value;
                       setTargets(newTargets);
@@ -160,22 +164,10 @@ const Form = () => {
                     }}
                   />
                   ))}
-                {/* {targets.map((target, i) => (
-                  <NumberInput 
-                  
-                  onChange={(e) => {
-                    // Create a new array to maintain immutability
-                    const newTargets = [...targets];
-                    newTargets[i] = e.target.value;
-                    setTargets(newTargets);
-                  }}
-                  />
-                ))} */}
                 {exerciseInfo.map((exercise, i) => (
                   <Box display="flex" justifyContent="center" mt="10px"  marginTop="-20px" >
                     <Header subtitle={exercise.title} sx={{gridColumn: "span 1"}}/>
                   </Box>
-                  
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
                   <Button type="submit" color="secondary" variant="contained" fullWidth>
