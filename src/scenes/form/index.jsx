@@ -12,12 +12,10 @@ import { exerciseInfo } from '../../data/exerciseInfoData';
 
 const hands = [
   {
-    value: 'Left',
-    label: 'Left',
+    value: 'Left'
   },
   {
-    value: 'Right',
-    label: 'Right',
+    value: 'Right'
   }
 ];
 const Form = () => {
@@ -28,6 +26,7 @@ const Form = () => {
     const [dateOfBirth, setDateOfBirth] = useState('')
     const [hand, setHand] = useState('')
     const [injury, setInjury] = useState('')
+    const [injuryTime, setInjuryTime] = useState('')
 
     const initialTargets = Array.from({ length: 4 }, () => ''); // Initialize an array with a length of 4
     const [targets, setTargets] = useState(initialTargets); // Use useState to manage the state of the array
@@ -40,8 +39,7 @@ const Form = () => {
  
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(firstName, lastName, userName, email, dateOfBirth, hand, injury) 
-        const values = {firstName, lastName, userName, email, dateOfBirth, hand, injury, targets}
+        const values = {firstName, lastName, userName, email, dateOfBirth, hand, injury, injuryTime, targets}
         // new Promise((r) => setTimeout(r, 500));
         alert(JSON.stringify(values, null, 2)); // make a popup to show all the inputted data
         navigate('/created-user') // navigate to new page once form is submitted
@@ -126,11 +124,11 @@ const Form = () => {
                   color='secondary'
                   value={hand}
                   onChange={e => setHand(e.target.value)}
-                  sx={{gridColumn: "span 2" }}
+                  sx={{gridColumn: "span 1" }}
                 >
                   {hands.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                      {option.value}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -143,6 +141,15 @@ const Form = () => {
                     value={injury}
                     sx={{gridColumn: "span 2" }}
                 />
+                <TextField
+                    id="outlined-number"
+                    color='secondary'
+                    variant='outlined'
+                    label="Expected Injury Duration (weeks)"
+                    type="number"
+                    inputProps={{min: 0, max: 360, style: { textAlign: 'center', fontSize:'20px' }}}
+                    onChange={e => setInjuryTime(e.target.value)}
+                  />
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
                   Set the Desired Target Angles (in degrees) for each exercise for the patient
                 </Box>

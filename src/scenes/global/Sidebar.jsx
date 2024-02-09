@@ -26,7 +26,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     <MenuItem
       active={selected === title}
       style={{
-        color: selected ? colors.greenAccent[700] : colors.grey[100],
+        color: selected ? colors.greenAccent[700] : colors.primary[100],
       }}
       onClick={() => setSelected(title)}
       icon={icon}
@@ -117,8 +117,15 @@ const SideBar = () => {
               </Box>
             </Box>
           )}
-
+          
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px" }}
+            >
+                Main Pages
+            </Typography>
             <Item
               title="Home"
               to="/"
@@ -126,13 +133,29 @@ const SideBar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            
+            <Item
+              title="View All Patients"
+              to="/all-patients"
+              icon={<PeopleOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Add New Patient"
+              to="/create-user"
+              icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            
 
             <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Patients
+              Patient List
             </Typography>
             
             {patientInfo.map((patient, i) => (
@@ -150,22 +173,8 @@ const SideBar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Pages
+              Others
             </Typography>
-            <Item
-              title="Contacts Information"
-              to="/contacts"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="New Patient"
-              to="/create-user"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
             <Item
               title="Calendar"
               to="/calendar"

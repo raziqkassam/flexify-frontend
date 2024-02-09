@@ -1,33 +1,33 @@
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import { fullPatientInfo } from "../../data/patientData";
 
 const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const columns = [
-    { field: "username", headerName: "Username", flex: 0.5 },
+  
+  const patientDataColumns = [
     {
-      field: "name",
-      headerName: "Name",
+      field: "userName",
+      headerName: "Username",
+      flex: 1,
+      cellClassName: "name-column--cell"
+    },
+    {
+      field: "firstName",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
+      fontWeight: "bold"
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
+      field: "lastName",
+      headerName: "Last Name",
       flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
       field: "email",
@@ -35,27 +35,25 @@ const Contacts = () => {
       flex: 1,
     },
     {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
+      field: "dateOfBirth",
+      headerName: "Age",
+      flex: 0.5,
+      type: "number",
+      headerAlign: "left",
+      align: "left",
     },
     {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
-      flex: 1,
-    },
+      field: "hand",
+      headerName: "Injured Hand",
+      flex: 0.5
+    }
   ];
 
   return (
     <Box m="20px">
       <Header
-        title="CONTACTS"
-        subtitle="List of Contacts for Future Reference"
+        title="PATIENT LIST"
+        subtitle="Complete list of all your active patients"
       />
       <Box
         m="40px 0 0 0"
@@ -90,8 +88,8 @@ const Contacts = () => {
         }}
       >
         <DataGrid
-          rows={mockDataContacts}
-          columns={columns}
+          rows={fullPatientInfo}
+          columns={patientDataColumns}
           components={{ Toolbar: GridToolbar }}
         />
       </Box>
