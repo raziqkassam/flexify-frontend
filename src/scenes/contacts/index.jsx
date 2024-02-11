@@ -4,24 +4,38 @@ import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { fullPatientInfo } from "../../data/patientData";
+import { useState } from 'react';
+
 
 const Contacts = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
+  const [selectedCell, setSelectedCell] = useState(null);
+
   const patientDataColumns = [
     {
       field: "userName",
       headerName: "Username",
-      flex: 1,
-      cellClassName: "name-column--cell"
+      flex: 2,
+      cellClassName: "name-column--cell",
+      fontWeight: "heavy",
+      align: "center",
+      renderCell: (params) => (
+        <a href={`/${params.value}`} rel="noopener noreferrer"
+        style={{ 
+          color: colors.redAccent[400], 
+          textDecoration: 'none', 
+          fontWeight: 'bold' // Add this line
+        }}>
+          {params.value}
+        </a>
+      ),
     },
     {
       field: "firstName",
       headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
-      fontWeight: "bold"
     },
     {
       field: "lastName",
@@ -32,7 +46,7 @@ const Contacts = () => {
     {
       field: "email",
       headerName: "Email",
-      flex: 1,
+      flex: 2,
     },
     {
       field: "dateOfBirth",
@@ -41,7 +55,23 @@ const Contacts = () => {
       type: "number",
       headerAlign: "left",
       align: "left",
+      renderCell: (params) => {
+        const dob = new Date(params.value);
+        const diff_ms = Date.now() - dob.getTime();
+        const age_dt = new Date(diff_ms); 
+
+        const age = Math.abs(age_dt.getUTCFullYear() - 1970);
+
+        return (
+          <div 
+            onClick={() => setSelectedCell(selectedCell === params.id ? null : params.id)}
+          >
+            {selectedCell === params.id ? params.value : age}
+          </div>
+        );
+      },
     },
+    
     {
       field: "hand",
       headerName: "Injured Hand",
@@ -56,7 +86,7 @@ const Contacts = () => {
         subtitle="Complete list of all your active patients"
       />
       <Box
-        m="40px 0 0 0"
+        m="40px 0 0 10px"
         height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
