@@ -16,6 +16,9 @@ import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import { CenterFocusStrong } from "@mui/icons-material";
+import LineHeader from "../../components/LineHeader";
+import { useNavigate } from 'react-router-dom';
+
 
 const convertStringToNumber = (str) => {
   const value = str/360
@@ -25,18 +28,25 @@ const convertStringToNumber = (str) => {
 const Patient = ({patient}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
 
   return (
     <Box m="20px 30px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 -5px 0" }}>
         <Box marginLeft="10px">
-          <Header title={patient.name} subtitle="Overview of John Doe's Rehab Progress" />
+          <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
         </Box>
         <Box mb="10px" justifyItems={"right"}>
-          <Subheader title="Start Date: " value={patient.start}/>
-          <Subheader title="End Date: " value={patient.end}/>
-          <Subheader title="Injury: " value={patient.injury}/>
+          <LineHeader title="Injured Hand: " value={patient.hand}/>
+          <LineHeader title="Date of Birth: " value={patient.dateOfBirth}/>
+          <LineHeader title="Injury: " value={patient.injury} />
+          <Button
+            onClick={() => navigate(`/${patient.userName}/plan`)}
+            type="submit" color="secondary" variant="contained" fullWidth
+          >
+            Edit Patient Plan
+          </Button>
         </Box>
       </Box>
 

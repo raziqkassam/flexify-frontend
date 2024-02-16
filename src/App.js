@@ -17,9 +17,10 @@ import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 
 import Patient from "./scenes/patient";
-import { patientInfo } from "./data/patientData";
+import { fullPatientInfo, patientInfo } from "./data/patientData";
 
 import Thanks from "./scenes/thanks";
+import Planner from "./scenes/planner";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -37,16 +38,19 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/all-patients" element={<Contacts />} />
-              <Route path="/invoices" element={<Invoices />} />
               <Route path="/create-user" element={<Form />} />
               <Route path="/created-user" element={<Thanks />} />
 
+              <Route path="/invoices" element={<Invoices />} />
               <Route path="/bar" element={<Bar />} />
               <Route path="/line" element={<Line />} />
               <Route path="/calendar" element={<Calendar />} />
               
-              {patientInfo.map((patient, i) => (
-              <Route path={`/${patient.username}`} element={<Patient patient={patient}/>} />
+              {fullPatientInfo.map((patient, i) => (
+                <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
+              ))}
+              {fullPatientInfo.map((patient, i) => (
+              <Route path={`/${patient.userName}/plan`} element={<Planner patient={patient}/>} />
               ))}
             </Routes>
           </main>

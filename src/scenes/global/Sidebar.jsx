@@ -16,7 +16,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import { patientInfo } from "../../data/patientData";
+import { fullPatientInfo, patientInfo } from "../../data/patientData";
 
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -24,14 +24,17 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   const colors = tokens(theme.palette.mode);
   return (
     <MenuItem
+      
       active={selected === title}
-      style={{
-        color: selected ? colors.greenAccent[700] : colors.primary[100],
-      }}
       onClick={() => setSelected(title)}
+      style={{
+        color: selected ? colors.greenAccent[200] : colors.primary[100],
+        fontWeight: 'bold'
+      }}
+      
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      <Typography onClick={() => setSelected(title)} >{title}</Typography>
       <Link to={to} />
     </MenuItem>
   );
@@ -47,23 +50,32 @@ const SideBar = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
+          position: isCollapsed ? 'sticky' : 'fixed',
+          
           background: `${colors.primary[400]} !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
+          
         },
         "& .pro-inner-item": {
           padding: "5px 35px 5px 20px !important",
+          marginRight: isCollapsed ? '20px' : '10px',
+
         },
         "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
+          color: "#fdf222 !important",
         },
         "& .pro-menu-item.active": {
-          color: "#6870fa !important",
+          color: "#868dfb !important",
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <ProSidebar collapsed={isCollapsed} style={{
+        // overflow: 'auto', 
+        // position: 'fixed',
+        // height: '150vh', //edit height
+      }}>
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -81,11 +93,12 @@ const SideBar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  FLEXIFY
+                <Typography variant="h2" fontWeight={'bold'} fontStyle='italic' 
+                  color={colors.grey[100]} marginRight='30px'>
+                  ReWrist
                 </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)} >
+                  <MenuOutlinedIcon/>
                 </IconButton>
               </Box>
             )}
@@ -109,10 +122,10 @@ const SideBar = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  PT Name
+                  Johnathan<br />Cena
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Clinic Name
+                <br />WWE Physio Clinic
                 </Typography>
               </Box>
             </Box>
@@ -121,8 +134,9 @@ const SideBar = () => {
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              color={colors.grey[200]}
               sx={{ m: "15px 0 5px 20px" }}
+              fontWeight={'bold'}
             >
                 Main Pages
             </Typography>
@@ -148,20 +162,19 @@ const SideBar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
-
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              color={colors.grey[200]}
               sx={{ m: "15px 0 5px 20px" }}
+              fontWeight={'bold'}
             >
               Patient List
             </Typography>
             
-            {patientInfo.map((patient, i) => (
+            {fullPatientInfo.map((patient, i) => (
             <Item
-              title={patient.name}
-              to={`/${patient.username}`}
+              title={patient.firstName}
+              to={`/${patient.userName}`}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -170,8 +183,9 @@ const SideBar = () => {
 
             <Typography
               variant="h6"
-              color={colors.grey[300]}
+              color={colors.grey[200]}
               sx={{ m: "15px 0 5px 20px" }}
+              fontWeight={'bold'}
             >
               Others
             </Typography>
