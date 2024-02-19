@@ -6,6 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import LineHeader from '../../components/LineHeader';
 import { tokens } from "../../theme";
+import Subheader from '../../components/Subheader';
 
 
 const exerciseFrequency = [
@@ -24,6 +25,8 @@ const Planner = ({patient}) => {
     const weeks = Array.from({ length: patient.injuryTime }, (_, i) => `W${i + 1}`);
     const [rehabWeeks, setRehabWeeks] = useState(Array.from({ length: patient.injuryTime }, () => Array.from({ length: 7 }, () => '')));
     const [checkboxes, setCheckboxes] = useState(Array(weeks.length).fill({ once: false, twice: false }));
+
+    const lastSubmit = localStorage.getItem(`lastSubmit_${patient.userName}`);
 
     // Load saved selections and checkbox states from localStorage when component mounts
     useEffect(() => {
@@ -80,7 +83,16 @@ const Planner = ({patient}) => {
         // Save selections and checkbox states to localStorage when form is submitted
         localStorage.setItem(`rehabWeeks_${patient.userName}`, JSON.stringify(rehabWeeks));
         localStorage.setItem(`checkboxes_${patient.userName}`, JSON.stringify(checkboxes));
+        localStorage.setItem(`lastSubmit_${patient.userName}`, new Date().toLocaleString('en-US', 
+        { month: '2-digit', day: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }));
         alert(JSON.stringify(values, null, 2)); // make a popup to show all the inputted data
+        navigate(`/${patient.userName}`) 
+    }
+
+    function handleReset() {
+        // Clear all saved selections for all users from localStorage
+        localStorage.clear();
+        alert(JSON.stringify("All Patient Schedules have been RESET", null, 2)); // make a popup to show all the inputted data
         navigate(`/${patient.userName}`) 
     }
  
@@ -95,8 +107,17 @@ const Planner = ({patient}) => {
             </Box>
             <Box mb="10px" justifyItems={"right"} marginBottom={"80px"}>
                 <LineHeader title="Injured Hand: " value={patient.hand}/>
-                <LineHeader title="Date of Birth: " value={patient.dateOfBirth}/>
-                <LineHeader title="Injury: " value={patient.injury} />
+                <LineHeader title="Rehab Length: " value={`${patient.injuryTime} Weeks`} />
+                <LineHeader title="Current Progress: " value={`X Weeks`} />
+                <LineHeader title="Last Saved: " value={lastSubmit || 'Not yet saved'} />
+                <Box display="flex" justifyContent="center" sx={{margin:"30px 0 -20px 0"}}>
+                    <Button
+                        onClick={() => navigate(`/${patient.userName}`)}
+                        type="submit" color="secondary" variant="contained" fullWidth
+                    >
+                    See Patient Overview
+                    </Button>
+                </Box>
             </Box>
         </Box>
       
@@ -175,10 +196,16 @@ const Planner = ({patient}) => {
                     Save Patient Plan
                   </Button>
                 </Box>
+                
               </Box>
             </form>
             </Box>
+            <Button type="button" color="primary" justifyContent="right" variant="contained" 
+            onClick={handleReset}>
+            Reset ALL
+            </Button>
         </React.Fragment>
+        
     )
 }
 
