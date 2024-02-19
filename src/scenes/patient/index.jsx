@@ -1,29 +1,12 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
 import { exerciseInfo } from "../../data/exerciseInfoData";
-import { patientInfo } from "../../data/patientData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
-import Subheader from "../../components/Subheader";
 import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
-import { CenterFocusStrong } from "@mui/icons-material";
 import LineHeader from "../../components/LineHeader";
 import { useNavigate } from 'react-router-dom';
 
-
-const convertStringToNumber = (str) => {
-  const value = str/360
-  return value
-};
 
 const Patient = ({patient}) => {
   const theme = useTheme();
@@ -31,9 +14,9 @@ const Patient = ({patient}) => {
   const navigate = useNavigate();
 
   return (
-    <Box m="20px 30px">
+    <Box m="20px 30px" sx={{margin:"20px 30px 200px 30px"}} >
       {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 -5px 0" }}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 0px 0" }}>
         <Box marginLeft="10px">
           <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
         </Box>
@@ -41,12 +24,15 @@ const Patient = ({patient}) => {
           <LineHeader title="Injured Hand: " value={patient.hand}/>
           <LineHeader title="Date of Birth: " value={patient.dateOfBirth}/>
           <LineHeader title="Injury: " value={patient.injury} />
-          <Button
-            onClick={() => navigate(`/${patient.userName}/plan`)}
-            type="submit" color="secondary" variant="contained" fullWidth
-          >
-            Edit Patient Plan
-          </Button>
+          <Box display="flex" justifyContent="center" mt="10px" 
+            sx={{margin:"30px 0 10px 0"}}>
+              <Button
+                onClick={() => navigate(`/${patient.userName}/plan`)}
+                type="submit" color="secondary" variant="contained" fullWidth
+              >
+              Edit Patient Plan
+            </Button>
+          </Box>
         </Box>
       </Box>
 
