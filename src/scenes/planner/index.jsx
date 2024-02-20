@@ -8,9 +8,8 @@ import LineHeader from '../../components/LineHeader';
 import { tokens } from "../../theme";
 import Subheader from '../../components/Subheader';
 
-
 const exerciseFrequency = [
-    {value: 'Once'}, {value: 'Twice'}, {value: 'Thrice'}
+    {value: 'None'}, {value: 'Once'}, {value: 'Twice'}, {value: 'Thrice'}
 ];
 
 const Planner = ({patient}) => {
@@ -153,7 +152,7 @@ const Planner = ({patient}) => {
                             }
                             label="Once"
                             labelPlacement='bottom'
-                            sx={{ width: "50%" }}
+                            sx={{ width: "50%", marginLeft: "-5px"}}
                         />
                         <FormControlLabel
                             control={
@@ -166,7 +165,7 @@ const Planner = ({patient}) => {
                             }
                             label="Twice"
                             labelPlacement='bottom'
-                            sx={{ width: "50%" }}
+                            sx={{ width: "50%" , marginLeft: "-5px"}}
                         />
         </Box>
                     {days.map((day, dayIndex) => (
@@ -191,8 +190,9 @@ const Planner = ({patient}) => {
                     </>
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" 
-                sx={{gridColumn: "span 8", margin:"30px 0 100px 0"}}>
-                  <Button type="submit" color="secondary" variant="contained" fullWidth>
+                sx={{gridColumn: "span 8", margin:"30px 0 80px 0"}}>
+                  <Button type="submit" color="secondary" variant="contained" 
+                  fullWidth style={{height: '3em', fontSize:'15px', fontWeight:'bold'}}>
                     Save Patient Plan
                   </Button>
                 </Box>

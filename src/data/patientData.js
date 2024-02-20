@@ -11,7 +11,8 @@ export const fullPatientInfo = [
     hand: "Right",
     injury: "DRF",
     injuryTime: "6",
-    targets: [ "86", "78", "45", "45" ]
+    targets: [ "86", "78", "45", "45" ],
+    progress: "0.5"
   },
   {
     id: 2,
@@ -23,7 +24,8 @@ export const fullPatientInfo = [
     hand: "Left",
     injury: "DUF",
     injuryTime: "6",
-    targets: [ "82", "72", "32", "32" ]
+    targets: [ "82", "72", "32", "32" ],
+    progress: "0.9"
   },
   {
     id: 3,
@@ -35,7 +37,8 @@ export const fullPatientInfo = [
     hand: "Right",
     injury: "DURF",
     injuryTime: "12",
-    targets: [ "82", "72", "32", "32" ]
+    targets: [ "82", "72", "32", "32" ],
+    progress: "0.5"
   },
   {
     id: 4,
@@ -47,7 +50,8 @@ export const fullPatientInfo = [
     hand: "Left",
     injury: "DRF",
     injuryTime: "7",
-    targets: [ "82", "72", "32", "32" ]
+    targets: [ "82", "72", "32", "32" ],
+    progress: "0.1"
   },
   {
     id: 5,
@@ -59,7 +63,8 @@ export const fullPatientInfo = [
     hand: "Right",
     injury: "DRF",
     injuryTime: "10",
-    targets: [ "92", "72", "32", "32" ]
+    targets: [ "92", "72", "32", "32" ],
+    progress: "0.8"
   }
 ];
 

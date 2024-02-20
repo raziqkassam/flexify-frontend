@@ -11,12 +11,7 @@ import { tokens } from "../../theme";
 import { exerciseInfo } from '../../data/exerciseInfoData';
 
 const hands = [
-  {
-    value: 'Left'
-  },
-  {
-    value: 'Right'
-  }
+  { value: 'Left' }, { value: 'Right'}
 ];
 const Form = () => {
     const [firstName, setFirstName] = useState('')
@@ -26,6 +21,7 @@ const Form = () => {
     const [dateOfBirth, setDateOfBirth] = useState('')
     const [hand, setHand] = useState('')
     const [injury, setInjury] = useState('')
+    const [rehabStart, setRehabStart] = useState('')
     const [injuryTime, setInjuryTime] = useState('')
 
     const initialTargets = Array.from({ length: 4 }, () => ''); // Initialize an array with a length of 4
@@ -39,9 +35,10 @@ const Form = () => {
  
     function handleSubmit(event) {
         event.preventDefault();
-        const values = {firstName, lastName, userName, email, dateOfBirth, hand, injury, injuryTime, targets}
-        // new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2)); // make a popup to show all the inputted data
+        const patientDetails = {firstName, lastName, userName, email, dateOfBirth, hand, injury, 
+                        rehabStart, injuryTime, targets}
+
+        alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
         navigate('/created-user') // navigate to new page once form is submitted
     }
  
@@ -139,7 +136,17 @@ const Form = () => {
                     label="Injury Type"
                     onChange={e => setInjury(e.target.value)}
                     value={injury}
-                    sx={{gridColumn: "span 2" }}
+                    sx={{gridColumn: "span 1" }}
+                />
+                <TextField
+                    label="Rehab Start Date"
+                    type="date"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    sx={{gridColumn: "span 1" }}
+                    value={rehabStart}
+                    onChange={e => setRehabStart(e.target.value)}
                 />
                 <TextField
                     id="outlined-number"
@@ -177,7 +184,10 @@ const Form = () => {
                   </Box>
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
-                  <Button type="submit" color="secondary" variant="contained" fullWidth>
+                  <Button type="submit" color="secondary" variant="contained"
+                  style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
+                  width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold'
+                  }}>
                     Create New Patient
                   </Button>
                 </Box>

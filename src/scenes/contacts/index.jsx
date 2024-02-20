@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { fullPatientInfo } from "../../data/patientData";
 import { useState } from 'react';
+import ProgressCircle from "../../components/ProgressCircle";
 
 
 const Contacts = () => {
@@ -14,12 +15,23 @@ const Contacts = () => {
 
   const patientDataColumns = [
     {
-      field: "userName",
-      headerName: "Username",
-      flex: 2,
+      field: "progress",
+      headerName: "Progress",
+      flex: 0.5,
       cellClassName: "name-column--cell",
       fontWeight: "heavy",
       align: "center",
+      renderCell: (params) => (
+        <ProgressCircle progress={params.value} size="30"/>
+      ),
+    },
+    {
+      field: "userName",
+      headerName: "Username",
+      flex: 1,
+      cellClassName: "name-column--cell",
+      fontWeight: "heavy",
+      // align: "center",
       renderCell: (params) => (
         <a href={`/${params.value}`} rel="noopener noreferrer"
         style={{ 

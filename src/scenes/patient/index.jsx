@@ -29,6 +29,9 @@ const Patient = ({patient}) => {
               <Button
                 onClick={() => navigate(`/${patient.userName}/plan`)}
                 type="submit" color="secondary" variant="contained" fullWidth
+                style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
+                  width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold'
+                }}
               >
               Edit Patient Plan
             </Button>
@@ -54,7 +57,6 @@ const Patient = ({patient}) => {
           alignItems="center"
           justifyContent="center"
           borderRadius={5}
-          
         >
           <StatBox
             title={exercise.title}
