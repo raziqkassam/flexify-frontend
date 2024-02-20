@@ -35,7 +35,7 @@ const Contacts = () => {
       renderCell: (params) => (
         <a href={`/${params.value}`} rel="noopener noreferrer"
         style={{ 
-          color: colors.redAccent[400], 
+          color: '#fdf222', 
           textDecoration: 'none', 
           fontWeight: 'bold' // Add this line
         }}>

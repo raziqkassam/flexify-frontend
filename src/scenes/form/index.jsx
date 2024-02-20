@@ -186,7 +186,7 @@ const Form = () => {
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
                   <Button type="submit" color="secondary" variant="contained"
                   style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
-                  width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold'
+                  width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold', 
                   }}>
                     Create New Patient
                   </Button>

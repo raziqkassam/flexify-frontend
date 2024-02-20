@@ -113,6 +113,9 @@ const Planner = ({patient}) => {
                     <Button
                         onClick={() => navigate(`/${patient.userName}`)}
                         type="submit" color="secondary" variant="contained" fullWidth
+                        style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
+                        width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold'
+                }}
                     >
                     See Patient Overview
                     </Button>
@@ -167,7 +170,7 @@ const Planner = ({patient}) => {
                             labelPlacement='bottom'
                             sx={{ width: "50%" , marginLeft: "-5px"}}
                         />
-        </Box>
+                </Box>
                     {days.map((day, dayIndex) => (
                         <TextField
                             select
@@ -192,7 +195,8 @@ const Planner = ({patient}) => {
                 <Box display="flex" justifyContent="center" mt="10px" 
                 sx={{gridColumn: "span 8", margin:"30px 0 80px 0"}}>
                   <Button type="submit" color="secondary" variant="contained" 
-                  fullWidth style={{height: '3em', fontSize:'15px', fontWeight:'bold'}}>
+                  style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
+                  width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold',}}>
                     Save Patient Plan
                   </Button>
                 </Box>
@@ -200,8 +204,8 @@ const Planner = ({patient}) => {
               </Box>
             </form>
             </Box>
-            <Button type="button" color="primary" justifyContent="right" variant="contained" 
-            onClick={handleReset}>
+            <Button type="button" color="primary" justifyContent="right" variant="contained" onClick={handleReset} 
+            >
             Reset ALL
             </Button>
         </React.Fragment>
