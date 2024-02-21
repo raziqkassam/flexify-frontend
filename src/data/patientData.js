@@ -12,7 +12,7 @@ export const fullPatientInfo = [
     injury: "DRF",
     injuryTime: "6",
     targets: [ "86", "78", "45", "45" ],
-    progress: "0.5"
+    progress: "2"
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ export const fullPatientInfo = [
     injury: "DUF",
     injuryTime: "6",
     targets: [ "82", "72", "32", "32" ],
-    progress: "0.9"
+    progress: "3"
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ export const fullPatientInfo = [
     injury: "DURF",
     injuryTime: "12",
     targets: [ "82", "72", "32", "32" ],
-    progress: "0.5"
+    progress: "7"
   },
   {
     id: 4,
@@ -51,7 +51,7 @@ export const fullPatientInfo = [
     injury: "DRF",
     injuryTime: "7",
     targets: [ "82", "72", "32", "32" ],
-    progress: "0.1"
+    progress: "1"
   },
   {
     id: 5,
@@ -64,23 +64,7 @@ export const fullPatientInfo = [
     injury: "DRF",
     injuryTime: "10",
     targets: [ "92", "72", "32", "32" ],
-    progress: "0.8"
+    progress: "3"
   }
 ];
 
-export const patientInfo = [
-  {
-    name:"John Doe",
-    username:"johndoe",
-    start:"01/23/24",
-    end:"04/20/24",
-    injury:"RH DRF",
-  },
-  {
-    name:"Jane Doe",
-    username:"janedoe",
-    start:"02/23/24",
-    end:"05/20/24",
-    injury:"LH DUF",
-  }
-];

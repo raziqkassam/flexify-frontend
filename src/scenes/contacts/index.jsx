@@ -17,13 +17,16 @@ const Contacts = () => {
     {
       field: "progress",
       headerName: "Progress",
+      headerAlign: "center",
+      
       flex: 0.5,
       cellClassName: "name-column--cell",
       fontWeight: "heavy",
       align: "center",
-      renderCell: (params) => (
-        <ProgressCircle progress={params.value} size="30"/>
-      ),
+      renderCell: (params) => {
+        const progress = params.value / params.row.injuryTime;
+        return <ProgressCircle progress={progress} size="30"/>
+      },
     },
     {
       field: "userName",
@@ -31,7 +34,6 @@ const Contacts = () => {
       flex: 1,
       cellClassName: "name-column--cell",
       fontWeight: "heavy",
-      // align: "center",
       renderCell: (params) => (
         <a href={`/${params.value}`} rel="noopener noreferrer"
         style={{ 
@@ -58,11 +60,11 @@ const Contacts = () => {
     {
       field: "email",
       headerName: "Email",
-      flex: 2,
+      flex: 1,
     },
     {
       field: "dateOfBirth",
-      headerName: "Age",
+      headerName: "Age / DOB",
       flex: 0.5,
       type: "number",
       headerAlign: "left",
@@ -86,7 +88,7 @@ const Contacts = () => {
     
     {
       field: "hand",
-      headerName: "Injured Hand",
+      headerName: "Hand",
       flex: 0.5
     }
   ];
@@ -98,7 +100,7 @@ const Contacts = () => {
         subtitle="Complete list of all your active patients"
       />
       <Box
-        m="40px 0 0 10px"
+        m="40px 20px 0 10px"
         height="75vh"
         sx={{
           "& .MuiDataGrid-root": {
@@ -108,7 +110,8 @@ const Contacts = () => {
             borderBottom: "none",
           },
           "& .name-column--cell": {
-            color: colors.greenAccent[300],
+            color: colors.greenAccent[400],
+            
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: colors.blueAccent[700],
@@ -133,10 +136,14 @@ const Contacts = () => {
           rows={fullPatientInfo}
           columns={patientDataColumns}
           components={{ Toolbar: GridToolbar }}
+          // checkboxSelection
         />
       </Box>
     </Box>
   );
+
 };
+
+
 
 export default Contacts;

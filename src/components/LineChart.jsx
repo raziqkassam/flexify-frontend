@@ -1,15 +1,16 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
-import { mockLineData as data } from "../data/mockData";
+import { mockLineData } from "../data/mockData";
 import { romData } from "../data/rehabLineData";
-const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+
+const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
     <ResponsiveLine
-      data={romData}
+      data={data}
       theme={{
         axis: {
           domain: {
@@ -45,7 +46,9 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
       }}
       colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }} // added
       margin={{ top: 50, right: 140, bottom: 50, left: 80 }}
-      xScale={{ type: "point" }}
+      xScale={{ 
+        type: "point" 
+      }}
       yScale={{
         type: "linear",
         min: "auto",

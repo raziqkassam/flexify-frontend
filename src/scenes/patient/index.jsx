@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { exerciseInfo } from "../../data/exerciseInfoData";
@@ -6,12 +7,41 @@ import LineChart from "../../components/LineChart";
 import StatBox from "../../components/StatBox";
 import LineHeader from "../../components/LineHeader";
 import { useNavigate } from 'react-router-dom';
+import { romData } from "../../data/rehabLineData";
 
 
 const Patient = ({patient}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
+
+  const [timeframeButton, setTimeframeButton] = useState(1);
+  const [lineData, setLineData] = useState([]);
+
+  const allTimeLineData = romData.map(item => ({
+    ...item, data: item.data.slice(0, patient.injuryTime) }));
+  
+  const lastMonthLineData = romData.map(item => ({
+    ...item, data: item.data.slice(patient.injuryTime-5, patient.injuryTime) }));
+
+  const lastWeekLineData = romData.map(item => ({
+    ...item, data: item.data.slice(patient.injuryTime-2, patient.injuryTime) }));
+
+  useEffect(() => {
+    switch (timeframeButton) {
+      case 1:
+        setLineData(allTimeLineData);  // replace data1 with the actual data for button 1
+        break;
+      case 2:
+        setLineData(lastMonthLineData);  // replace data2 with the actual data for button 2
+        break;
+      case 3:
+        setLineData(lastWeekLineData);  // replace data3 with the actual data for button 3
+        break;
+      default:
+        setLineData(allTimeLineData);
+    }
+  }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData]);
 
   return (
     <Box m="20px 30px" sx={{margin:"20px 30px 200px 30px"}} >
@@ -38,6 +68,47 @@ const Patient = ({patient}) => {
           </Box>
         </Box>
       </Box>
+      <Box m="-30px 0 30px 0">
+        <Box display="flex " justifyContent="left" alignContent={"center"} >
+            <Button
+              style={{
+              backgroundColor:timeframeButton === 1 ? colors.greenAccent[700] : colors.primary[400],
+              color:"white",
+              marginRight:"10px",
+              fontWeight:"550",
+              fontSize:'12',
+              width:"100px",
+              height:"40px"
+              }}
+              onClick={() => setTimeframeButton(1)}
+            > All Time </Button>
+            <Button
+              style={{
+                backgroundColor:timeframeButton === 2 ? colors.greenAccent[700] : colors.primary[400],
+                color:"white",
+                marginRight:"10px",
+                fontWeight:"550",
+                fontSize:'12',
+                width:"100px",
+                height:"40px"
+                }}
+              onClick={() => setTimeframeButton(2)}
+            > Last Month </Button>
+              <Button
+              mr="25px"
+              style={{
+                backgroundColor:timeframeButton === 3 ? colors.greenAccent[700] : colors.primary[400],
+                color:"white",
+                marginRight:"10px",
+                fontWeight:"550",
+                fontSize:'12',
+                width:"100px",
+                height:"40px"
+                }}
+              onClick={() => setTimeframeButton(3)}
+            > Last Week </Button>
+        </Box>
+      </Box>
 
       {/* GRID & CHARTS */}
       <Box
@@ -46,7 +117,6 @@ const Patient = ({patient}) => {
         gridAutoRows="140px"
         gap="20px"
         margin="20px 0 0 0"
-        
       >
         {/* ROW 1 */}
         {exerciseInfo.map((exercise, i) => (
@@ -99,7 +169,9 @@ const Patient = ({patient}) => {
             </Box>
           </Box>
           <Box height="400px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
+            <LineChart isDashboard={true} 
+            data={lineData}
+            />
           </Box>
         </Box>
         
