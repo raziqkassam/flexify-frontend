@@ -28,9 +28,9 @@ const Dashboard = () => {
   return (
     <Box m="20px 30px">
       {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 -5px 0" }}>
-        <Box marginLeft="10px">
-          <Header title="PT Home Page" subtitle="Landing Page for the Physiotherapist to view all Patients" />
+      <Box display="flex" justifyContent="center" textAlign="center" alignContent="center" sx={{ m: "0 0 -5px 0" }}>
+        <Box mt="200px">
+          <Header title="ReWrist Home Page" subtitle="Landing Page for the ReWrist Dashboard for Physiotherapists" />
         </Box>
       </Box>
 
@@ -41,7 +41,6 @@ const Dashboard = () => {
         gridAutoRows="140px"
         gap="20px"
         margin="20px 0 0 0"
-        
       >
         
       </Box>

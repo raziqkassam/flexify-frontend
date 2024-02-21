@@ -1,18 +1,16 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useHistory
 
-import { useTheme, Box, Button, TextField, Select, MenuItem, InputLabel, Checkbox, Stack,
-  FormControl, FormLabel, FormGroup, FormControlLabel, FormHelperText } from "@mui/material";
-import { Formik, Field } from "formik";
+import { useTheme, Box, Button, MenuItem, } from "@mui/material";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { exerciseInfo } from '../../data/exerciseInfoData';
+import FormField from '../../components/FormField';
 
-const hands = [
-  { value: 'Left' }, { value: 'Right'}
-];
+const hands = [ { value: 'Left' }, { value: 'Right'} ];
+
 const Form = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -40,6 +38,7 @@ const Form = () => {
 
         alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
         navigate('/created-user') // navigate to new page once form is submitted
+        // Add something about sending the data to the backend
     }
  
     return (
@@ -49,70 +48,59 @@ const Form = () => {
       <Header title="ADD NEW PATIENT" subtitle="Create a new detailed Patient Profile" />
       
             <form onSubmit={handleSubmit} initialValues={initialValues} >
-              <Box
-                display="grid"
-                gap="30px"
+              <Box display="grid" gap="30px"
                 gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                sx={{
-                  "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                }}
+                sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" }, }}
               >
-                <TextField
+                <FormField
                     type="text"
-                    variant='outlined'
-                    color='secondary'
                     label="First Name"
                     onChange={e => setFirstName(e.target.value)}
                     value={firstName}
                     sx={{gridColumn: "span 2" }}
+                    inputProps={{style: {fontSize:'20px' }}}
                     required={isRequired}
                 />
-                <TextField
+                <FormField
                     type="text"
-                    variant='outlined'
-                    color='secondary'
                     label="Last Name"
                     onChange={e => setLastName(e.target.value)}
                     value={lastName}
                     sx={{gridColumn: "span 2" }}
+                    inputProps={{style: {fontSize:'20px' }}}
                     required={isRequired}
                 />
-                <TextField
+                <FormField
                     type="text"
-                    variant='outlined'
-                    color='secondary'
                     label="Username (choose a unique patient identifier)"
                     onChange={e => setUserName(e.target.value)}
                     value={userName}
-                    sx={{gridColumn: "span 4" }}
+                    sx={{ gridColumn: "span 4",}}
+                    inputProps={{style: {fontSize:'20px', textAlign: 'center'}}}
                     required={isRequired}
                 />
-                <TextField
+                <FormField
                     type="email"
-                    variant='outlined'
-                    color='secondary'
                     label="Email"
                     onChange={e => setEmail(e.target.value)}
                     value={email}
                     fullWidth
-                    sx={{mb: 4, gridColumn: "span 2" }}
+                    sx={{mb:'10px', gridColumn: "span 2" }}
+                    inputProps={{style: {fontSize:'15px' }}}
                 />
-                <TextField
+                <FormField
                     type="date"
-                    variant='outlined'
-                    color='secondary'
                     label="Date of Birth"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    InputLabelProps={{ shrink: true, }}
                     onChange={e => setDateOfBirth(e.target.value)}
                     value={dateOfBirth}
                     required={isRequired}
                     fullWidth
                     sx={{gridColumn: "span 2" }}
+                    inputProps={{style: {fontSize:'15px' }}}
                 />
                 {/* <Header subtitle="Select the Injured Hand"/> */}
-                <TextField
+                <FormField
                   select
                   required={isRequired}
                   label="Injured Hand"
@@ -122,50 +110,54 @@ const Form = () => {
                   value={hand}
                   onChange={e => setHand(e.target.value)}
                   sx={{gridColumn: "span 1" }}
+                  inputProps={{style: {fontSize:'15px' }}}
                 >
                   {hands.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.value}
                     </MenuItem>
                   ))}
-                </TextField>
-                <TextField
+                </FormField>
+                <FormField
                     type="text"
-                    variant='outlined'
-                    color='secondary'
                     label="Injury Type"
                     onChange={e => setInjury(e.target.value)}
                     value={injury}
+                    inputProps={{style: {fontSize:'15px' }}}
                     sx={{gridColumn: "span 1" }}
                 />
-                <TextField
+                <FormField
                     label="Rehab Start Date"
                     type="date"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
+                    InputLabelProps={{ shrink: true, }}
                     sx={{gridColumn: "span 1" }}
                     value={rehabStart}
                     onChange={e => setRehabStart(e.target.value)}
+                    inputProps={{style: {fontSize:'15px' }}}
                 />
-                <TextField
-                    id="outlined-number"
-                    color='secondary'
-                    variant='outlined'
+                <FormField
                     label="Expected Injury Duration (weeks)"
                     type="number"
-                    inputProps={{min: 0, max: 360, style: { textAlign: 'center', fontSize:'20px' }}}
+                    inputProps={{min: 0, max: 52, style: { textAlign: 'center', fontSize:'20px' }}}
                     onChange={e => setInjuryTime(e.target.value)}
-                  />
-                <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
-                  Set the Desired Target Angles (in degrees) for each exercise for the patient
+                    sx={{
+                      "input::-webkit-outer-spin-button, input::-webkit-inner-spin-button": {
+                        WebkitAppearance: "none",
+                        margin: 0,
+                      },
+                      "input[type=number]": {
+                        MozAppearance: "textfield",
+                      },
+                    }}
+                />
+                <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4", textAlign:"center"}}>
+                  Set the Desired Target Angles (in degrees) for each exercise for the patient. 
+                  <br />This should be the measured normal ROM for their non-injured hand.
                 </Box>
                 {targets.map((target, i) => (
-                  <TextField
+                  <FormField
                     id="outlined-number"
-                    color='secondary'
-                    variant='outlined'
-                    label="Target Angle (Degrees)"
+                    label={`Target (in degrees)`}
                     type="number"
                     inputProps={{min: 0, max: 360, style: { textAlign: 'center', fontSize:'20px' }}}
                     onChange={(e) => {
@@ -173,14 +165,14 @@ const Form = () => {
                       newTargets[i] = e.target.value;
                       setTargets(newTargets);
                     }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true,
+                    // }}
                   />
                   ))}
                 {exerciseInfo.map((exercise, i) => (
                   <Box display="flex" justifyContent="center" mt="10px"  marginTop="-20px" >
-                    <Header subtitle={exercise.title} sx={{gridColumn: "span 1"}}/>
+                    {exercise.title}
                   </Box>
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
@@ -188,7 +180,7 @@ const Form = () => {
                   style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
                   width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold', 
                   }}>
-                    Create New Patient
+                    Create New Patient Profile
                   </Button>
                 </Box>
               </Box>

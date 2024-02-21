@@ -4,20 +4,16 @@ import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/team";
-import Invoices from "./scenes/invoices";
 import Contacts from "./scenes/contacts";
 import Bar from "./scenes/bar";
 import Form from "./scenes/form";
 import Line from "./scenes/line";
-import Pie from "./scenes/pie";
-import FAQ from "./scenes/faq";
-import Geography from "./scenes/geography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 
 import Patient from "./scenes/patient";
-import { fullPatientInfo, patientInfo } from "./data/patientData";
+import { fullPatientInfo } from "./data/patientData";
 
 import Thanks from "./scenes/thanks";
 import Planner from "./scenes/planner";
@@ -26,6 +22,8 @@ function App() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
 
+  // Add something about retrieving all patient data from the backend
+  
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -41,7 +39,6 @@ function App() {
               <Route path="/create-user" element={<Form />} />
               <Route path="/created-user" element={<Thanks />} />
 
-              <Route path="/invoices" element={<Invoices />} />
               <Route path="/bar" element={<Bar />} />
               <Route path="/line" element={<Line />} />
               <Route path="/calendar" element={<Calendar />} />
