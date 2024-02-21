@@ -8,13 +8,12 @@ import ProgressCircle from "./ProgressCircle";
 const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
 
   return (
     <Grid container p="20px">
       <Grid item xs={6} >
         {/* Content of the first column of the first row */}
-        <Typography fontSize={30} fontWeight="700"
+        <Typography fontSize={30} fontWeight="700" ml={"10px"}
           sx={{ color: colors.grey[100] }} >
           {exerciseName}
         </Typography>
@@ -69,7 +68,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
             of ROM Goal
           </Typography>
         </Box>
-        {increase > 0 ? (
+        {increase >= 0 ? (
           <Box mt="-40px">
             <ArrowUpwardIcon style={{ size: "80px", fill: colors.greenAccent[500] }} />
             <Typography fontSize={12} fontWeight="400" mt="5px"
@@ -82,7 +81,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
             <ArrowDownwardIcon style={{ size: "80px", fill: colors.redAccent[400] }} />
             <Typography fontSize={12} fontWeight="400" mt="5px"
               sx={{ color: colors.primary[100] }} >
-              Patient had a <b>{increase.substring(1)}%</b> decrease <br/> in ROM over {timePeriod}
+              Patient had a <b>{Math.abs(increase)}%</b> decrease <br/> in ROM over {timePeriod}
             </Typography>
           </Box>
           )}

@@ -8,7 +8,7 @@ import LineHeader from "../../components/LineHeader";
 import { useNavigate } from 'react-router-dom';
 import { romData } from "../../data/rehabLineData";
 
-const exercises = [ "Wrist Flexion", "Wrist Extension", "Radial Deviation", "Ulnar Deviation" ];
+const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
 const Patient = ({patient}) => {
   const theme = useTheme();
@@ -34,35 +34,37 @@ const Patient = ({patient}) => {
       case 1:
         setLineData(allTimeLineData);
         setTimePeriod("All Time");
-        setIncrease(patient.increaseA);
+        setIncrease(patient.increase[0].A);
         break;
       case 2:
         setLineData(lastMonthLineData);
         setTimePeriod("the Last Month");
-        setIncrease(patient.increaseM);
+        setIncrease(patient.increase[0].M);
         break;
       case 3:
         setLineData(lastWeekLineData);
         setTimePeriod("the Last Week");
-        setIncrease(patient.increaseW);
+        setIncrease(patient.increase[0].W);
         break;
       default:
         setLineData(allTimeLineData);
     }
   }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData, 
-    timePeriod, patient.increaseA, patient.increaseM, patient.increaseW]);
+      timePeriod, patient.increase]);
 
   return (
     <Box m="20px 30px" pb="50px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 0px 0" }}>
-        <Box marginLeft="10px">
+        <Box m="0 0 30px 10px">
           <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
         </Box>
         <Box mb="10px" justifyItems={"right"}>
           <LineHeader title="Injured Hand: " value={patient.hand}/>
           <LineHeader title="Date of Birth: " value={patient.dateOfBirth}/>
           <LineHeader title="Injury: " value={patient.injury} />
+          <LineHeader title="Rehab Start Date: " value={`${patient.rehabStart}`} />
+          <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} />
           <Box display="flex" justifyContent="center" mt="10px" 
             sx={{margin:"30px 0 10px 0"}}>
               <Button
@@ -77,7 +79,7 @@ const Patient = ({patient}) => {
           </Box>
         </Box>
       </Box>
-      <Box m="-30px 0 30px 0">
+      <Box m="-70px 0 30px 0">
         <Box display="flex " justifyContent="left" alignContent={"center"} >
             <Button
               style={{
@@ -123,7 +125,7 @@ const Patient = ({patient}) => {
       <Box
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
+        // gridAutoRows="140px"
         gap="20px"
         margin="20px 0 0 0"
         pb="30px"
@@ -135,13 +137,12 @@ const Patient = ({patient}) => {
           display="flex"
           justifyContent="center"
           borderRadius={5}
-          
           >
             <ROMBox 
               exerciseName={exercise}
               targetAngle={patient.targets[i]}
               maxAngle={"20"}
-              increase={increase} 
+              increase={increase[i]} 
               timePeriod={timePeriod}
               subtitle="Rehabilitation Exercise Progress" 
             />
@@ -180,7 +181,7 @@ const Patient = ({patient}) => {
                 </Typography>
               </Box>
             </Box>
-            <Box height="400px" m="-20px 0 0 0">
+            <Box height="400px" m="20px 0 0px 0">
               <LineChart isDashboard={true} 
               data={lineData}
               />

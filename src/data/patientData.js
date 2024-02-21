@@ -9,11 +9,14 @@ export const fullPatientInfo = [
     hand: "Right",
     injury: "DRF",
     injuryTime: "6",
+    rehabStart: "2024-01-18",
     targets: [ "86", "78", "45", "45" ],
     progress: "2",
-    increaseA: "12",
-    increaseM: "3",
-    increaseW: "-2",
+    increase: [
+      { "A": [ "15",  "11",   "8",   "6" ],
+        "M": [ "10",   "5",   "2",   "1" ],
+        "W": [ "-3",   "-1",  "3",   "0" ]
+      }, ],
   },
   {
     id: 2,
@@ -25,11 +28,14 @@ export const fullPatientInfo = [
     hand: "Left",
     injury: "DUF",
     injuryTime: "6",
+    rehabStart: "2023-12-18",
     targets: [ "82", "72", "32", "32" ],
     progress: "3",
-    increaseA: "22",
-    increaseM: "13",
-    increaseW: "7",
+    increase: [
+      { "A": [ "13",  "10",   "12",   "5" ],
+        "M": [ "7",   "5",    "2",    "5" ],
+        "W": [ "2",   "3",    "1",    "3" ]
+      }, ],
   },
   {
     id: 3,
@@ -41,11 +47,14 @@ export const fullPatientInfo = [
     hand: "Right",
     injury: "DURF",
     injuryTime: "12",
+    rehabStart: "2024-02-18",
     targets: [ "76", "92", "41", "40" ],
     progress: "7",
-    increaseA: "15",
-    increaseM: "5",
-    increaseW: "1",
+    increase: [
+      { "A": [ "13",  "10",   "12",   "5" ],
+        "M": [ "7",   "5",    "2",    "5" ],
+        "W": [ "3",   "3",    "3",    "3" ]
+      }, ],
   },
   {
     id: 4,
@@ -57,11 +66,14 @@ export const fullPatientInfo = [
     hand: "Left",
     injury: "DRF",
     injuryTime: "7",
+    rehabStart: "2023-12-28",
     targets: [ "62", "78", "33", "52" ],
     progress: "1",
-    increaseA: "2",
-    increaseM: "-3",
-    increaseW: "-8",
+    increase: [
+      { "A": [ "13",  "10",   "12",   "5" ],
+        "M": [ "7",   "5",    "2",    "5" ],
+        "W": [ "3",   "3",    "3",    "3" ]
+      }, ],
   },
   {
     id: 5,
@@ -73,11 +85,14 @@ export const fullPatientInfo = [
     hand: "Right",
     injury: "DRF",
     injuryTime: "10",
+    rehabStart: "2024-01-11",
     targets: [ "92", "72", "52", "37" ],
     progress: "3",
-    increaseA: "33",
-    increaseM: "7",
-    increaseW: "7",
+    increase: [
+      { "A": [ "13",  "10",   "12",   "5" ],
+        "M": [ "7",   "5",    "2",    "5" ],
+        "W": [ "3",   "3",    "3",    "3" ]
+      }, ],
   }
 ];
 
