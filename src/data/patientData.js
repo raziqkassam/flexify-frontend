@@ -11,6 +11,7 @@ export const fullPatientInfo = [
     injuryTime: "6",
     rehabStart: "2024-01-18",
     targets: [ "86", "78", "45", "45" ],
+    peak:    [ "46", "58", "25", "15" ],
     progress: "2",
     increase: [
       { "A": [ "15",  "11",   "8",   "6" ],
@@ -30,6 +31,7 @@ export const fullPatientInfo = [
     injuryTime: "6",
     rehabStart: "2023-12-18",
     targets: [ "82", "72", "32", "32" ],
+    peak:    [ "40", "50", "30", "18" ],
     progress: "3",
     increase: [
       { "A": [ "13",  "10",   "12",   "5" ],
@@ -49,6 +51,7 @@ export const fullPatientInfo = [
     injuryTime: "12",
     rehabStart: "2024-02-18",
     targets: [ "76", "92", "41", "40" ],
+    peak:    [ "26", "54", "29", "26" ],
     progress: "7",
     increase: [
       { "A": [ "13",  "10",   "12",   "5" ],
@@ -68,6 +71,7 @@ export const fullPatientInfo = [
     injuryTime: "7",
     rehabStart: "2023-12-28",
     targets: [ "62", "78", "33", "52" ],
+    peak:    [ "49", "52", "26", "49" ],
     progress: "1",
     increase: [
       { "A": [ "13",  "10",   "12",   "5" ],
@@ -87,6 +91,7 @@ export const fullPatientInfo = [
     injuryTime: "10",
     rehabStart: "2024-01-11",
     targets: [ "92", "72", "52", "37" ],
+    peak:    [ "76", "55", "35", "45" ],
     progress: "3",
     increase: [
       { "A": [ "13",  "10",   "12",   "5" ],

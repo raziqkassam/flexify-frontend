@@ -28,7 +28,7 @@ const Patient = ({patient}) => {
     ...item, data: item.data.slice(patient.injuryTime-2, patient.injuryTime) }));
   
   const [timePeriod, setTimePeriod] = useState("All Time");
-  const [increase, setIncrease] = useState();
+  const [increase, setIncrease] = useState([]);
   useEffect(() => {
     switch (timeframeButton) {
       case 1:
@@ -141,7 +141,7 @@ const Patient = ({patient}) => {
             <ROMBox 
               exerciseName={exercise}
               targetAngle={patient.targets[i]}
-              maxAngle={"20"}
+              maxAngle={patient.peak[i]}
               increase={increase[i]} 
               timePeriod={timePeriod}
               subtitle="Rehabilitation Exercise Progress" 
