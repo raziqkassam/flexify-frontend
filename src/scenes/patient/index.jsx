@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { exerciseInfo } from "../../data/exerciseInfoData";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-import StatBox from "../../components/StatBox";
+import ROMBox from "../../components/ROMBox";
 import LineHeader from "../../components/LineHeader";
 import { useNavigate } from 'react-router-dom';
 import { romData } from "../../data/rehabLineData";
 
+const exercises = [ "Wrist Flexion", "Wrist Extension", "Radial Deviation", "Ulnar Deviation" ];
 
 const Patient = ({patient}) => {
   const theme = useTheme();
@@ -26,25 +26,34 @@ const Patient = ({patient}) => {
 
   const lastWeekLineData = romData.map(item => ({
     ...item, data: item.data.slice(patient.injuryTime-2, patient.injuryTime) }));
-
+  
+  const [timePeriod, setTimePeriod] = useState("All Time");
+  const [increase, setIncrease] = useState();
   useEffect(() => {
     switch (timeframeButton) {
       case 1:
-        setLineData(allTimeLineData);  // replace data1 with the actual data for button 1
+        setLineData(allTimeLineData);
+        setTimePeriod("All Time");
+        setIncrease(patient.increaseA);
         break;
       case 2:
-        setLineData(lastMonthLineData);  // replace data2 with the actual data for button 2
+        setLineData(lastMonthLineData);
+        setTimePeriod("the Last Month");
+        setIncrease(patient.increaseM);
         break;
       case 3:
-        setLineData(lastWeekLineData);  // replace data3 with the actual data for button 3
+        setLineData(lastWeekLineData);
+        setTimePeriod("the Last Week");
+        setIncrease(patient.increaseW);
         break;
       default:
         setLineData(allTimeLineData);
     }
-  }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData]);
+  }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData, 
+    timePeriod, patient.increaseA, patient.increaseM, patient.increaseW]);
 
   return (
-    <Box m="20px 30px" sx={{margin:"20px 30px 200px 30px"}} >
+    <Box m="20px 30px" pb="50px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 0px 0" }}>
         <Box marginLeft="10px">
@@ -117,100 +126,68 @@ const Patient = ({patient}) => {
         gridAutoRows="140px"
         gap="20px"
         margin="20px 0 0 0"
+        pb="30px"
       >
-        {/* ROW 1 */}
-        {exerciseInfo.map((exercise, i) => (
-        <Box
-          gridColumn="span 3"
+        {exercises.map((exercise, i) => (
+          <Box
+          gridColumn="span 6"
           backgroundColor={colors.primary[400]}
           display="flex"
-          alignItems="center"
           justifyContent="center"
           borderRadius={5}
-        >
-          <StatBox
-            title={exercise.title}
-            subtitle={exercise.subtitle}
-            progress={exercise.progress}
-            increase={exercise.increase}
-          />
-        </Box>
-        ))}
-
-        {/* ROW 2 */}
-        <Box
-          gridColumn="span 12"
-          gridRow="span 3"
-          backgroundColor={colors.primary[400]}
-          borderRadius={5}
-        >
-          <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
-            justifyContent="space-between"
-            alignItems="center"
+          
           >
-            <Box>
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
-                Weekly Improvement
-              </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
-                Total Rehabilitation Exercise Progress
-              </Typography>
-            </Box>
-          </Box>
-          <Box height="400px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} 
-            data={lineData}
+            <ROMBox 
+              exerciseName={exercise}
+              targetAngle={patient.targets[i]}
+              maxAngle={"20"}
+              increase={increase} 
+              timePeriod={timePeriod}
+              subtitle="Rehabilitation Exercise Progress" 
             />
           </Box>
-        </Box>
-        
-
-        {/* ROW 3 */}
-        {exerciseInfo.map((exercise, i) => (
-        <Box
-          gridColumn="span 3"
-          // gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          p="30px"
-          borderRadius={5}
-        >
-          <Typography variant="h6" fontWeight="200" textAlign={"center"}>
-            Maximum Angle
-          </Typography>
-          <Typography variant="h3" fontWeight="600" textAlign={"center"}>
-            {exercise.title}
-          </Typography>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            // mt="25px"
-          >
-            {/* <ProgressCircle progress="0.2" size="80"/> */}
-            <Typography
-              variant="h2"
-              color={colors.greenAccent[500]}
-              sx={{ mt: "5px" }}
-              fontWeight={"bold"}
-              textAlign={"center"}
-            >
-              {exercise.maxangle}˚
-            </Typography>
-          </Box>
-        </Box>
         ))}
-      </Box>
+
+          {/* ROW 2 */}
+          <Box
+            gridColumn="span 12"
+            gridRow="span 3"
+            backgroundColor={colors.primary[400]}
+            borderRadius={5}
+            mt="20px"
+          >
+            <Box
+              mt="25px"
+              p="0 30px"
+              display="flex "
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Box>
+                <Typography
+                  variant="h5"
+                  fontWeight="600"
+                  color={colors.grey[100]}
+                >
+                  Range of Motion Improvement
+                </Typography>
+                <Typography
+                  variant="h3"
+                  fontWeight="bold"
+                  color={colors.greenAccent[500]}
+                >
+                  Total Rehabilitation Exercise Progress
+                </Typography>
+              </Box>
+            </Box>
+            <Box height="400px" m="-20px 0 0 0">
+              <LineChart isDashboard={true} 
+              data={lineData}
+              />
+            </Box>
+          </Box>
+
+        </Box>
     </Box>
   );
 };
