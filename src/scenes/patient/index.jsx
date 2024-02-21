@@ -29,28 +29,32 @@ const Patient = ({patient}) => {
   
   const [timePeriod, setTimePeriod] = useState("All Time");
   const [increase, setIncrease] = useState([]);
+  const [peak, setPeak] = useState([]);
   useEffect(() => {
     switch (timeframeButton) {
       case 1:
         setLineData(allTimeLineData);
         setTimePeriod("All Time");
         setIncrease(patient.increase[0].A);
+        setPeak(patient.peak[0].A);
         break;
       case 2:
         setLineData(lastMonthLineData);
         setTimePeriod("the Last Month");
         setIncrease(patient.increase[0].M);
+        setPeak(patient.peak[0].M);
         break;
       case 3:
         setLineData(lastWeekLineData);
         setTimePeriod("the Last Week");
         setIncrease(patient.increase[0].W);
+        setPeak(patient.peak[0].W);
         break;
       default:
         setLineData(allTimeLineData);
     }
   }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData, 
-      timePeriod, patient.increase]);
+      timePeriod, patient.increase, patient.peak]);
 
   return (
     <Box m="20px 30px" pb="50px">
@@ -141,7 +145,7 @@ const Patient = ({patient}) => {
             <ROMBox 
               exerciseName={exercise}
               targetAngle={patient.targets[i]}
-              maxAngle={patient.peak[i]}
+              maxAngle={peak[i]}
               increase={increase[i]} 
               timePeriod={timePeriod}
               subtitle="Rehabilitation Exercise Progress" 
