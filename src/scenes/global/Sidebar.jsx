@@ -95,7 +95,7 @@ const SideBar = () => {
               >
                 <Typography variant="h2" fontWeight={'bold'} fontStyle='italic' 
                   color={colors.grey[100]} marginRight='30px'>
-                  ReWrist
+                  ROMET
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)} >
                   <MenuOutlinedIcon/>

@@ -7,6 +7,8 @@ import ROMBox from "../../components/ROMBox";
 import LineHeader from "../../components/LineHeader";
 import { useNavigate } from 'react-router-dom';
 import { romData } from "../../data/rehabLineData";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { fullPatientInfo } from "../../data/patientData";
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
@@ -56,6 +58,24 @@ const Patient = ({patient}) => {
   }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData, 
       timePeriod, patient.increase, patient.peak]);
 
+      const patientDataColumns = [
+        {
+          field: "progress",
+          headerName: "Progress",
+          headerAlign: "center",
+          
+          flex: 1,
+          cellClassName: "name-column--cell",
+          fontWeight: "heavy",
+          align: "center"
+        },
+        {
+          field: "userName",
+          headerName: "First Name",
+          flex: 1,
+          cellClassName: "name-column--cell",
+        },
+      ]
   return (
     <Box m="20px 30px" pb="50px">
       {/* HEADER */}
@@ -75,7 +95,7 @@ const Patient = ({patient}) => {
                 onClick={() => navigate(`/${patient.userName}/plan`)}
                 type="submit" color="secondary" variant="contained" fullWidth
                 style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
-                  width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold'
+                  width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
                 }}
               >
               Edit Patient Plan
@@ -87,13 +107,14 @@ const Patient = ({patient}) => {
         <Box display="flex " justifyContent="left" alignContent={"center"} >
             <Button
               style={{
-              backgroundColor:timeframeButton === 1 ? colors.greenAccent[700] : colors.primary[400],
-              color:"white",
-              marginRight:"10px",
-              fontWeight:"550",
-              fontSize:'12',
-              width:"100px",
-              height:"40px"
+                backgroundColor:timeframeButton === 1 ? colors.greenAccent[700] : colors.primary[400],
+                color:"white",
+                marginRight:"10px",
+                fontWeight:"550",
+                fontSize:'12',
+                width:"100px",
+                height:"40px",
+                borderRadius: "12px",
               }}
               onClick={() => setTimeframeButton(1)}
             > All Time </Button>
@@ -105,8 +126,9 @@ const Patient = ({patient}) => {
                 fontWeight:"550",
                 fontSize:'12',
                 width:"100px",
-                height:"40px"
-                }}
+                height:"40px",
+                borderRadius: "12px",
+              }}
               onClick={() => setTimeframeButton(2)}
             > Last Month </Button>
               <Button
@@ -118,8 +140,9 @@ const Patient = ({patient}) => {
                 fontWeight:"550",
                 fontSize:'12',
                 width:"100px",
-                height:"40px"
-                }}
+                height:"40px",
+                borderRadius: "12px",
+              }}
               onClick={() => setTimeframeButton(3)}
             > Last Week </Button>
         </Box>
@@ -191,7 +214,56 @@ const Patient = ({patient}) => {
               />
             </Box>
           </Box>
+          
+          
 
+        </Box>
+
+        <Box m="20px">
+          <Header
+            title="Exercise Tracking List"
+            subtitle="Table of completed exercises and patient subjective feedback"
+          />
+          <Box
+            m="40px 20px 0 10px"
+            height="75vh"
+            sx={{
+              "& .MuiDataGrid-root": {
+                border: "none",
+              },
+              "& .MuiDataGrid-cell": {
+                borderBottom: "none",
+              },
+              "& .name-column--cell": {
+                color: colors.greenAccent[400],
+                
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                backgroundColor: colors.blueAccent[700],
+                borderBottom: "none",
+              },
+              "& .MuiDataGrid-virtualScroller": {
+                backgroundColor: colors.primary[400],
+              },
+              "& .MuiDataGrid-footerContainer": {
+                borderTop: "none",
+                backgroundColor: colors.blueAccent[700],
+              },
+              "& .MuiCheckbox-root": {
+                color: `${colors.greenAccent[200]} !important`,
+              },
+              "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                color: `${colors.grey[100]} !important`,
+              },
+            }}
+          >
+            <DataGrid
+              rows={fullPatientInfo}
+              columns={patientDataColumns}
+              components={{ Toolbar: GridToolbar }}
+              // checkboxSelection
+            />
+          </Box>
         </Box>
     </Box>
   );
