@@ -149,7 +149,7 @@ const Form = () => {
                       },
                     }}
                 />
-                <Box display="flex" justifyContent="center" textAlign="center" mt="10px" sx={{gridColumn: "span 4", textAlign:"center"}}>
+                <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4", justifyContent:"center", textAlign:"center"}}>
                   Set the Desired Target Angles (in degrees) for each exercise for the patient. 
                   <br />This should be the measured normal ROM for their non-injured hand, or a chosen target metric by the PT
                 </Box>

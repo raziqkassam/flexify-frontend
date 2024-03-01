@@ -147,18 +147,18 @@ const SideBar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
-            <Item
-              title="View All Patients"
-              to="/all-patients"
-              icon={<PeopleOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+
             <Item
               title="Add New Patient"
               to="/create-user"
               icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="View All Patients"
+              to="/all-patients"
+              icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
