@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme, TextField } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
@@ -28,6 +28,9 @@ const Patient = ({patient}) => {
 
   const lastWeekLineData = romData.map(item => ({
     ...item, data: item.data.slice(patient.injuryTime-2, patient.injuryTime) }));
+
+  const [isEditMode, setIsEditMode] = useState(false); // Added state for edit mode
+  const [editedPatientData, setEditedPatientData] = useState({ ...patient }); // Added state for edited patient data
   
   const [timePeriod, setTimePeriod] = useState("All Time");
   const [increase, setIncrease] = useState([]);
@@ -58,6 +61,32 @@ const Patient = ({patient}) => {
   }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData, 
       timePeriod, patient.increase, patient.peak]);
 
+      const handleEditClick = () => {
+        setIsEditMode(!isEditMode);
+      };
+       
+      const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setEditedPatientData(prevData => ({
+          ...prevData,
+          [name]: value
+        }));
+      };  
+      
+      const handleSaveChanges = () => {
+        // Save changes logic goes here
+        // For demonstration purposes, let's log the edited patient data
+        // patient.hand: editedPatientData.hand
+        // you can see the updated patient info in the logs if you inspect element, but i may need to make an API endpoint to be able to change the patientData.js file?
+        // may require additional support
+        const updatedPatientInfo = fullPatientInfo.map((patient) =>
+          patient.id === editedPatientData.id ? editedPatientData : patient
+        );
+        console.log("Updated Patient Info:", updatedPatientInfo);
+
+        setIsEditMode(false);
+      };
+
       const patientDataColumns = [
         {
           field: "progress",
@@ -81,10 +110,24 @@ const Patient = ({patient}) => {
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 0px 0" }}>
         <Box m="0 0 30px 10px">
-          <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
+        <Header title={`${editedPatientData.firstName} ${editedPatientData.lastName}`} subtitle={`Summary of ${editedPatientData.firstName}'s Rehab Progress`} />
         </Box>
         <Box mb="10px" justifyItems={"right"}>
-          <LineHeader title="Injured Hand: " value={patient.hand}/>
+          {/*<LineHeader title="Injured Hand: " value={patient.hand}/>*/}
+          {isEditMode ? (
+            <TextField
+              id="injured-hand"
+              name="hand"
+              label="Injured Hand"
+              value={isEditMode ? editedPatientData.hand : patient.hand}
+              onChange={handleInputChange}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+          ) : (
+            <LineHeader title="Injured Hand: " value={patient.hand} />
+          )}
           <LineHeader title="Date of Birth: " value={patient.dateOfBirth}/>
           <LineHeader title="Injury: " value={patient.injury} />
           <LineHeader title="Rehab Start Date: " value={`${patient.rehabStart}`} />
@@ -145,6 +188,19 @@ const Patient = ({patient}) => {
               }}
               onClick={() => setTimeframeButton(3)}
             > Last Week </Button>
+
+          {/* Edit Patient Data Button */}
+          <Button
+              onClick={isEditMode ? handleSaveChanges : handleEditClick} // Updated click handler
+              type="submit" color="secondary" variant="contained" fullWidth
+              style={{
+                marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
+                width: '150px', height: '40px', fontSize: '12', fontWeight: '550', borderRadius: "12px",
+              }}
+            >
+              {isEditMode ? "Save Changes" : "Edit Patient Data"} {/* Updated button text */}
+            </Button>
+
         </Box>
       </Box>
 
