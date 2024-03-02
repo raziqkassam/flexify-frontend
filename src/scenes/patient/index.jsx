@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { romData } from "../../data/rehabLineData";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { fullPatientInfo } from "../../data/patientData";
+import { NearMe } from "@mui/icons-material";
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
@@ -62,11 +63,13 @@ const Patient = ({patient}) => {
       timePeriod, patient.increase, patient.peak]);
 
       const handleEditClick = () => {
+        console.log()
         setIsEditMode(!isEditMode);
       };
        
       const handleInputChange = (event) => {
         const { name, value } = event.target;
+        console.log(name, value)
         setEditedPatientData(prevData => ({
           ...prevData,
           [name]: value
@@ -74,16 +77,6 @@ const Patient = ({patient}) => {
       };  
       
       const handleSaveChanges = () => {
-        // Save changes logic goes here
-        // For demonstration purposes, let's log the edited patient data
-        // patient.hand: editedPatientData.hand
-        // you can see the updated patient info in the logs if you inspect element, but i may need to make an API endpoint to be able to change the patientData.js file?
-        // may require additional support
-        const updatedPatientInfo = fullPatientInfo.map((patient) =>
-          patient.id === editedPatientData.id ? editedPatientData : patient
-        );
-        console.log("Updated Patient Info:", updatedPatientInfo);
-
         setIsEditMode(false);
       };
 
@@ -113,7 +106,6 @@ const Patient = ({patient}) => {
         <Header title={`${editedPatientData.firstName} ${editedPatientData.lastName}`} subtitle={`Summary of ${editedPatientData.firstName}'s Rehab Progress`} />
         </Box>
         <Box mb="10px" justifyItems={"right"}>
-          {/*<LineHeader title="Injured Hand: " value={patient.hand}/>*/}
           {isEditMode ? (
             <TextField
               id="injured-hand"
@@ -126,11 +118,51 @@ const Patient = ({patient}) => {
               margin="normal"
             />
           ) : (
-            <LineHeader title="Injured Hand: " value={patient.hand} />
+            <LineHeader title="Injured Hand: " value={editedPatientData.hand} />
           )}
-          <LineHeader title="Date of Birth: " value={patient.dateOfBirth}/>
-          <LineHeader title="Injury: " value={patient.injury} />
-          <LineHeader title="Rehab Start Date: " value={`${patient.rehabStart}`} />
+          {isEditMode ? (
+            <TextField
+              id="date-of-birth"
+              name="dateOfBirth"
+              label="Date of Birth"
+              value={isEditMode ? editedPatientData.dateOfBirth : patient.dateOfBirth}
+              onChange={handleInputChange}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+          ) : (
+            <LineHeader title="Date of Birth: " value={editedPatientData.dateOfBirth} />
+          )}
+          {isEditMode ? (
+            <TextField
+              id="injury-type"
+              name="injury"
+              label="Injury"
+              value={isEditMode ? editedPatientData.injury : patient.injury}
+              onChange={handleInputChange}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+          ) : (
+            <LineHeader title="Injury: " value={editedPatientData.injury} />
+          )}
+          {isEditMode ? (
+            <TextField
+              id="rehab-start-date"
+              name="rehabStart"
+              label="Rehab Start Date"
+              value={isEditMode ? `${editedPatientData.rehabStart}` : `${patient.rehabStart}`}
+              onChange={handleInputChange}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+          ) : (
+            <LineHeader title="Rehab Start Date: " value={`${editedPatientData.rehabStart}`} />
+          )}
+          {/* did not make progress editable because we may want to conisder making them dates rather than number of weeks*/}
           <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} />
           <Box display="flex" justifyContent="center" mt="10px" 
             sx={{margin:"30px 0 10px 0"}}>
