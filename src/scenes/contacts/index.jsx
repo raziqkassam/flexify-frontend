@@ -32,14 +32,15 @@ const Contacts = () => {
       field: "userName",
       headerName: "Username",
       flex: 1,
-      cellClassName: "name-column--cell",
       fontWeight: "heavy",
+      
       renderCell: (params) => (
         <a href={`/${params.value}`} rel="noopener noreferrer"
         style={{ 
-          color: '#fdf222', 
+          color: colors.blueAccent[600], 
           textDecoration: 'none', 
-          fontWeight: 'bold' // Add this line
+          fontWeight: 'bold', // Add this line
+          fontSize: "20px",
         }}>
           {params.value}
         </a>
@@ -49,18 +50,31 @@ const Contacts = () => {
       field: "firstName",
       headerName: "First Name",
       flex: 1,
-      cellClassName: "name-column--cell",
+      renderCell: (params) => (
+        <div style={{ fontSize: '20px' }}>
+          {params.value}
+        </div>
+      ),
     },
     {
       field: "lastName",
       headerName: "Last Name",
       flex: 1,
-      cellClassName: "name-column--cell",
+      renderCell: (params) => (
+        <div style={{ fontSize: '20px' }}>
+          {params.value}
+        </div>
+      ),
     },
     {
       field: "email",
       headerName: "Email",
-      flex: 1,
+      flex: 1.5,
+      renderCell: (params) => (
+        <div style={{ fontSize: '20px' }}>
+          {params.value}
+        </div>
+      ),
     },
     {
       field: "dateOfBirth",
@@ -68,7 +82,7 @@ const Contacts = () => {
       flex: 0.5,
       type: "number",
       headerAlign: "left",
-      align: "left",
+      align: "center",
       renderCell: (params) => {
         const dob = new Date(params.value);
         const diff_ms = Date.now() - dob.getTime();
@@ -77,7 +91,7 @@ const Contacts = () => {
         const age = Math.abs(age_dt.getUTCFullYear() - 1970);
 
         return (
-          <div 
+          <div style={{ fontSize: '20px' }}
             onClick={() => setSelectedCell(selectedCell === params.id ? null : params.id)}
           >
             {selectedCell === params.id ? params.value : age}
@@ -89,7 +103,12 @@ const Contacts = () => {
     {
       field: "hand",
       headerName: "Hand",
-      flex: 0.5
+      flex: 0.5,
+      renderCell: (params) => (
+        <div style={{ fontSize: '20px' }}>
+          {params.value}
+        </div>
+      ),
     }
   ];
 
@@ -105,30 +124,32 @@ const Contacts = () => {
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
+            color: colors.primary[100],
+            fontSize: "20px",
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
+            color: colors.primary[900],
           },
           "& .name-column--cell": {
-            color: colors.greenAccent[400],
-            
+            color: colors.primary[900],
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.primary[800],
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
+            backgroundColor: colors.grey[100],
           },
           "& .MuiDataGrid-footerContainer": {
             borderTop: "none",
-            backgroundColor: colors.blueAccent[700],
+            backgroundColor: colors.primary[800],
           },
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${colors.grey[100]} !important`,
+            color: `${colors.primary[600]} !important`,
           },
         }}
       >

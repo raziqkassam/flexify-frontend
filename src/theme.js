@@ -6,7 +6,7 @@ export const tokens = (mode) => ({
   ...(mode === "dark"
     ? {
         grey: {
-          100: "#e0e0e0",
+          100: "#ecede8", // main white
           200: "#c2c2c2",
           300: "#a3a3a3",
           400: "#858585",
@@ -16,7 +16,7 @@ export const tokens = (mode) => ({
           800: "#292929",
           900: "#141414",
         },
-        primary: {
+        oldprimary: {
           100: "#d0d1d5",
           200: "#a1a4ab",
           300: "#727681",
@@ -26,6 +26,17 @@ export const tokens = (mode) => ({
           700: "#0c101b",
           800: "#080b12",
           900: "#040509",
+        },
+        primary: {
+          100: "#eef6ef",
+          200: "#cde5d0",// main light green
+          300: "#acd3b0",
+          400: "#8ac191",
+          500: "#69b071",
+          600: "#4f9658",
+          700: "#3e7544",
+          800: "#2c5331", // main dark green
+          900: "#1a321d",
         },
         greenAccent: {
           100: "#dbf5ee",
@@ -50,15 +61,15 @@ export const tokens = (mode) => ({
           900: "#2c100f",
         },
         blueAccent: {
-          100: "#e1e2fe",
-          200: "#c3c6fd",
-          300: "#a4a9fc",
-          400: "#868dfb",
-          500: "#6870fa",
-          600: "#535ac8",
-          700: "#3e4396",
-          800: "#2a2d64",
-          900: "#151632",
+          100: "#eaf9fb",
+          200: "#bfeef2",
+          300: "#95e2ea",
+          400: "#6ad7e1", // main light blue
+          500: "#40ccd9",
+          600: "#26b2bf",
+          700: "#1e8b95",
+          800: "#15636a",
+          900: "#0d3b40", // main dark blue
         },
       }
     : {
@@ -130,10 +141,10 @@ export const themeSettings = (mode) => {
         ? {
             // palette values for dark mode
             primary: {
-              main: colors.primary[500],
+              main: colors.grey[100],
             },
             secondary: {
-              main: colors.greenAccent[500],
+              main: colors.blueAccent[500],
             },
             neutral: {
               dark: colors.grey[700],
@@ -141,7 +152,7 @@ export const themeSettings = (mode) => {
               light: colors.grey[100],
             },
             background: {
-              default: colors.primary[500],
+              default: colors.primary[100],
             },
           }
         : {

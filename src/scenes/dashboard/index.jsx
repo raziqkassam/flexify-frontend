@@ -79,7 +79,7 @@ const appointmentMap = React.useMemo(() => {
       {/* HEADER */}
       <Box display="flex" justifyContent="center" textAlign="center" alignContent="center" sx={{ m: "0 0 -5px 0" }}>
         <Box mt="20px">
-          <Header title="ReWrist Home Page" subtitle="Landing Page for the ReWrist Dashboard for Physiotherapists" />
+          <Header title="ROMET Home Page" subtitle="Landing Page for the ROMET Dashboard for Physiotherapists" />
         </Box>
       </Box>
 

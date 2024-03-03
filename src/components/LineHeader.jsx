@@ -12,8 +12,9 @@ const LineHeader = ({ title, value }) => {
     }}>
       <Typography
         variant="h5"
-        color={colors.grey[100]}
+        color={colors.greenAccent[900]}
         fontWeight="bold"
+        fontSize={18}
         textAlign={"left"}
         sx={{ m: "0 20px 5px 0" }}
       >
@@ -21,8 +22,9 @@ const LineHeader = ({ title, value }) => {
       </Typography>
       <Typography
         variant="h5"
-        color={colors.greenAccent[500]}
+        color={colors.greenAccent[800]}
         fontWeight="bold"
+        fontSize={18}
         textAlign={"left"}
         sx={{ m: "0 0 5px 0" }}
       >

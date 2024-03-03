@@ -9,7 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { romData } from "../../data/rehabLineData";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { fullPatientInfo } from "../../data/patientData";
-import { NearMe } from "@mui/icons-material";
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+// import { NearMe } from "@mui/icons-material";
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
@@ -99,9 +100,19 @@ const Patient = ({patient}) => {
         },
       ]
   return (
-    <Box m="20px 30px" pb="50px">
+    <Box m="20px 30px" pb="50px" >
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 0px 0" }}>
+      <Button
+        onClick={() => navigate('/all-patients')}
+        type="submit" color="secondary" variant="outlined"
+        style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '50px', top: '110px',
+          width: '15em', height: '3em', fontSize:'12px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
+        }}
+      >
+          <ArrowLeftIcon />
+          View All Patients
+        </Button>
         <Box m="0 0 30px 10px">
         <Header title={`${editedPatientData.firstName} ${editedPatientData.lastName}`} subtitle={`Summary of ${editedPatientData.firstName}'s Rehab Progress`} />
         </Box>
@@ -169,7 +180,7 @@ const Patient = ({patient}) => {
               <Button
                 onClick={() => navigate(`/${patient.userName}/plan`)}
                 type="submit" color="secondary" variant="contained" fullWidth
-                style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
+                style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
                   width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
                 }}
               >
@@ -181,9 +192,10 @@ const Patient = ({patient}) => {
       <Box m="-70px 0 30px 0">
         <Box display="flex " justifyContent="left" alignContent={"center"} >
             <Button
+            variant="outlined"
               style={{
-                backgroundColor:timeframeButton === 1 ? colors.greenAccent[700] : colors.primary[400],
-                color:"white",
+                backgroundColor:timeframeButton === 1 ? colors.blueAccent[400] : colors.grey[100],
+                color: colors.blueAccent[900],
                 marginRight:"10px",
                 fontWeight:"550",
                 fontSize:'12',
@@ -195,8 +207,8 @@ const Patient = ({patient}) => {
             > All Time </Button>
             <Button
               style={{
-                backgroundColor:timeframeButton === 2 ? colors.greenAccent[700] : colors.primary[400],
-                color:"white",
+                backgroundColor:timeframeButton === 2 ? colors.blueAccent[400] : colors.grey[100],
+                color: colors.blueAccent[900],
                 marginRight:"10px",
                 fontWeight:"550",
                 fontSize:'12',
@@ -209,8 +221,9 @@ const Patient = ({patient}) => {
               <Button
               mr="25px"
               style={{
-                backgroundColor:timeframeButton === 3 ? colors.greenAccent[700] : colors.primary[400],
-                color:"white",
+                backgroundColor:timeframeButton === 3 ? colors.blueAccent[400] : colors.grey[100],
+                
+                color: colors.blueAccent[900],
                 marginRight:"10px",
                 fontWeight:"550",
                 fontSize:'12',
@@ -226,7 +239,7 @@ const Patient = ({patient}) => {
               onClick={isEditMode ? handleSaveChanges : handleEditClick} // Updated click handler
               type="submit" color="secondary" variant="contained" fullWidth
               style={{
-                marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
+                marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
                 width: '150px', height: '40px', fontSize: '12', fontWeight: '550', borderRadius: "12px",
               }}
             >
@@ -242,13 +255,14 @@ const Patient = ({patient}) => {
         gridTemplateColumns="repeat(12, 1fr)"
         // gridAutoRows="140px"
         gap="20px"
+        
         margin="20px 0 0 0"
         pb="30px"
       >
         {exercises.map((exercise, i) => (
           <Box
           gridColumn="span 6"
-          backgroundColor={colors.primary[400]}
+          backgroundColor={colors.grey[100]}
           display="flex"
           justifyContent="center"
           borderRadius={5}
@@ -268,7 +282,7 @@ const Patient = ({patient}) => {
           <Box
             gridColumn="span 12"
             gridRow="span 3"
-            backgroundColor={colors.primary[400]}
+            backgroundColor={colors.grey[100]}
             borderRadius={5}
             mt="20px"
           >
@@ -283,14 +297,14 @@ const Patient = ({patient}) => {
                 <Typography
                   variant="h5"
                   fontWeight="600"
-                  color={colors.grey[100]}
+                  color={colors.blueAccent[900]}
                 >
                   Range of Motion Improvement
                 </Typography>
                 <Typography
                   variant="h3"
                   fontWeight="bold"
-                  color={colors.greenAccent[500]}
+                  color={colors.blueAccent[700]}
                 >
                   Total Rehabilitation Exercise Progress
                 </Typography>
@@ -324,7 +338,6 @@ const Patient = ({patient}) => {
               },
               "& .name-column--cell": {
                 color: colors.greenAccent[400],
-                
               },
               "& .MuiDataGrid-columnHeaders": {
                 backgroundColor: colors.blueAccent[700],

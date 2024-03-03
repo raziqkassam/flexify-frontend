@@ -14,7 +14,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
       <Grid item xs={6} >
         {/* Content of the first column of the first row */}
         <Typography fontSize={30} fontWeight="700" ml={"10px"}
-          sx={{ color: colors.grey[100] }} >
+          sx={{ color: colors.blueAccent[900] }} >
           {exerciseName}
         </Typography>
       </Grid>
@@ -32,11 +32,11 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
             {/* Content of the first column of the second row */}
             <Box display="flex" justifyContent="space-between" >
               <Typography fontSize={13} fontWeight="700"
-                sx={{ color: colors.grey[100] }} >
+                sx={{ color: colors.primary[900] }} >
                 Target<br/>ROM: 
               </Typography>
               <Typography fontSize={30} fontWeight="700" m="-5px 40px 5px 0"
-                sx={{ color: colors.greenAccent[200] }} >
+                sx={{ color: colors.greenAccent[600] }} >
                 {targetAngle}°
               </Typography>
             </Box>
@@ -44,11 +44,11 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
           <Grid item xs={6}>
           <Box display="flex" justifyContent="space-between">
               <Typography fontSize={13} fontWeight="700"
-                sx={{ color: colors.grey[100] }} >
+                sx={{ color: colors.primary[900] }} >
                 Peak<br/>ROM: 
               </Typography>
               <Typography fontSize={30} fontWeight="700" m="-5px 40px 0px 0"
-                sx={{ color: colors.greenAccent[400] }} >
+                sx={{ color: colors.blueAccent[600] }} >
                 {maxAngle}°
               </Typography>
             </Box>
@@ -60,11 +60,11 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
       <Box display="flex" textAlign="center" justifyContent="space-between" ml={"30px"}>
         <Box display="flex" flexDirection="column">
           <Typography fontSize={20} fontWeight="700"  mt="5px" fontStyle={"italic"} textAlign="center"
-            sx={{ color: colors.greenAccent[400] }} >
+            sx={{ color: colors.blueAccent[700] }} >
             {((maxAngle/targetAngle)*100).toFixed(1)}%
           </Typography>
           <Typography fontSize={12} fontWeight="700"  mt="-4px" fontStyle={"italic"} textAlign="center"
-            sx={{ color: colors.greenAccent[100] }} >
+            sx={{ color: colors.blueAccent[700] }} >
             of ROM Goal
           </Typography>
         </Box>
@@ -72,7 +72,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
           <Box mt="-40px">
             <ArrowUpwardIcon style={{ size: "80px", fill: colors.greenAccent[500] }} />
             <Typography fontSize={12} fontWeight="400" mt="5px"
-              sx={{ color: colors.primary[100] }} >
+              sx={{ color: colors.greenAccent[700] }} >
               Patient had a <b>{increase}%</b> increase <br/> in ROM over {timePeriod}
             </Typography>
           </Box>
@@ -80,7 +80,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
             <Box mt="-40px">
             <ArrowDownwardIcon style={{ size: "80px", fill: colors.redAccent[400] }} />
             <Typography fontSize={12} fontWeight="400" mt="5px"
-              sx={{ color: colors.primary[100] }} >
+              sx={{ color: colors.greenAccent[800] }} >
               Patient had a <b>{Math.abs(increase)}%</b> decrease <br/> in ROM over {timePeriod}
             </Typography>
           </Box>

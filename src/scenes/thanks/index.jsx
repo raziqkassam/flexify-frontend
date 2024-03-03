@@ -15,7 +15,7 @@ const Thanks = () => {
       <Header title="You have succesfuly added a new patient!" subtitle="" alignItems="center"/>
       <Box display="flex" flexDirection="column" alignItems="center" m="40px 0">
         {/* Button to navigate back to the form page */}
-        <Button color="secondary" variant="contained" onClick={() => navigate("/create-user")} 
+        <Button color="secondary" variant="contained" onClick={() => navigate("/create-patient")} 
         style={{ marginBottom: '10px', backgroundColor: colors.primary[400], color: '#ffffff',
         width: '20em', height: '3em', fontSize:'15px', fontWeight:'bold'}}>
           Add Another Patient

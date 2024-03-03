@@ -150,7 +150,7 @@ const SideBar = () => {
 
             <Item
               title="Add New Patient"
-              to="/create-user"
+              to="/create-patient"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

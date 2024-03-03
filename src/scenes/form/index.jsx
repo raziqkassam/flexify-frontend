@@ -29,14 +29,15 @@ const Form = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isRequired = false; // set to true to set parameters for being required (false for testing)
- 
+    const fontSize = '20px';
+
     function handleSubmit(event) {
         event.preventDefault();
         const patientDetails = {firstName, lastName, userName, email, dateOfBirth, hand, injury, 
                         rehabStart, injuryTime, targets}
 
         alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
-        navigate('/created-user') // navigate to new page once form is submitted
+        navigate('/created-patient') // navigate to new page once form is submitted
         // Add something about sending the data to the backend
     }
  
@@ -85,7 +86,7 @@ const Form = () => {
                     value={email}
                     fullWidth
                     sx={{mb:'10px', gridColumn: "span 2" }}
-                    inputProps={{style: {fontSize:'15px' }}}
+                    inputProps={{style: {fontSize:'20px' }}}
                 />
                 <FormField
                     type="date"
@@ -96,7 +97,7 @@ const Form = () => {
                     required={isRequired}
                     fullWidth
                     sx={{gridColumn: "span 2" }}
-                    inputProps={{style: {fontSize:'15px' }}}
+                    inputProps={{style: {fontSize:'20px' }}}
                 />
                 {/* <Header subtitle="Select the Injured Hand"/> */}
                 <FormField
@@ -109,7 +110,7 @@ const Form = () => {
                   value={hand}
                   onChange={e => setHand(e.target.value)}
                   sx={{gridColumn: "span 1" }}
-                  inputProps={{style: {fontSize:'15px' }}}
+                  inputProps={{style: {fontSize:'20px' }}}
                 >
                   {hands.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
@@ -122,7 +123,7 @@ const Form = () => {
                     label="Injury Type"
                     onChange={e => setInjury(e.target.value)}
                     value={injury}
-                    inputProps={{style: {fontSize:'15px' }}}
+                    inputProps={{style: {fontSize:'20px' }}}
                     sx={{gridColumn: "span 1" }}
                 />
                 <FormField
@@ -132,7 +133,7 @@ const Form = () => {
                     sx={{gridColumn: "span 1" }}
                     value={rehabStart}
                     onChange={e => setRehabStart(e.target.value)}
-                    inputProps={{style: {fontSize:'15px' }}}
+                    inputProps={{style: {fontSize:'20px' }}}
                 />
                 <FormField
                     label="Expected Injury Duration (weeks)"
@@ -149,7 +150,9 @@ const Form = () => {
                       },
                     }}
                 />
-                <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4", justifyContent:"center", textAlign:"center"}}>
+                <Box display="flex" justifyContent="center" mt="10px" 
+                sx={{fontSize:"18px",gridColumn: "span 4", justifyContent:"center", textAlign:"center",
+                color: colors.greenAccent[800]}}>
                   Set the Desired Target Angles (in degrees) for each exercise for the patient. 
                   <br />This should be the measured normal ROM for their non-injured hand, or a chosen target metric by the PT
                 </Box>
@@ -173,7 +176,7 @@ const Form = () => {
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
                   <Button type="submit" color="secondary" variant="contained"
-                  style={{ marginBottom: '10px', backgroundColor: colors.greenAccent[700], color: '#ffffff',
+                  style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
                   width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold', 
                   }}>
                     Create New Patient Profile
