@@ -11,6 +11,9 @@ const FormField = (props) => {
         '& fieldset': {
           borderColor: '#2c5331',
         },
+        '&:hover fieldset': {
+          borderColor: '#2c5331', // replace 'desiredColor' with the color you want for the box outline on hover
+        },
         '&.Mui-focused fieldset': {
           borderColor: "#6ad7e1", // replace 'desiredColor' with the color you want
         },

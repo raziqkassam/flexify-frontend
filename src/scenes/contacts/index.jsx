@@ -116,7 +116,7 @@ const Contacts = () => {
     <Box m="20px">
       <Header
         title="PATIENT LIST"
-        subtitle="Complete list of all your active patients"
+        subtitle="Click on the patient's username to view their exercise summary and set their exercise plan"
       />
       <Box
         m="40px 20px 0 10px"
@@ -126,6 +126,12 @@ const Contacts = () => {
             border: "none",
             color: colors.primary[100],
             fontSize: "20px",
+            
+          },
+          "& .MuiDataGrid-row": {
+            '&:hover': {
+              backgroundColor: colors.blueAccent[200], 
+            },
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",

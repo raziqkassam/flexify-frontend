@@ -5,16 +5,15 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from "../../theme";
 import { useNavigate, Link } from 'react-router-dom';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
@@ -46,6 +45,11 @@ function Menubar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    // Navigation
+    const handleMenu = (path) => {
+        navigate(path);
     };
 
     // Patient Management
@@ -84,15 +88,38 @@ function Menubar() {
             <Typography variant="h2" fontWeight={'bold'} fontStyle='italic' 
                 color={colors.grey[100]} margin='0 20px'>
                 <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <DirectionsRunIcon sx={{ mr: '2px', }} />
                     R.O.M.E.T.
                 </Link>
             </Typography>
 
             <Box sx={{ flexGrow: 1 }} /> {/* This Box pushes the Buttons to the right */}
 
+                <Button
+                variant="outlined"
+                style={{
+                    backgroundColor: colors.grey[100],
+                    color: colors.blueAccent[900],
+                    marginRight:"10px",
+                    fontWeight:"550",
+                    fontSize:'12',
+                    width:"100px",
+                    height:"40px",
+                    borderRadius: "12px",
+                    '&:active': {
+                        backgroundColor: colors.redAccent[400], // replace 'desiredColor' with the color you want for the active background
+                    },
+                }}
+                onClick={() => handleMenu('/create-patient')}
+                > All Time </Button>
+
                 <Button onClick={handlePatientMgmtClick} 
                 style={{ color: '#ffffff', width: '12em', height: '2.5em', fontSize:'15px', 
-                fontWeight:'bold', borderRadius: "12px", textTransform: 'none' }}>
+                fontWeight:'bold', borderRadius: "12px", textTransform: 'none', 
+                '&:active': {
+                    backgroundColor: '#95e2ea', // replace 'desiredColor' with the color you want for the active background
+                  },
+                }}>
                     Patient Management
                     <ArrowDropDownIcon sx={{ ml: '2px', }} />
                 </Button>

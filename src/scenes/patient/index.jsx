@@ -297,14 +297,14 @@ const Patient = ({patient}) => {
                 <Typography
                   variant="h5"
                   fontWeight="600"
-                  color={colors.blueAccent[900]}
+                  color={colors.primary[700]}
                 >
                   Range of Motion Improvement
                 </Typography>
                 <Typography
                   variant="h3"
                   fontWeight="bold"
-                  color={colors.blueAccent[700]}
+                  color={colors.primary[900]}
                 >
                   Total Rehabilitation Exercise Progress
                 </Typography>
@@ -332,29 +332,32 @@ const Patient = ({patient}) => {
             sx={{
               "& .MuiDataGrid-root": {
                 border: "none",
+                color: colors.primary[100],
+                fontSize: "20px",
               },
               "& .MuiDataGrid-cell": {
                 borderBottom: "none",
+                color: colors.primary[900],
               },
               "& .name-column--cell": {
-                color: colors.greenAccent[400],
+                color: colors.primary[900],
               },
               "& .MuiDataGrid-columnHeaders": {
-                backgroundColor: colors.blueAccent[700],
+                backgroundColor: colors.primary[800],
                 borderBottom: "none",
               },
               "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: colors.primary[400],
+                backgroundColor: colors.grey[100],
               },
               "& .MuiDataGrid-footerContainer": {
                 borderTop: "none",
-                backgroundColor: colors.blueAccent[700],
+                backgroundColor: colors.primary[800],
               },
               "& .MuiCheckbox-root": {
                 color: `${colors.greenAccent[200]} !important`,
               },
               "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                color: `${colors.grey[100]} !important`,
+                color: `${colors.primary[600]} !important`,
               },
             }}
           >

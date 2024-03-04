@@ -9,7 +9,7 @@ import Bar from "./scenes/bar";
 import Form from "./scenes/form";
 import Line from "./scenes/line";
 import FAQ from "./scenes/faq";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, GlobalStyles } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
 
@@ -30,6 +30,20 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <GlobalStyles
+          styles={{
+            '*::-webkit-scrollbar': {
+              width: '1em', 
+            },
+            '*::-webkit-scrollbar-track': {
+              '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)',
+            },
+            '*::-webkit-scrollbar-thumb': {
+              backgroundColor: '#6ad7e1',
+              outline: '4px solid #6ad7e1',
+            },
+          }}
+        />
         <div className="app">
           {/* <Sidebar isSidebar={isSidebar} /> */}
           <main className="content" >

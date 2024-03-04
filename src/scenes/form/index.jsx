@@ -159,7 +159,7 @@ const Form = () => {
                 {targets.map((target, i) => (
                   <FormField
                     id="outlined-number"
-                    label={`Target (in degrees)`}
+                    label={`Target Angle (in degrees)`}
                     type="number"
                     inputProps={{min: 0, max: 360, style: { textAlign: 'center', fontSize:'20px' }}}
                     onChange={(e) => {
@@ -170,13 +170,14 @@ const Form = () => {
                   />
                   ))}
                 {exerciseInfo.map((exercise, i) => (
-                  <Box display="flex" justifyContent="center" mt="10px"  marginTop="-20px" >
+                  <Box display="flex" justifyContent="center" mt="10px"  marginTop="-20px" 
+                  style={{ color: colors.greenAccent[800] }} >
                     {exercise.title}
                   </Box>
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
                   <Button type="submit" color="secondary" variant="contained"
-                  style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
+                  style={{ marginBottom: '30px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
                   width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold', 
                   }}>
                     Create New Patient Profile

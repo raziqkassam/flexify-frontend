@@ -70,17 +70,17 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
         </Box>
         {increase >= 0 ? (
           <Box mt="-40px">
-            <ArrowUpwardIcon style={{ size: "80px", fill: colors.greenAccent[500] }} />
-            <Typography fontSize={12} fontWeight="400" mt="5px"
-              sx={{ color: colors.greenAccent[700] }} >
+            <ArrowUpwardIcon style={{ fontSize: "30px", fill: colors.primary[500] }} />
+            <Typography fontSize={12} fontWeight="600" mt="5px"
+              sx={{ color: colors.primary[500] }} >
               Patient had a <b>{increase}%</b> increase <br/> in ROM over {timePeriod}
             </Typography>
           </Box>
           ) : (
             <Box mt="-40px">
-            <ArrowDownwardIcon style={{ size: "80px", fill: colors.redAccent[400] }} />
-            <Typography fontSize={12} fontWeight="400" mt="5px"
-              sx={{ color: colors.greenAccent[800] }} >
+            <ArrowDownwardIcon style={{ fontSize: "30px", fill: colors.redAccent[500] }} />
+            <Typography fontSize={12} fontWeight="600" mt="5px"
+              sx={{ color: colors.redAccent[500] }} >
               Patient had a <b>{Math.abs(increase)}%</b> decrease <br/> in ROM over {timePeriod}
             </Typography>
           </Box>
