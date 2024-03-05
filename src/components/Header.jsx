@@ -10,12 +10,12 @@ const Header = ({ title, subtitle }) => {
         variant="h2"
         color={colors.greenAccent[800]}
         fontWeight="bold"
-        fontSize={40}
+        fontSize={50}
         sx={{ m: "0 0 5px 0" }}
       >
         {title}
       </Typography>
-      <Typography variant="h5" fontSize={18} color={colors.greenAccent[800]}>
+      <Typography variant="h5" fontSize={20} color={colors.greenAccent[800]}>
         {subtitle}
       </Typography>
     </Box>

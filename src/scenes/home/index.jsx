@@ -41,10 +41,10 @@ const Home = (physiotherapist) => {
 
   return (
     
-    <Box m="10px 30px auto"> {/* Added style directly */}
+    <Box m="10px 30px auto"> 
     <div style={{ height: '50px' }}></div>
             
-    <Grid container  >
+    <Grid container >
         <Grid item xs={4} p="20px 50px 20px 30px" 
         sx={{ color: colors.greenAccent[700], fontSize: '15px', textAlign: 'left', m: "0 0 0px 0",
         fontWeight: '500', 

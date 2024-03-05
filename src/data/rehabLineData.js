@@ -1,5 +1,4 @@
 import { tokens } from "../theme";
-import { exerciseInfo } from "./exerciseInfoData";
 
 export const romData = [
     {

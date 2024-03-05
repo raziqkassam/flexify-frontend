@@ -7,9 +7,11 @@ import ROMBox from "../../components/ROMBox";
 import LineHeader from "../../components/LineHeader";
 import { useNavigate } from 'react-router-dom';
 import { romData } from "../../data/rehabLineData";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { fullPatientInfo } from "../../data/patientData";
+import { DataGrid, GridToolbar, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { exampleExerciseRating } from "../../data/exerciseInfoData";
+
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
@@ -80,25 +82,75 @@ const Patient = ({patient}) => {
         setIsEditMode(false);
       };
 
+      const [open, setOpen] = useState(false);
+      const [dialogContent, setDialogContent] = useState('');
+      const handleOpen = (content: any) => {
+        setDialogContent(content);
+        setOpen(true);
+      };
+      
+      const handleClose = () => {
+        setOpen(false);
+      };
       const patientDataColumns = [
         {
-          field: "progress",
-          headerName: "Progress",
+          field: "exerciseName",
+          headerName: "Exercise",
           headerAlign: "center",
-          
           flex: 1,
-          cellClassName: "name-column--cell",
           fontWeight: "heavy",
-          align: "center"
         },
         {
-          field: "userName",
-          headerName: "First Name",
+          field: "completionDate",
+          headerName: "Date",
+          headerAlign: "center",
           flex: 1,
-          cellClassName: "name-column--cell",
+          align: "center",
+          renderCell: (params) => {
+            const [year, month, day] = params.value.split('-');
+            const date = new Date(year, month - 1, day);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Intl.DateTimeFormat('en-US', options).format(date);
+          },
+        },
+        {
+          field: "repCompletion",
+          headerName: "Completion",
+          headerAlign: "center",
+          flex: 1,
+          align: "center",
+        },
+        {
+          field: "pain",
+          headerName: "Pain",
+          headerAlign: "center",
+          flex: 1,
+          align: "center",
+        },
+        {
+          field: "discomfort",
+          headerName: "Discomfort",
+          headerAlign: "center",
+          flex: 1,
+          align: "center",
+        },
+        {
+          field: 'notes',
+          headerName: 'Notes',
+          headerAlign: "center",
+          flex: 3,
+          renderCell: (params: GridRenderCellParams) => (
+            <div
+              style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+              onClick={() => handleOpen(params.value)}
+            >
+              {params.value}
+            </div>
+          ),
         },
       ]
       
+
   return (
     <Box m="20px 30px" pb="50px" >
       {/* HEADER */}
@@ -113,8 +165,8 @@ const Patient = ({patient}) => {
           <ArrowLeftIcon />
           View All Patients
         </Button>
-        <Box m="0 0 30px 10px">
-        <Header title={`${editedPatientData.firstName} ${editedPatientData.lastName}`} subtitle={`Summary of ${editedPatientData.firstName}'s Rehab Progress`} />
+        <Box m="60px 0 90px 10px">
+          <Header title={`${editedPatientData.firstName} ${editedPatientData.lastName}`} subtitle={`Summary of ${editedPatientData.firstName}'s Rehab Progress`} />
         </Box>
         <Box mb="10px" justifyItems={"right"}>
           {isEditMode ? (
@@ -310,7 +362,7 @@ const Patient = ({patient}) => {
                 </Typography>
               </Box>
             </Box>
-            <Box height="400px" m="20px 0 0px 0">
+            <Box height="400px" m="20px 0 20px 0" p="0 30px">
               <LineChart isDashboard={true} 
               data={lineData}
               />
@@ -321,10 +373,10 @@ const Patient = ({patient}) => {
 
         </Box>
 
-        <Box m="20px">
+        <Box m="50px 20px 0px 20px">
           <Header
             title="Exercise Tracking List"
-            subtitle="Table of completed exercises and patient subjective feedback"
+            subtitle="Table of recently completed exercises and patient subjective feedback"
           />
           <Box
             m="40px 20px 0 10px"
@@ -334,6 +386,13 @@ const Patient = ({patient}) => {
                 border: "none",
                 color: colors.primary[100],
                 fontSize: "20px",
+                
+              },
+              "& .MuiDataGrid-row": {
+                // borderBottom: '1px solid #2c5331', // Add this line
+                '&:hover': {
+                  backgroundColor: colors.blueAccent[200], 
+                },
               },
               "& .MuiDataGrid-cell": {
                 borderBottom: "none",
@@ -362,11 +421,18 @@ const Patient = ({patient}) => {
             }}
           >
             <DataGrid
-              rows={fullPatientInfo}
+              rows={exampleExerciseRating}
               columns={patientDataColumns}
               components={{ Toolbar: GridToolbar }}
               // checkboxSelection
             />
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle textAlign={"center"} fontWeight={"bold"} fontSize={30}>
+                Patient Notes:</DialogTitle>
+              <DialogContent sx={{fontSize:"20px", p:"40px 40px"}}>
+                {dialogContent}
+              </DialogContent>
+            </Dialog>
           </Box>
         </Box>
     </Box>

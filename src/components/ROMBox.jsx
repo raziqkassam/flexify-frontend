@@ -13,14 +13,14 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
     <Grid container p="20px">
       <Grid item xs={6} >
         {/* Content of the first column of the first row */}
-        <Typography fontSize={30} fontWeight="700" ml={"10px"}
+        <Typography fontSize={35} fontWeight="700" ml={"10px"}
           sx={{ color: colors.blueAccent[900] }} >
           {exerciseName}
         </Typography>
       </Grid>
       <Grid item xs={6} >
         {/* Content of the second column of the first row */}
-        <Box ml={"30px"} display="flex" justifyContent="space-between">
+        <Box ml={"40px"} display="flex" justifyContent="space-between">
           <ProgressCircle progress={(maxAngle/targetAngle)} size="60" />
         </Box>
       </Grid>
@@ -31,11 +31,11 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
           <Grid item xs={6} width={"40px"}>
             {/* Content of the first column of the second row */}
             <Box display="flex" justifyContent="space-between" >
-              <Typography fontSize={13} fontWeight="700"
+              <Typography fontSize={20} fontWeight="700"
                 sx={{ color: colors.primary[900] }} >
-                Target<br/>ROM: 
+                Target<br/>RoM: 
               </Typography>
-              <Typography fontSize={30} fontWeight="700" m="-5px 40px 5px 0"
+              <Typography fontSize={40} fontWeight="700" m="0px 40px 5px 10px"
                 sx={{ color: colors.greenAccent[600] }} >
                 {targetAngle}°
               </Typography>
@@ -43,11 +43,11 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
           </Grid>
           <Grid item xs={6}>
           <Box display="flex" justifyContent="space-between">
-              <Typography fontSize={13} fontWeight="700"
+              <Typography fontSize={20} fontWeight="700"
                 sx={{ color: colors.primary[900] }} >
-                Peak<br/>ROM: 
+                Peak<br/>RoM: 
               </Typography>
-              <Typography fontSize={30} fontWeight="700" m="-5px 40px 0px 0"
+              <Typography fontSize={40} fontWeight="700" m="0px 40px 5px 10px"
                 sx={{ color: colors.blueAccent[600] }} >
                 {maxAngle}°
               </Typography>
@@ -59,11 +59,11 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
       {/* Content of the third column of the second row */}
       <Box display="flex" textAlign="center" justifyContent="space-between" ml={"30px"}>
         <Box display="flex" flexDirection="column">
-          <Typography fontSize={20} fontWeight="700"  mt="5px" fontStyle={"italic"} textAlign="center"
+          <Typography fontSize={25} fontWeight="700"  mt="5px" fontStyle={"italic"} textAlign="center"
             sx={{ color: colors.blueAccent[700] }} >
             {((maxAngle/targetAngle)*100).toFixed(1)}%
           </Typography>
-          <Typography fontSize={12} fontWeight="700"  mt="-4px" fontStyle={"italic"} textAlign="center"
+          <Typography fontSize={15} fontWeight="700"  mt="-4px" fontStyle={"italic"} textAlign="center"
             sx={{ color: colors.blueAccent[700] }} >
             of ROM Goal
           </Typography>
@@ -71,7 +71,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
         {increase >= 0 ? (
           <Box mt="-40px">
             <ArrowUpwardIcon style={{ fontSize: "30px", fill: colors.primary[500] }} />
-            <Typography fontSize={12} fontWeight="600" mt="5px"
+            <Typography fontSize={15} fontWeight="600" mt="5px"
               sx={{ color: colors.primary[500] }} >
               Patient had a <b>{increase}%</b> increase <br/> in ROM over {timePeriod}
             </Typography>
@@ -79,7 +79,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
           ) : (
             <Box mt="-40px">
             <ArrowDownwardIcon style={{ fontSize: "30px", fill: colors.redAccent[500] }} />
-            <Typography fontSize={12} fontWeight="600" mt="5px"
+            <Typography fontSize={15} fontWeight="600" mt="5px"
               sx={{ color: colors.redAccent[500] }} >
               Patient had a <b>{Math.abs(increase)}%</b> decrease <br/> in ROM over {timePeriod}
             </Typography>

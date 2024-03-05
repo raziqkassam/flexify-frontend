@@ -95,7 +95,7 @@ function Menubar() {
 
             <Box sx={{ flexGrow: 1 }} /> {/* This Box pushes the Buttons to the right */}
                 <Button onClick={handlePatientMgmtClick} 
-                style={{ color: '#ffffff', width: '12em', height: '2.5em', fontSize:'15px', 
+                style={{ color: '#ffffff', width: '12em', height: '2.5em', fontSize:'20px', 
                 fontWeight:'bold', borderRadius: "12px", textTransform: 'none', 
                 '&:active': {
                     backgroundColor: '#95e2ea', // replace 'desiredColor' with the color you want for the active background
@@ -108,13 +108,13 @@ function Menubar() {
                     open={Boolean(anchorElPatientMgmt)} onClose={handlePatientMgmtClose}
                     >
                         <MenuItem onClick={() => handlePatientMgmtNavigation('/create-patient')}
-                        style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'15px', mr: '8px',
+                        style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', mr: '8px',
                         fontWeight:'bold', borderRadius: "12px", justifyItems:"center" }} > 
                             <ContactsOutlinedIcon sx={{  mr: '8px', }} />
                             Create New Patient
                         </MenuItem>
                         <MenuItem onClick={() => handlePatientMgmtNavigation('/all-patients')}
-                        style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'15px', 
+                        style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', 
                         fontWeight:'bold', borderRadius: "12px" }} > 
                             <PeopleOutlinedIcon sx={{  mr: '8px', }} />
                             View All Patients
@@ -122,7 +122,7 @@ function Menubar() {
                     </Menu>
 
                 <Button onClick={handleResourceClick} 
-                style={{ color: '#ffffff', width: '12em', height: '2.5em', fontSize:'15px', 
+                style={{ color: '#ffffff', width: '10em', height: '2.5em', fontSize:'20px', 
                 fontWeight:'bold', borderRadius: "12px", textTransform: 'none', mr: '80px', }}>
                     Resources
                     <ArrowDropDownIcon sx={{ ml: '2px', }} />
@@ -131,13 +131,13 @@ function Menubar() {
                     open={Boolean(anchorElResource)} onClose={handleResourceClose}
                     >
                         <MenuItem onClick={() => handleResourceNavigation('/manual')}
-                        style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'15px', mr: '8px',
+                        style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', mr: '8px',
                         fontWeight:'bold', borderRadius: "12px", justifyItems:"center" }} > 
                             <NoteAltOutlined sx={{  mr: '8px', }} />
                             Manual and FAQ
                         </MenuItem>
                         <MenuItem onClick={() => handleResourceNavigation('/calendar')}
-                        style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'15px', 
+                        style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', 
                         fontWeight:'bold', borderRadius: "12px" }} > 
                             <CalendarTodayOutlined sx={{  mr: '8px', }} />
                             Calendar
