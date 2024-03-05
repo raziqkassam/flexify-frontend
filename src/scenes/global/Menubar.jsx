@@ -80,7 +80,7 @@ function Menubar() {
 
     return (
         <AppBar position="sticky"
-        style={{ backgroundColor: colors.primary[800], height: '80px', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', 
+        style={{ backgroundColor: colors.primary[800], height: '85px',  
                 justifyContent: 'center', alignItems: 'center', }}
         >
         <Container maxWidth="xl">
@@ -94,25 +94,6 @@ function Menubar() {
             </Typography>
 
             <Box sx={{ flexGrow: 1 }} /> {/* This Box pushes the Buttons to the right */}
-
-                <Button
-                variant="outlined"
-                style={{
-                    backgroundColor: colors.grey[100],
-                    color: colors.blueAccent[900],
-                    marginRight:"10px",
-                    fontWeight:"550",
-                    fontSize:'12',
-                    width:"100px",
-                    height:"40px",
-                    borderRadius: "12px",
-                    '&:active': {
-                        backgroundColor: colors.redAccent[400], // replace 'desiredColor' with the color you want for the active background
-                    },
-                }}
-                onClick={() => handleMenu('/create-patient')}
-                > All Time </Button>
-
                 <Button onClick={handlePatientMgmtClick} 
                 style={{ color: '#ffffff', width: '12em', height: '2.5em', fontSize:'15px', 
                 fontWeight:'bold', borderRadius: "12px", textTransform: 'none', 

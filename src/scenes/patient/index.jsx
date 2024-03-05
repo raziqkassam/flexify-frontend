@@ -10,7 +10,6 @@ import { romData } from "../../data/rehabLineData";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { fullPatientInfo } from "../../data/patientData";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-// import { NearMe } from "@mui/icons-material";
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
@@ -99,6 +98,7 @@ const Patient = ({patient}) => {
           cellClassName: "name-column--cell",
         },
       ]
+      
   return (
     <Box m="20px 30px" pb="50px" >
       {/* HEADER */}

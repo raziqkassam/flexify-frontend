@@ -15,10 +15,12 @@ import Calendar from "./scenes/calendar/calendar";
 
 import Patient from "./scenes/patient";
 import { fullPatientInfo } from "./data/patientData";
+import { physiotherapistData } from "./data/physiotherapistData";
 
 import Thanks from "./scenes/thanks";
 import Planner from "./scenes/planner";
 import Menubar from "./scenes/global/Menubar";
+import Home from "./scenes/home";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -51,7 +53,8 @@ function App() {
             <Menubar setIsSidebar={setIsSidebar} />
             <div style={{ padding: '20px 20px 10px 20px' }}>
             <Routes >
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/" element={<Home physiotherapist={physiotherapistData}/>} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/all-patients" element={<Contacts />} />
               <Route path="/create-patient" element={<Form />} />
