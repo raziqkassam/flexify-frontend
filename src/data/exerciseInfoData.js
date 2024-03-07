@@ -55,7 +55,7 @@ export const exampleExerciseRating = [
     id: 1,
     exerciseName:"Wrist Flexion",
     completionDate: "2024-02-28",
-    repCompletion: "100%",
+    maxAngle: "45",
     pain: "7",
     discomfort: "5",
     notes: "I felt pretty good, but my wrist cracked a lot"
@@ -64,7 +64,7 @@ export const exampleExerciseRating = [
     id: 2,
     exerciseName:"Wrist Extension",
     completionDate: "2024-03-01",
-    repCompletion: "100%",
+    maxAngle: "40",
     pain: "10",
     discomfort: "10",
     notes: "This one really hurt"
@@ -73,7 +73,7 @@ export const exampleExerciseRating = [
     id: 3,
     exerciseName:"Wrist Flexion",
     completionDate: "2024-03-03",
-    repCompletion: "100%",
+    maxAngle: "33",
     pain: "10",
     discomfort: "10",
     notes: "I am attaching a long note to see how it looks in the table. I am attaching a long note to see how it looks in the table. I am attaching a long note to see how it looks in the table."

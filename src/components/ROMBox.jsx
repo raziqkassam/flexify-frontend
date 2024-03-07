@@ -8,7 +8,7 @@ import ProgressCircle from "./ProgressCircle";
 const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  console.log(maxAngle/targetAngle);
   return (
     <Grid container p="20px">
       <Grid item xs={6} >
@@ -21,7 +21,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
       <Grid item xs={6} >
         {/* Content of the second column of the first row */}
         <Box ml={"40px"} display="flex" justifyContent="space-between">
-          <ProgressCircle progress={(maxAngle/targetAngle)} size="60" />
+          <ProgressCircle progress={(maxAngle/targetAngle)} size="60" /> {/*}.toFixed(3)*/}
         </Box>
       </Grid>
       <Grid item xs={6} >

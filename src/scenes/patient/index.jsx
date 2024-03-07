@@ -7,11 +7,12 @@ import ROMBox from "../../components/ROMBox";
 import LineHeader from "../../components/LineHeader";
 import { useNavigate } from 'react-router-dom';
 import { romData } from "../../data/rehabLineData";
-import { DataGrid, GridToolbar, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar, GridRenderCellParams } from "@mui/x-data-grid";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { exampleExerciseRating } from "../../data/exerciseInfoData";
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import FormField from "../../components/FormField";
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
@@ -83,12 +84,11 @@ const Patient = ({patient}) => {
       };
 
       const [open, setOpen] = useState(false);
-      const [dialogContent, setDialogContent] = useState('');
+      const [dialogContent, setDialogContent] = useState(''); // for clicking to expand notes section
       const handleOpen = (content: any) => {
         setDialogContent(content);
         setOpen(true);
       };
-      
       const handleClose = () => {
         setOpen(false);
       };
@@ -114,11 +114,12 @@ const Patient = ({patient}) => {
           },
         },
         {
-          field: "repCompletion",
-          headerName: "Completion",
+          field: "maxAngle",
+          headerName: "Max Angle",
           headerAlign: "center",
           flex: 1,
           align: "center",
+          renderCell: (params) => `${params.value}˚`, // Add this line
         },
         {
           field: "pain",
@@ -158,8 +159,8 @@ const Patient = ({patient}) => {
       <Button
         onClick={() => navigate('/all-patients')}
         type="submit" color="secondary" variant="outlined"
-        style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '50px', top: '110px',
-          width: '15em', height: '3em', fontSize:'12px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
+        style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '50px', top: '110px', 
+          width: '15em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
         }}
       >
           <ArrowLeftIcon />
@@ -170,7 +171,7 @@ const Patient = ({patient}) => {
         </Box>
         <Box mb="10px" justifyItems={"right"}>
           {isEditMode ? (
-            <TextField
+            <FormField
               id="injured-hand"
               name="hand"
               label="Injured Hand"
@@ -184,7 +185,7 @@ const Patient = ({patient}) => {
             <LineHeader title="Injured Hand: " value={editedPatientData.hand} />
           )}
           {isEditMode ? (
-            <TextField
+            <FormField
               id="date-of-birth"
               name="dateOfBirth"
               label="Date of Birth"
@@ -198,7 +199,7 @@ const Patient = ({patient}) => {
             <LineHeader title="Date of Birth: " value={editedPatientData.dateOfBirth} />
           )}
           {isEditMode ? (
-            <TextField
+            <FormField
               id="injury-type"
               name="injury"
               label="Injury"
@@ -212,7 +213,7 @@ const Patient = ({patient}) => {
             <LineHeader title="Injury: " value={editedPatientData.injury} />
           )}
           {isEditMode ? (
-            <TextField
+            <FormField
               id="rehab-start-date"
               name="rehabStart"
               label="Rehab Start Date"
@@ -227,7 +228,7 @@ const Patient = ({patient}) => {
           )}
           {/* did not make progress editable because we may want to conisder making them dates rather than number of weeks*/}
           <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} />
-          <Box display="flex" justifyContent="center" mt="10px" 
+          <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" mt="10px" 
             sx={{margin:"30px 0 10px 0"}}>
               <Button
                 onClick={() => navigate(`/${patient.userName}/plan`)}
@@ -238,7 +239,18 @@ const Patient = ({patient}) => {
               >
               Edit Patient Plan
             </Button>
-          </Box>
+          
+              {/* Edit Patient Data Button */}
+              <Button
+                  onClick={isEditMode ? handleSaveChanges : handleEditClick} // Updated click handler
+                  type="submit" color="secondary" variant="contained" fullWidth
+                  style={{ marginBottom: '10px', backgroundColor: colors.primary[100], color: colors.blueAccent[900], boxShadow: 'none',
+                      width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px", border: '1px solid #6ad7e1'
+                    }}
+                >
+                  {isEditMode ? "Save Changes" : "Edit Patient Details"} {/* Updated button text */}
+              </Button>
+            </Box>
         </Box>
       </Box>
       <Box m="-70px 0 30px 0">
@@ -287,7 +299,7 @@ const Patient = ({patient}) => {
             > Last Week </Button>
 
           {/* Edit Patient Data Button */}
-          <Button
+          {/* <Button
               onClick={isEditMode ? handleSaveChanges : handleEditClick} // Updated click handler
               type="submit" color="secondary" variant="contained" fullWidth
               style={{
@@ -296,7 +308,7 @@ const Patient = ({patient}) => {
               }}
             >
               {isEditMode ? "Save Changes" : "Edit Patient Data"} {/* Updated button text */}
-            </Button>
+            {/* </Button> */}
 
         </Box>
       </Box>
@@ -304,10 +316,8 @@ const Patient = ({patient}) => {
       {/* GRID & CHARTS */}
       <Box
         display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        // gridAutoRows="140px"
+        gridTemplateColumns="repeat(12, 1fr)" // gridAutoRows="140px"
         gap="20px"
-        
         margin="20px 0 0 0"
         pb="30px"
       >

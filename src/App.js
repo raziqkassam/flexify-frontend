@@ -5,9 +5,7 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/team";
 import Contacts from "./scenes/contacts";
-import Bar from "./scenes/bar";
 import Form from "./scenes/form";
-import Line from "./scenes/line";
 import FAQ from "./scenes/faq";
 import { CssBaseline, ThemeProvider, GlobalStyles } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
@@ -55,13 +53,12 @@ function App() {
             <Routes >
               <Route path="/" element={<Home physiotherapist={physiotherapistData}/>} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/team" element={<Team />} />
+              {/* <Route path="/team" element={<Team />} /> */}
               <Route path="/all-patients" element={<Contacts />} />
               <Route path="/create-patient" element={<Form />} />
               <Route path="/created-patient" element={<Thanks />} />
 
-              <Route path="/bar" element={<Bar />} />
-              <Route path="/line" element={<Line />} />
+              {/* <Route path="/line" element={<Line />} /> */}
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/manual" element={<FAQ />} />
               
