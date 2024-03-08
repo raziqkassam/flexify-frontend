@@ -39,8 +39,8 @@ export const patientDataColumns = [
     flex: 1,
   },
   {
-    field: "discomfort",
-    headerName: "Discomfort Rating",
+    field: "difficulty",
+    headerName: "Difficulty Rating",
     flex: 1,
   },
   {
@@ -57,7 +57,7 @@ export const exampleExerciseRating = [
     completionDate: "2024-02-28",
     maxAngle: "45",
     pain: "7",
-    discomfort: "5",
+    difficulty: "5",
     notes: "I felt pretty good, but my wrist cracked a lot"
   },
   {
@@ -66,7 +66,7 @@ export const exampleExerciseRating = [
     completionDate: "2024-03-01",
     maxAngle: "40",
     pain: "10",
-    discomfort: "10",
+    difficulty: "10",
     notes: "This one really hurt"
   },
   {
@@ -75,7 +75,7 @@ export const exampleExerciseRating = [
     completionDate: "2024-03-03",
     maxAngle: "33",
     pain: "10",
-    discomfort: "10",
+    difficulty: "10",
     notes: "I am attaching a long note to see how it looks in the table. I am attaching a long note to see how it looks in the table. I am attaching a long note to see how it looks in the table."
   },
 ];

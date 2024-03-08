@@ -149,7 +149,7 @@ const Planner = ({patient}) => {
         {/* HEADER */}
         <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 -5px 0" }}>
             <Button
-            onClick={() => navigate('/all-patients')}
+            onClick={() => navigate(`/${patient.userName}`)}
             type="submit" color="secondary" variant="outlined"
             style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '50px', top: '110px', 
             width: '16em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
@@ -162,10 +162,9 @@ const Planner = ({patient}) => {
                     title={`${patient.firstName} ${patient.lastName}`} 
                     subtitle={
                         <>
-                            Update the Rehab Schedule by setting the Exercise Frequency for {patient.firstName}.
-                            <br />
-                            <br />To set the exercise frequency for the whole week, use the checkboxes. For each day, manually use the dropdowns.
-                            <br />Then, set the intended reps and sets for all exercises for each week. Don't forget to save once complete!
+                            <br /><b>Update {patient.firstName}'s Rehab Schedule by setting their Exercise Frequency.</b>
+                            <br /><br />To set the exercise frequency for the whole week, use the checkboxes. For each day, manually use the dropdowns.
+                            <br />Then, set the intended reps and sets for all exercises for each week. <b>Don't forget to save once complete!</b>
                         </>
                     } 
                 />            </Box>
@@ -175,17 +174,17 @@ const Planner = ({patient}) => {
                 <LineHeader title="Rehab Start: " value={`${rehabStartDay}, ${patient.rehabStart}`} />
                 <LineHeader /><LineHeader /><LineHeader />
                 <LineHeader title="Last Saved: " value={lastSubmit || 'Not yet saved'} />
-                {/* <Box display="flex" justifyContent="center" sx={{margin:"30px 0 -20px 0"}}>
+                <Box display="flex" justifyContent="center" sx={{margin:"30px 0 -20px 0"}}>
                     <Button
-                        onClick={() => navigate(`/${patient.userName}`)}
+                        onClick={handleSubmit} 
                         type="submit" color="secondary" variant="contained" fullWidth
                         style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
                         width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
                         }}
                     >
-                    See Patient Overview
+                    Save Patient Plan
                     </Button>
-                </Box> */}
+                </Box>
             </Box>
         </Box>
       
@@ -196,8 +195,7 @@ const Planner = ({patient}) => {
                 gridTemplateColumns="repeat(10, minmax(0, 1fr))"
                 sx={{
                     "& > div": { 
-                      display: 'flex', 
-                    //   flexDirection: 'row', 
+                      display: 'flex',
                       gridColumn: isNonMobile ? undefined : "span 8", 
                     },
                   }}
@@ -299,6 +297,14 @@ const Planner = ({patient}) => {
                             sx={{
                                 margin: "5px 0 0 40px",
                                 width: "30%",
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                      borderColor: colors.blueAccent[500],
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: colors.blueAccent[900],
+                                    },
+                                },
                             }}
                         />
                         <FormField
@@ -311,6 +317,14 @@ const Planner = ({patient}) => {
                             sx={{
                                 margin: "5px 40px 0 0",
                                 width: "30%",
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                      borderColor: colors.blueAccent[500],
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: colors.blueAccent[900],
+                                    },
+                                },
                             }}
                         />
                     </Box>
@@ -318,10 +332,10 @@ const Planner = ({patient}) => {
                     
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" 
-                sx={{gridColumn: "span 8", margin:"30px 0 80px 0"}}>
+                sx={{gridColumn: "span 8", margin:"30px 0 80px 280px"}}>
                   <Button type="submit" color="secondary" variant="contained" 
                   style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
-                  width: '30em', height: '3em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px", }}>
+                  width: '40em', height: '3em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px", }}>
                     Save Patient Plan
                   </Button>
                 </Box>
@@ -331,7 +345,7 @@ const Planner = ({patient}) => {
             </Box>
             <Button type="button" color="primary" justifyContent="right" variant="contained" onClick={handleReset} 
             sx={{boxShadow:'none'}}>
-            Reset ALL
+            Reset
             </Button>
         </React.Fragment>
         

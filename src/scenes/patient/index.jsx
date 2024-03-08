@@ -14,6 +14,10 @@ import { exampleExerciseRating } from "../../data/exerciseInfoData";
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import FormField from "../../components/FormField";
 
+import IconButton from '@mui/material/IconButton';
+import MailIcon from '@mui/icons-material/Mail';
+
+
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
 const Patient = ({patient}) => {
@@ -129,8 +133,8 @@ const Patient = ({patient}) => {
           align: "center",
         },
         {
-          field: "discomfort",
-          headerName: "Discomfort",
+          field: "difficulty",
+          headerName: "Difficulty",
           headerAlign: "center",
           flex: 1,
           align: "center",
@@ -150,26 +154,37 @@ const Patient = ({patient}) => {
           ),
         },
       ]
-      
 
   return (
     <Box m="20px 30px" pb="50px" >
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 0px 0" }}>
-      <Button
-        onClick={() => navigate('/all-patients')}
-        type="submit" color="secondary" variant="outlined"
-        style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '50px', top: '110px', 
-          width: '15em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
-        }}
-      >
+        <Button
+          onClick={() => navigate('/all-patients')}
+          type="submit" color="secondary" variant="outlined"
+          style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '60px', top: '140px', 
+            width: '15em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
+          }} >
           <ArrowLeftIcon />
           View All Patients
         </Button>
-        <Box m="60px 0 90px 10px">
+        {!isEditMode && ( <Button
+          onClick={() => window.location.href = `mailto:${patient.email}`}
+          type="submit" color="secondary" variant="outlined"
+          style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '285px', top: '140px', 
+            width: '2em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
+          }} >
+            <MailIcon fontSize="50px" sx={{color: colors.blueAccent[500], fontSize:"25px"}} />
+        </Button>
+        )}
+        <Box m="100px 0 100px 10px">
           <Header title={`${editedPatientData.firstName} ${editedPatientData.lastName}`} subtitle={`Summary of ${editedPatientData.firstName}'s Rehab Progress`} />
         </Box>
-        <Box mb="10px" justifyItems={"right"}>
+        {/* <Box sx={{margin:'-230px 0 0 100px'}}>
+          <Typography sx={{color:colors.primary[700], fontSize:'25px', fontWeight:'700'}}>Rehab Goals:</Typography>
+          <Typography sx={{color:colors.primary[700], fontSize:'25px', fontWeight:'700'}}>1.</Typography>
+        </Box> */}
+        <Box mb="20px" justifyItems={"right"}>
           {isEditMode ? (
             <FormField
               id="injured-hand"

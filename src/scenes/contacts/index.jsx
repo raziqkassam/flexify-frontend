@@ -113,7 +113,7 @@ const Contacts = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box m="40px 60px">
       <Header
         title="PATIENT LIST"
         subtitle="Click on the patient's username to view their exercise summary and set their exercise plan"
