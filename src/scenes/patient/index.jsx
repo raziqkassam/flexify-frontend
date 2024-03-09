@@ -16,6 +16,8 @@ import FormField from "../../components/FormField";
 
 import IconButton from '@mui/material/IconButton';
 import MailIcon from '@mui/icons-material/Mail';
+import { patientGoals } from "../../data/patientGoals";
+import { bool } from "yup";
 
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
@@ -24,6 +26,11 @@ const Patient = ({patient}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
+
+  const patientName = patient.userName;
+  const defaultGoals = [ { patientName : [  { key : "1", goal : "First goal innit", }, ]}];
+  const patientObject = patientGoals.find(patient => patient[patientName]);
+  const realGoals = patientObject == null ? defaultGoals : patientObject[patientName];
 
   const [timeframeButton, setTimeframeButton] = useState(1);
   const [lineData, setLineData] = useState([]);
@@ -154,7 +161,7 @@ const Patient = ({patient}) => {
           ),
         },
       ]
-
+  
   return (
     <Box m="20px 30px" pb="50px" >
       {/* HEADER */}
@@ -180,10 +187,24 @@ const Patient = ({patient}) => {
         <Box m="100px 0 100px 10px">
           <Header title={`${editedPatientData.firstName} ${editedPatientData.lastName}`} subtitle={`Summary of ${editedPatientData.firstName}'s Rehab Progress`} />
         </Box>
-        {/* <Box sx={{margin:'-230px 0 0 100px'}}>
-          <Typography sx={{color:colors.primary[700], fontSize:'25px', fontWeight:'700'}}>Rehab Goals:</Typography>
-          <Typography sx={{color:colors.primary[700], fontSize:'25px', fontWeight:'700'}}>1.</Typography>
+
+        {/* <Box sx={{ marginTop:'-80px', position:'absolute', width:'26em', right:'330px'}}>
+          <Typography sx={{color:colors.blueAccent[700], fontSize:'25px', fontWeight:'700'}}>
+            Rehab Goals:
+          </Typography>
+          {realGoals.map((goal, index) => (
+          <Box sx={{ display: 'flex', margin:'10px 0 -4px 0px'}}>
+            <Typography variant="h5" color={colors.blueAccent[400]} fontWeight="bold" fontSize={18} >
+              {goal.key}.
+            </Typography>
+            <Typography variant="h5" color={colors.blueAccent[900]} fontSize={18} 
+            textAlign={"left"} sx={{ m: "0 0 0 8px" }} >
+              {goal.goal}
+            </Typography>
+          </Box>
+          ))}
         </Box> */}
+
         <Box mb="20px" justifyItems={"right"}>
           {isEditMode ? (
             <FormField

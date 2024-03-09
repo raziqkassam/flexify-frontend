@@ -56,7 +56,7 @@ const Planner = ({patient}) => {
         if (savedSets) {
             setSets(JSON.parse(savedSets));
         }
-    }, []);
+    }, [patient.userName]);
     useEffect(() => {
         setCheckboxes(rehabWeeks.map(week => {
             const uniqueValues = [...new Set(week)];
@@ -167,7 +167,8 @@ const Planner = ({patient}) => {
                             <br />Then, set the intended reps and sets for all exercises for each week. <b>Don't forget to save once complete!</b>
                         </>
                     } 
-                />            </Box>
+                />            
+            </Box>
             <Box mt="10px" justifyItems={"right"} marginBottom={"80px"}>
                 <LineHeader title="Injured Hand: " value={patient.hand}/>
                 <LineHeader title="Rehab Length: " value={`${patient.injuryTime} Weeks`} />

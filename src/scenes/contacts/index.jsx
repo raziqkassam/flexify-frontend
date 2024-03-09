@@ -3,9 +3,12 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
-import { fullPatientInfo } from "../../data/patientData";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProgressCircle from "../../components/ProgressCircle";
+import { fullPatientInfo } from "../../data/patientData";
+
+import 'isomorphic-fetch';
+import 'es6-promise';
 
 
 const Contacts = () => {
@@ -13,19 +16,54 @@ const Contacts = () => {
   const colors = tokens(theme.palette.mode);
   const [selectedCell, setSelectedCell] = useState(null);
 
+  const [users, setUsers] = useState([]);
+  const [patientDataRows, setPatientDataRows] = useState([]);
+  useEffect(() => {
+    fetch('https://flexifybackend.vercel.app/get-all-patients/')
+      .then(response => response.json())
+      .then(data => {
+        setUsers(data);
+        const rows = data.results.map((user, index) => {
+
+          // Calculate fraction of patient rehab progress based on start date and injury time
+          const startDate = new Date(user.rehabStart);
+          const endDate = new Date(startDate.getTime());
+          endDate.setDate(startDate.getDate() + user.injuryTime * 7);
+          const now = new Date();
+          const elapsedTime = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+          const totalTime = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
+          const fraction = elapsedTime / totalTime; // set fraction as new parameter in data
+        
+          return {
+            id: index,
+            userName: user.userName,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            dateOfBirth: user.dateOfBirth,
+            hand: user.hand,
+            injuryTime: user.injuryTime,
+            rehabStart: user.rehabStart,
+            fraction: fraction,
+          };
+        });
+        console.log(rows)
+        setPatientDataRows(rows);
+      });
+  }, []);
+  console.log(users.results)
+
   const patientDataColumns = [
     {
-      field: "progress",
+      field: "fraction",
       headerName: "Progress",
       headerAlign: "center",
       
-      flex: 0.5,
-      cellClassName: "name-column--cell",
+      flex: 1,
       fontWeight: "heavy",
       align: "center",
       renderCell: (params) => {
-        const progress = params.value / params.row.injuryTime;
-        return <ProgressCircle progress={progress} size="30"/>
+        return <ProgressCircle progress={params.value} size="30"/>
       },
     },
     {
@@ -39,9 +77,12 @@ const Contacts = () => {
         style={{ 
           color: colors.blueAccent[600], 
           textDecoration: 'none', 
-          fontWeight: 'bold', // Add this line
+          fontWeight: 'bold',
           fontSize: "20px",
-        }}>
+        }}
+        onMouseOver={(e) => e.currentTarget.style.color = colors.primary[700]} 
+        onMouseOut={(e) => e.currentTarget.style.color = colors.blueAccent[600]}
+        >
           {params.value}
         </a>
       ),
@@ -71,9 +112,13 @@ const Contacts = () => {
       headerName: "Email",
       flex: 1.5,
       renderCell: (params) => (
-        <div style={{ fontSize: '20px' }}>
+        <a href={`mailto:${params.value}`} 
+          style={{ fontSize: '20px', color:colors.blueAccent[600],  }}
+          onMouseOver={(e) => e.currentTarget.style.color = colors.primary[700]} 
+          onMouseOut={(e) => e.currentTarget.style.color = colors.blueAccent[600]}
+        >
           {params.value}
-        </div>
+        </a>
       ),
     },
     {
@@ -114,10 +159,16 @@ const Contacts = () => {
 
   return (
     <Box m="40px 60px">
-      <Header
-        title="PATIENT LIST"
-        subtitle="Click on the patient's username to view their exercise summary and set their exercise plan"
-      />
+      <Header 
+          title={"Patient List"} 
+          subtitle={
+              <>
+                  <br />Full list of all active patients currently completing their rehabilitation.
+                  <br /><b>Click on the patient's username to view their exercise summary and set their exercise plan</b>
+                  <br />
+              </>
+          } 
+      /> 
       <Box
         m="40px 20px 0 10px"
         height="75vh"
@@ -127,11 +178,6 @@ const Contacts = () => {
             color: colors.primary[100],
             fontSize: "20px",
             
-          },
-          "& .MuiDataGrid-row": {
-            '&:hover': {
-              backgroundColor: colors.blueAccent[200], 
-            },
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
@@ -160,10 +206,17 @@ const Contacts = () => {
         }}
       >
         <DataGrid
-          rows={fullPatientInfo}
+          rows={patientDataRows}
           columns={patientDataColumns}
           components={{ Toolbar: GridToolbar }}
-          // checkboxSelection
+          disableRowSelectionOnClick
+          sortModel={[ { field: 'fraction', sort: 'desc', }, ]}
+          sx={{
+            '& .MuiDataGrid-row:hover': {
+              backgroundColor: '#bfeef2', 
+            },
+          }}
+          // onRowClick={(params) => navigate(`/${params.row.userName}`)} 
         />
       </Box>
     </Box>

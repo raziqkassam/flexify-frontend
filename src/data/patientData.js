@@ -9,7 +9,7 @@ export const fullPatientInfo = [
     hand: "Right",
     injury: "DRF",
     injuryTime: "6",
-    rehabStart: "2024-01-18",
+    rehabStart: "2024-02-18",
     targets: [ "86", "78", "45", "45" ],
     peak: [
       { "A": [ "46", "58", "25", "15" ],
@@ -33,7 +33,7 @@ export const fullPatientInfo = [
     hand: "Left",
     injury: "DUF",
     injuryTime: "6",
-    rehabStart: "2023-12-18",
+    rehabStart: "2024-02-18",
     targets: [ "82", "72", "32", "32" ],
     peak: [
       { "A": [ "46", "58", "25", "15" ],
@@ -57,7 +57,7 @@ export const fullPatientInfo = [
     hand: "Right",
     injury: "DURF",
     injuryTime: "12",
-    rehabStart: "2024-02-18",
+    rehabStart: "2024-02-28",
     targets: [ "76", "92", "41", "40" ],
     peak: [
       { "A": [ "46", "58", "25", "15" ],
@@ -81,7 +81,7 @@ export const fullPatientInfo = [
     hand: "Left",
     injury: "DRF",
     injuryTime: "7",
-    rehabStart: "2023-12-28",
+    rehabStart: "2024-02-22",
     targets: [ "62", "78", "33", "52" ],
     peak: [
       { "A": [ "46", "58", "25", "15" ],
