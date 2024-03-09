@@ -1,13 +1,27 @@
+import React, { useState } from 'react';
 import { Box, Typography, useTheme, Grid,  } from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { tokens } from "../theme";
 import ProgressCircle from "./ProgressCircle";
 
+import IconButton from '@mui/material/IconButton';
+import InfoIcon from '@mui/icons-material/Info';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+
 
 const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Grid container p="20px">
@@ -87,7 +101,23 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
           )}
       </Box>
     </Grid>
+
+    
+    
+    <Box style={{ position: 'relative', }}
+    >
+      <IconButton onClick={handleOpen} style={{ color: colors.primary[300], position: 'absolute', top:'-70px', right:'-10px' }} >
+      <InfoIcon />
+      </IconButton>
+      <Dialog open={open} onClose={handleClose} >
+        <DialogContent >
+        <img src={`assets/${exerciseName}.gif`} alt="description" style={{ width: '500px', height: '500px', borderRadius:'12px' }} />
+        </DialogContent>
+      </Dialog>
+    </Box>
+
     </Grid>
+    
   );
 };
 

@@ -130,16 +130,18 @@ const Contacts = () => {
       align: "center",
       renderCell: (params) => {
         const dob = new Date(params.value);
+        const formatDob = `${dob.toLocaleString('default', { month: 'short' })} ${dob.getDate()}, ${dob.getFullYear()}`;
+
         const diff_ms = Date.now() - dob.getTime();
         const age_dt = new Date(diff_ms); 
 
         const age = Math.abs(age_dt.getUTCFullYear() - 1970);
 
         return (
-          <div style={{ fontSize: '20px' }}
+          <div style={{ fontSize: selectedCell === params.id ? '16px' : '20px'  }}
             onClick={() => setSelectedCell(selectedCell === params.id ? null : params.id)}
           >
-            {selectedCell === params.id ? params.value : age}
+            {selectedCell === params.id ? formatDob : age}
           </div>
         );
       },
