@@ -23,8 +23,7 @@ const Form = () => {
     const [rehabStart, setRehabStart] = useState('')
     const [injuryTime, setInjuryTime] = useState('')
 
-    const initialTargets = Array.from({ length: 4 }, () => ['73','71','33','19']); // Initialize an array with a length of 4
-    const [targets, setTargets] = useState(initialTargets); // Use useState to manage the state of the array
+    const [targets, setTargets] = useState(['73','71','33','19']); // initialized targets
 
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate(); // Get the history object
@@ -158,7 +157,7 @@ const Form = () => {
                 <Box display="flex" justifyContent="center" mt="10px" 
                 sx={{fontSize:"18px",gridColumn: "span 4", justifyContent:"center", textAlign:"center",
                 color: colors.greenAccent[800]}}>
-                  <b>Set the Desired Target Angles (in degrees) for each exercise for the patient.</b>
+                  Set the Desired Target Angles (in degrees) for each exercise for the patient. 
                   <br />This should be the measured normal ROM for their non-injured hand, or a chosen target metric by the PT
                   <br />The default values are the average wrist ROM angles for a healthy adult.
                 </Box>
@@ -167,7 +166,7 @@ const Form = () => {
                     id="outlined-number"
                     label={`Target Angle (in degrees)`}
                     type="number"
-                    value={target[i]}
+                    value={target}
                     inputProps={{min: 0, max: 180, style: { textAlign: 'center', fontSize:'30px', color: colors.blueAccent[500] }}}
                     onChange={(e) => {
                       const newTargets = [...targets];
