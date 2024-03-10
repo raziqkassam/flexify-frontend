@@ -8,7 +8,7 @@ import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import { CalendarTodayOutlined, NoteAltOutlined } from '@mui/icons-material';
 import LineHeader from "../../components/LineHeader";
 
-const Home = (physiotherapist) => {
+const Home = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();

@@ -7,6 +7,8 @@ import Header from "../../components/Header";
 import { tokens } from "../../theme";
 import { exerciseInfo } from '../../data/exerciseInfoData';
 import FormField from '../../components/FormField';
+import DateField from '../../components/DateField';
+
 
 const hands = [ { value: 'Left' }, { value: 'Right'} ];
 
@@ -21,7 +23,7 @@ const Form = () => {
     const [rehabStart, setRehabStart] = useState('')
     const [injuryTime, setInjuryTime] = useState('')
 
-    const initialTargets = Array.from({ length: 4 }, () => ''); // Initialize an array with a length of 4
+    const initialTargets = Array.from({ length: 4 }, () => ['73','71','33','19']); // Initialize an array with a length of 4
     const [targets, setTargets] = useState(initialTargets); // Use useState to manage the state of the array
 
     const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -29,7 +31,6 @@ const Form = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isRequired = false; // set to true to set parameters for being required (false for testing)
-    const fontSize = '20px';
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -44,8 +45,8 @@ const Form = () => {
     return (
         <React.Fragment>
             
-      <Box m="20px 80px">
-      <Header title="ADD NEW PATIENT" subtitle="Create a new detailed Patient Profile" />
+      <Box m="40px 80px">
+      <Header title="Add New Patient" subtitle="Create a new detailed Patient Profile by filling out the form below." />
       
             <form onSubmit={handleSubmit} >
               <Box display="grid" gap="30px"
@@ -88,11 +89,11 @@ const Form = () => {
                     sx={{mb:'10px', gridColumn: "span 2" }}
                     inputProps={{style: {fontSize:'20px' }}}
                 />
-                <FormField
+                <DateField
                     type="date"
                     label="Date of Birth"
                     InputLabelProps={{ shrink: true, }}
-                    onChange={e => setDateOfBirth(e.target.value)}
+                    onChange={(newValue) => setDateOfBirth(newValue.format('YYYY-MM-DD'))}
                     value={dateOfBirth}
                     required={isRequired}
                     fullWidth
@@ -105,15 +106,23 @@ const Form = () => {
                   required={isRequired}
                   label="Injured Hand"
                   labelPlacement="bottom"
-                  variant='outlined'
-                  color='secondary'
                   value={hand}
                   onChange={e => setHand(e.target.value)}
-                  sx={{gridColumn: "span 1" }}
-                  inputProps={{style: {fontSize:'20px' }}}
+                  sx={{
+                    gridColumn: "span 1",
+                    '& .MuiSelect-icon': {
+                      color: colors.blueAccent[500],
+                      fontSize: '30px',
+                    },
+                    '& .MuiInputBase-input': {
+                      fontSize: '20px',
+                      textAlign: 'center',
+                    },
+                  }}
                 >
                   {hands.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
+                    <MenuItem key={option.value} value={option.value} 
+                    sx={{fontSize:'20px'}}>
                       {option.value}
                     </MenuItem>
                   ))}
@@ -126,14 +135,10 @@ const Form = () => {
                     inputProps={{style: {fontSize:'20px' }}}
                     sx={{gridColumn: "span 1" }}
                 />
-                <FormField
-                    label="Rehab Start Date"
-                    type="date"
-                    InputLabelProps={{ shrink: true, }}
-                    sx={{gridColumn: "span 1" }}
-                    value={rehabStart}
-                    onChange={e => setRehabStart(e.target.value)}
-                    inputProps={{style: {fontSize:'20px' }}}
+                <DateField
+                  label="Rehab Start Date"
+                  value={rehabStart}
+                  onChange={(newValue) => setRehabStart(newValue.format('YYYY-MM-DD'))}
                 />
                 <FormField
                     label="Expected Injury Duration (weeks)"
@@ -153,15 +158,17 @@ const Form = () => {
                 <Box display="flex" justifyContent="center" mt="10px" 
                 sx={{fontSize:"18px",gridColumn: "span 4", justifyContent:"center", textAlign:"center",
                 color: colors.greenAccent[800]}}>
-                  Set the Desired Target Angles (in degrees) for each exercise for the patient. 
+                  <b>Set the Desired Target Angles (in degrees) for each exercise for the patient.</b>
                   <br />This should be the measured normal ROM for their non-injured hand, or a chosen target metric by the PT
+                  <br />The default values are the average wrist ROM angles for a healthy adult.
                 </Box>
                 {targets.map((target, i) => (
                   <FormField
                     id="outlined-number"
                     label={`Target Angle (in degrees)`}
                     type="number"
-                    inputProps={{min: 0, max: 360, style: { textAlign: 'center', fontSize:'20px' }}}
+                    value={target[i]}
+                    inputProps={{min: 0, max: 180, style: { textAlign: 'center', fontSize:'30px', color: colors.blueAccent[500] }}}
                     onChange={(e) => {
                       const newTargets = [...targets];
                       newTargets[i] = e.target.value;

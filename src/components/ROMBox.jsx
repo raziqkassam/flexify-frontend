@@ -101,12 +101,9 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
           )}
       </Box>
     </Grid>
-
     
-    
-    <Box style={{ position: 'relative', }}
-    >
-      <IconButton onClick={handleOpen} style={{ color: colors.primary[300], position: 'absolute', top:'-70px', right:'-10px' }} >
+    <Box style={{ position: 'relative', }} >
+      <IconButton onClick={handleOpen} style={{ color: colors.blueAccent[300], position: 'absolute', top:'-70px', right:'-10px' }} >
       <InfoIcon />
       </IconButton>
       <Dialog open={open} onClose={handleClose} >
@@ -117,7 +114,6 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
     </Box>
 
     </Grid>
-    
   );
 };
 

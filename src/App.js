@@ -13,7 +13,6 @@ import Calendar from "./scenes/calendar/calendar";
 
 import Patient from "./scenes/patient";
 import { fullPatientInfo } from "./data/patientData";
-import { physiotherapistData } from "./data/physiotherapistData";
 
 import Thanks from "./scenes/thanks";
 import Planner from "./scenes/planner";
@@ -51,7 +50,7 @@ function App() {
             <Menubar setIsSidebar={setIsSidebar} />
             <div style={{ padding: '20px 20px 10px 20px' }}>
             <Routes >
-              <Route path="/" element={<Home physiotherapist={physiotherapistData}/>} />
+              <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<Dashboard />} />
               {/* <Route path="/team" element={<Team />} /> */}
               <Route path="/all-patients" element={<Contacts />} />

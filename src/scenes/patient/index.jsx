@@ -103,14 +103,30 @@ const Patient = ({patient}) => {
       const handleClose = () => {
         setOpen(false);
       };
+
+      const [goals, setGoals] = useState([]);
+      const [goal1, setGoal1] = useState('');
+      const [goal2, setGoal2] = useState('');
+      const [goal3, setGoal3] = useState('');
+      const [open2, setOpen2] = useState(false);
+      const handleOpen2 = (content: any) => {
+        setDialogContent(content);
+        setOpen2(true);
+      };
+      const handleClose2 = () => {
+        setOpen2(false);
+      };
+      const handleGoalSubmit = (event) => {
+        event.preventDefault();
+        const newGoals = [goal1, goal2, goal3].filter(goal => goal !== '');
+        setGoals([...goals, ...newGoals]);
+        setGoal1('');
+        setGoal2('');
+        setGoal3('');
+        setOpen(false);
+      };
+
       const patientDataColumns = [
-        {
-          field: "exerciseName",
-          headerName: "Exercise",
-          headerAlign: "center",
-          flex: 1,
-          fontWeight: "heavy",
-        },
         {
           field: "completionDate",
           headerName: "Date",
@@ -123,6 +139,13 @@ const Patient = ({patient}) => {
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             return new Intl.DateTimeFormat('en-US', options).format(date);
           },
+        },
+        {
+          field: "exerciseName",
+          headerName: "Exercise",
+          headerAlign: "center",
+          flex: 1,
+          fontWeight: "heavy",
         },
         {
           field: "maxAngle",
@@ -204,6 +227,32 @@ const Patient = ({patient}) => {
           </Box>
           ))}
         </Box> */}
+        <Button onClick={handleOpen2}>Open Form</Button>
+          <Dialog open={open2} onClose={handleClose2}>
+            <DialogContent>
+              <form onSubmit={handleGoalSubmit}>
+                <TextField
+                  label="Goal 1"
+                  value={goal1}
+                  onChange={(event) => setGoal1(event.target.value)}
+                  fullWidth
+                />
+                <TextField
+                  label="Goal 2"
+                  value={goal2}
+                  onChange={(event) => setGoal2(event.target.value)}
+                  fullWidth
+                />
+                <TextField
+                  label="Goal 3"
+                  value={goal3}
+                  onChange={(event) => setGoal3(event.target.value)}
+                  fullWidth
+                />
+                <Button type="submit">Submit</Button>
+              </form>
+            </DialogContent>
+          </Dialog>
 
         <Box mb="20px" justifyItems={"right"}>
           {isEditMode ? (
@@ -263,7 +312,7 @@ const Patient = ({patient}) => {
             <LineHeader title="Rehab Start Date: " value={`${editedPatientData.rehabStart}`} />
           )}
           {/* did not make progress editable because we may want to conisder making them dates rather than number of weeks*/}
-          <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} />
+          {/* <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} /> */}
           <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" mt="10px" 
             sx={{margin:"30px 0 10px 0"}}>
               <Button
@@ -297,10 +346,8 @@ const Patient = ({patient}) => {
                 backgroundColor:timeframeButton === 1 ? colors.blueAccent[400] : colors.grey[100],
                 color: colors.blueAccent[900],
                 marginRight:"10px",
-                fontWeight:"550",
-                fontSize:'12',
-                width:"100px",
-                height:"40px",
+                fontWeight:"550", fontSize:'12',
+                width:"100px", height:"40px",
                 borderRadius: "12px",
               }}
               onClick={() => setTimeframeButton(1)}
@@ -408,10 +455,10 @@ const Patient = ({patient}) => {
                 </Typography>
               </Box>
             </Box>
-            <Box height="400px" m="20px 0 20px 0" p="0 30px">
+            <Box height="550px" m="20px 0 20px 0" p="0 30px">
               <LineChart isDashboard={true} 
               data={lineData}
-              />
+            />
             </Box>
           </Box>
           
@@ -470,7 +517,13 @@ const Patient = ({patient}) => {
               rows={exampleExerciseRating}
               columns={patientDataColumns}
               components={{ Toolbar: GridToolbar }}
-              // checkboxSelection
+              disableRowSelectionOnClick
+              sortModel={[ { field: 'completionDate', sort: 'desc', }, ]}
+              sx={{
+                '& .MuiDataGrid-row:hover': {
+                  backgroundColor: '#bfeef2', 
+                },
+              }}
             />
             <Dialog open={open} onClose={handleClose}>
               <DialogTitle textAlign={"center"} fontWeight={"bold"} fontSize={30}>
