@@ -9,7 +9,6 @@ import { exerciseInfo } from '../../data/exerciseInfoData';
 import FormField from '../../components/FormField';
 import DateField from '../../components/DateField';
 
-
 const hands = [ { value: 'Left' }, { value: 'Right'} ];
 
 const Form = () => {
@@ -184,7 +183,7 @@ const Form = () => {
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
                   <Button type="submit" color="secondary" variant="contained"
                   style={{ marginBottom: '30px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
-                  width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold', 
+                  width: '50em', height: '3em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
                   }}>
                     Create New Patient Profile
                   </Button>

@@ -9,18 +9,20 @@ const Subheader = ({ title, value }) => {
     <Box mb="0px">
       <Typography
         variant="h5"
-        color={colors.grey[100]}
+        color={colors.blueAccent[100]}
         fontWeight="bold"
-        textAlign={"right"}
+        fontSize={30}
+        textAlign={"center"}
         sx={{ m: "0 0 5px 0" }}
       >
         {title}
       </Typography>
       <Typography
         variant="h5"
-        color={colors.greenAccent[500]}
-        fontWeight="bold"
-        textAlign={"right"}
+        color={colors.blueAccent[300]}
+        fontWeight="500"
+        fontSize={18}
+        textAlign={"center"}
         sx={{ m: "0 0 5px 0" }}
       >
         {value}

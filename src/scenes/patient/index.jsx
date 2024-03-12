@@ -15,9 +15,10 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import FormField from "../../components/FormField";
 
 import IconButton from '@mui/material/IconButton';
-import MailIcon from '@mui/icons-material/Mail';
+import CloseIcon from '@mui/icons-material/Close';
 import { patientGoals } from "../../data/patientGoals";
-import { bool } from "yup";
+import GoalField from "../../components/GoalField";
+import Subheader from "../../components/Subheader";
 
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
@@ -27,10 +28,10 @@ const Patient = ({patient}) => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
-  const patientName = patient.userName;
-  const defaultGoals = [ { patientName : [  { key : "1", goal : "First goal innit", }, ]}];
-  const patientObject = patientGoals.find(patient => patient[patientName]);
-  const realGoals = patientObject == null ? defaultGoals : patientObject[patientName];
+  // const patientName = patient.userName;
+  // const defaultGoals = [ { patientName : [  { key : "1", goal : "First goal innit", }, ]}];
+  // const patientObject = patientGoals.find(patient => patient[patientName]);
+  // const realGoals = patientObject == null ? defaultGoals : patientObject[patientName];
 
   const [timeframeButton, setTimeframeButton] = useState(1);
   const [lineData, setLineData] = useState([]);
@@ -83,11 +84,15 @@ const Patient = ({patient}) => {
         setOpen(false);
       };
 
-      const [goals, setGoals] = useState([]);
-      const [goal1, setGoal1] = useState('');
-      const [goal2, setGoal2] = useState('');
-      const [goal3, setGoal3] = useState('');
+      const [goals, setGoals] = useState(['','','']);
       const [open2, setOpen2] = useState(false);
+      const setGoalAtIndex = (index, value) => {
+        setGoals(prevGoals => {
+          const newGoals = [...prevGoals]; // Create a copy of the previous goals array
+          newGoals[index] = value; // Set the new value at the given index
+          return newGoals; // Return the new goals array
+        });
+      };
       const handleOpen2 = (content: any) => {
         setDialogContent(content);
         setOpen2(true);
@@ -95,14 +100,28 @@ const Patient = ({patient}) => {
       const handleClose2 = () => {
         setOpen2(false);
       };
+      useEffect(() => {
+          const savedPatientGoals = localStorage.getItem(`patientGoals_${patient.userName}`);
+          console.log('savedPatientGoals:', savedPatientGoals);
+          
+          if (savedPatientGoals) {
+              setGoals(JSON.parse(savedPatientGoals));
+              setIsGoalSubmitted(true);
+          }
+      }, [patient.userName]);
+
+      const [isGoalSubmitted, setIsGoalSubmitted] = useState(false);
       const handleGoalSubmit = (event) => {
         event.preventDefault();
-        const newGoals = [goal1, goal2, goal3].filter(goal => goal !== '');
-        setGoals([...goals, ...newGoals]);
-        setGoal1('');
-        setGoal2('');
-        setGoal3('');
+        handleClose2();
+        setIsGoalSubmitted(true);
+        localStorage.setItem(`patientGoals_${patient.userName}`, JSON.stringify(goals));
+
+        // setGoals(goals);
         setOpen(false);
+        
+        localStorage.setItem(`patientGoals_${patient.userName}`, JSON.stringify(goals));
+        alert(JSON.stringify(goals, null, 2));
       };
 
       const patientDataColumns = [
@@ -154,8 +173,7 @@ const Patient = ({patient}) => {
           headerAlign: "center",
           flex: 3,
           renderCell: (params: GridRenderCellParams) => (
-            <div
-              style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+            <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
               onClick={() => handleOpen(params.value)}
             >
               {params.value}
@@ -181,57 +199,103 @@ const Patient = ({patient}) => {
           <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
         </Box>
         
-        {/* <Box sx={{ marginTop:'-80px', position:'absolute', width:'26em', right:'330px'}}>
-          <Typography sx={{color:colors.blueAccent[700], fontSize:'25px', fontWeight:'700'}}>
-            Rehab Goals:
-          </Typography>
-          {realGoals.map((goal, index) => (
-          <Box sx={{ display: 'flex', margin:'10px 0 -4px 0px'}}>
-            <Typography variant="h5" color={colors.blueAccent[400]} fontWeight="bold" fontSize={18} >
-              {goal.key}.
-            </Typography>
-            <Typography variant="h5" color={colors.blueAccent[900]} fontSize={18} 
-            textAlign={"left"} sx={{ m: "0 0 0 8px" }} >
-              {goal.goal}
-            </Typography>
-          </Box>
-          ))}
-        </Box> */}
-
-        {/* <Button onClick={handleOpen2}>Open Form</Button>
-          <Dialog open={open2} onClose={handleClose2}>
-            <DialogContent>
-              <form onSubmit={handleGoalSubmit}>
-                <TextField
-                  label="Goal 1"
-                  value={goal1}
-                  onChange={(event) => setGoal1(event.target.value)}
-                  fullWidth
-                />
-                <TextField
-                  label="Goal 2"
-                  value={goal2}
-                  onChange={(event) => setGoal2(event.target.value)}
-                  fullWidth
-                />
-                <TextField
-                  label="Goal 3"
-                  value={goal3}
-                  onChange={(event) => setGoal3(event.target.value)}
-                  fullWidth
-                />
-                <Button type="submit">Submit</Button>
-              </form>
-            </DialogContent>
-          </Dialog> */}
-          
         <Box mb="20px" justifyItems={"right"}>
           <LineHeader title="Injured Hand: " value={patient.hand} />
           <LineHeader title="Date of Birth: " value={patient.dateOfBirth} />
           <LineHeader title="Injury: " value={patient.injury} />
           <LineHeader title="Rehab Start Date: " value={`${patient.rehabStart}`} />
           <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} />
+          <Box sx={{textAlign: "center", m: "20px 0 0 0", }} >
+            <Button
+                onClick={() => navigate(`/${patient.userName}/plan`)}
+                color="secondary" variant="contained" fullWidth type="submit"
+                style={{ backgroundColor: colors.blueAccent[400],  color: colors.blueAccent[900], boxShadow: 'none',
+                width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
+                }} >
+                Edit Patient Plan
+            </Button>
+          </Box>
+
+          <Box sx={{textAlign: "center", m: "10px 0 0 0", }} >
+            <Button
+                onClick={handleOpen2} color="secondary" variant="outlined" fullWidth type="submit"
+                style={{ border: '3px solid colors.blueAccent[400]',  color: colors.blueAccent[900], boxShadow: 'none',
+                width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
+                }} >
+                Edit Patient Goals
+            </Button>
+            <Dialog open={open2} onClose={handleClose2} 
+              sx={{ '& .MuiDialog-paper': {  backgroundColor: colors.blueAccent[900], },
+              }}>
+                <Button variant="outlined" onClick={() => { setGoals(['','','']); }}
+                  sx={{  position: 'absolute', right: 8, top: 8,
+                    color: colors.grey[200], border: '3px solid colors.blueAccent[400]',
+                  }}
+                >
+                  Clear Goals
+                </Button>
+              <DialogContent >
+                <form onSubmit={handleGoalSubmit} >
+                  <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"
+                  p="10px 10px">
+                    <Subheader 
+                    title="Set Patient Goals" 
+                    value="Set up to 3 unique patient goals to follow during their rehabilitation."
+                    />
+                    <GoalField
+                      label="Goal 1"
+                      value={goals[0]}
+                      onChange={(event) => setGoalAtIndex(0, event.target.value)}
+                      fullWidth
+                    />
+                    <GoalField
+                      label="Goal 2"
+                      value={goals[1]}
+                      onChange={(event) => setGoalAtIndex(1, event.target.value)}
+                      fullWidth
+                    />
+                    <GoalField
+                      label="Goal 3"
+                      value={goals[2]}
+                      onChange={(event) => setGoalAtIndex(2, event.target.value)}
+                      fullWidth
+                    />
+                  </Box>
+                <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }} p="0px 10px">
+                  <Button type="submit" color="secondary" variant="contained"
+                  style={{ margin: '20px 0', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
+                  width: '80em', height: '3em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
+                  }}>
+                    Save Patient Goals
+                  </Button>
+                </Box>
+                </form>
+              </DialogContent>
+            </Dialog>
+          </Box>
+          
+          {isGoalSubmitted && (goals[0] || goals[1] || goals[2] ) && (
+            <Box sx={{ marginTop:'-255px', position:'absolute', width:'26em', right:'330px'}}>
+              <Typography sx={{color:colors.blueAccent[700], fontSize:'25px', fontWeight:'700'}}>
+                Rehab Goals:
+              </Typography>
+              {goals.map((goal, index) => (
+                goal && (
+                  <Box sx={{ display: 'flex', margin:'10px 0 -4px 0px'}}>
+                    <Typography variant="h5" color={colors.blueAccent[400]} fontWeight="bold" fontSize={18} >
+                      {index+1}.
+                    </Typography>
+                    <Typography variant="h5" color={colors.blueAccent[900]} fontSize={18} 
+                    textAlign={"left"} sx={{ m: "0 0 0 8px" }} >
+                      {goal}
+                    </Typography>
+                  </Box>
+                )
+              ))}
+            </Box>
+          )}
         </Box>
+        
       </Box>
       <Box m="-70px 0 30px 0">
         <Box display="flex " justifyContent="left" alignContent={"center"} >
