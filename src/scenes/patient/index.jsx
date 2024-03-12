@@ -42,10 +42,7 @@ const Patient = ({patient}) => {
     ...item, data: item.data.slice(patient.injuryTime-5, patient.injuryTime) }));
 
   const lastWeekLineData = romData.map(item => ({
-    ...item, data: item.data.slice(patient.injuryTime-2, patient.injuryTime) }));
-
-  const [isEditMode, setIsEditMode] = useState(false); // Added state for edit mode
-  const [editedPatientData, setEditedPatientData] = useState({ ...patient }); // Added state for edited patient data
+    ...item, data: item.data.slice(patient.injuryTime-2, patient.injuryTime) }));  
   
   const [timePeriod, setTimePeriod] = useState("All Time");
   const [increase, setIncrease] = useState([]);
@@ -75,24 +72,6 @@ const Patient = ({patient}) => {
     }
   }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData, 
       timePeriod, patient.increase, patient.peak]);
-
-      const handleEditClick = () => {
-        console.log()
-        setIsEditMode(!isEditMode);
-      };
-       
-      const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        console.log(name, value)
-        setEditedPatientData(prevData => ({
-          ...prevData,
-          [name]: value
-        }));
-      };  
-      
-      const handleSaveChanges = () => {
-        setIsEditMode(false);
-      };
 
       const [open, setOpen] = useState(false);
       const [dialogContent, setDialogContent] = useState(''); // for clicking to expand notes section
@@ -198,19 +177,10 @@ const Patient = ({patient}) => {
           <ArrowLeftIcon />
           View All Patients
         </Button>
-        {!isEditMode && ( <Button
-          onClick={() => window.location.href = `mailto:${patient.email}`}
-          type="submit" color="secondary" variant="outlined"
-          style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '285px', top: '140px', 
-            width: '2em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
-          }} >
-            <MailIcon fontSize="50px" sx={{color: colors.blueAccent[500], fontSize:"25px"}} />
-        </Button>
-        )}
         <Box m="100px 0 100px 10px">
-          <Header title={`${editedPatientData.firstName} ${editedPatientData.lastName}`} subtitle={`Summary of ${editedPatientData.firstName}'s Rehab Progress`} />
+          <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
         </Box>
-
+        
         {/* <Box sx={{ marginTop:'-80px', position:'absolute', width:'26em', right:'330px'}}>
           <Typography sx={{color:colors.blueAccent[700], fontSize:'25px', fontWeight:'700'}}>
             Rehab Goals:
@@ -227,7 +197,8 @@ const Patient = ({patient}) => {
           </Box>
           ))}
         </Box> */}
-        <Button onClick={handleOpen2}>Open Form</Button>
+
+        {/* <Button onClick={handleOpen2}>Open Form</Button>
           <Dialog open={open2} onClose={handleClose2}>
             <DialogContent>
               <form onSubmit={handleGoalSubmit}>
@@ -252,90 +223,14 @@ const Patient = ({patient}) => {
                 <Button type="submit">Submit</Button>
               </form>
             </DialogContent>
-          </Dialog>
-
-        <Box mb="20px" justifyItems={"right"}>
-          {isEditMode ? (
-            <FormField
-              id="injured-hand"
-              name="hand"
-              label="Injured Hand"
-              value={isEditMode ? editedPatientData.hand : patient.hand}
-              onChange={handleInputChange}
-              fullWidth
-              variant="outlined"
-              margin="normal"
-            />
-          ) : (
-            <LineHeader title="Injured Hand: " value={editedPatientData.hand} />
-          )}
-          {isEditMode ? (
-            <FormField
-              id="date-of-birth"
-              name="dateOfBirth"
-              label="Date of Birth"
-              value={isEditMode ? editedPatientData.dateOfBirth : patient.dateOfBirth}
-              onChange={handleInputChange}
-              fullWidth
-              variant="outlined"
-              margin="normal"
-            />
-          ) : (
-            <LineHeader title="Date of Birth: " value={editedPatientData.dateOfBirth} />
-          )}
-          {isEditMode ? (
-            <FormField
-              id="injury-type"
-              name="injury"
-              label="Injury"
-              value={isEditMode ? editedPatientData.injury : patient.injury}
-              onChange={handleInputChange}
-              fullWidth
-              variant="outlined"
-              margin="normal"
-            />
-          ) : (
-            <LineHeader title="Injury: " value={editedPatientData.injury} />
-          )}
-          {isEditMode ? (
-            <FormField
-              id="rehab-start-date"
-              name="rehabStart"
-              label="Rehab Start Date"
-              value={isEditMode ? `${editedPatientData.rehabStart}` : `${patient.rehabStart}`}
-              onChange={handleInputChange}
-              fullWidth
-              variant="outlined"
-              margin="normal"
-            />
-          ) : (
-            <LineHeader title="Rehab Start Date: " value={`${editedPatientData.rehabStart}`} />
-          )}
-          {/* did not make progress editable because we may want to conisder making them dates rather than number of weeks*/}
-          {/* <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} /> */}
-          <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" mt="10px" 
-            sx={{margin:"30px 0 10px 0"}}>
-              <Button
-                onClick={() => navigate(`/${patient.userName}/plan`)}
-                type="submit" color="secondary" variant="contained" fullWidth
-                style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
-                  width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
-                }}
-              >
-              Edit Patient Plan
-            </Button>
+          </Dialog> */}
           
-              {/* Edit Patient Data Button */}
-              <Button
-                  onClick={isEditMode ? handleSaveChanges : handleEditClick} // Updated click handler
-                  type="submit" color="secondary" variant="contained" fullWidth
-                  style={{ marginBottom: '10px', backgroundColor: colors.primary[100], color: colors.blueAccent[900], boxShadow: 'none',
-                      width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px", border: '1px solid #6ad7e1'
-                    }}
-                >
-                  {isEditMode ? "Save Changes" : "Edit Patient Details"} {/* Updated button text */}
-              </Button>
-            </Box>
+        <Box mb="20px" justifyItems={"right"}>
+          <LineHeader title="Injured Hand: " value={patient.hand} />
+          <LineHeader title="Date of Birth: " value={patient.dateOfBirth} />
+          <LineHeader title="Injury: " value={patient.injury} />
+          <LineHeader title="Rehab Start Date: " value={`${patient.rehabStart}`} />
+          <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} />
         </Box>
       </Box>
       <Box m="-70px 0 30px 0">
@@ -380,19 +275,6 @@ const Patient = ({patient}) => {
               }}
               onClick={() => setTimeframeButton(3)}
             > Last Week </Button>
-
-          {/* Edit Patient Data Button */}
-          {/* <Button
-              onClick={isEditMode ? handleSaveChanges : handleEditClick} // Updated click handler
-              type="submit" color="secondary" variant="contained" fullWidth
-              style={{
-                marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
-                width: '150px', height: '40px', fontSize: '12', fontWeight: '550', borderRadius: "12px",
-              }}
-            >
-              {isEditMode ? "Save Changes" : "Edit Patient Data"} {/* Updated button text */}
-            {/* </Button> */}
-
         </Box>
       </Box>
 
