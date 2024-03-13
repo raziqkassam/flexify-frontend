@@ -134,7 +134,7 @@ function Menubar() {
                         style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', mr: '8px',
                         fontWeight:'bold', borderRadius: "12px", justifyItems:"center" }} > 
                             <NoteAltOutlined sx={{  mr: '8px', }} />
-                            Manual and FAQ
+                            Instructional Manual
                         </MenuItem>
                         <MenuItem onClick={() => handleResourceNavigation('/about')}
                         style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', mr: '8px',
