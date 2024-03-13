@@ -7,6 +7,7 @@ import Team from "./scenes/team";
 import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
 import FAQ from "./scenes/faq";
+import About from "./scenes/about"
 import { CssBaseline, ThemeProvider, GlobalStyles } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Calendar from "./scenes/calendar/calendar";
@@ -60,6 +61,7 @@ function App() {
               {/* <Route path="/line" element={<Line />} /> */}
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/manual" element={<FAQ />} />
+              <Route path="/about" element={<About />} />
               
               {fullPatientInfo.map((patient, i) => (
                 <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
