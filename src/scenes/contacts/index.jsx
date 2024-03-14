@@ -58,7 +58,6 @@ const Contacts = () => {
       field: "fraction",
       headerName: "Progress",
       headerAlign: "center",
-      
       flex: 1,
       fontWeight: "heavy",
       align: "center",

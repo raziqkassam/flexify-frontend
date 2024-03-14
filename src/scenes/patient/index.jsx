@@ -10,6 +10,8 @@ import { romData } from "../../data/rehabLineData";
 import { DataGrid, GridToolbar, GridRenderCellParams } from "@mui/x-data-grid";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { exampleExerciseRating } from "../../data/exerciseInfoData";
+import IconButton from '@mui/material/IconButton';
+ import MailIcon from '@mui/icons-material/Mail';
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import GoalField from "../../components/GoalField";
@@ -158,7 +160,7 @@ const Patient = ({patient}) => {
           headerAlign: "center",
           flex: 1,
           align: "center",
-          renderCell: (params) => `${params.value}˚`, // Add this line
+          renderCell: (params) => `${params.value}˚`, 
         },
         {
           field: "pain",
@@ -202,6 +204,14 @@ const Patient = ({patient}) => {
           <ArrowLeftIcon />
           View All Patients
         </Button>
+        <Button
+           onClick={() => window.location.href = `mailto:${patient.email}`}
+           type="submit" color="secondary" variant="outlined"
+           style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '285px', top: '140px', 
+             width: '2em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
+           }} >
+             <MailIcon fontSize="50px" sx={{color: colors.blueAccent[500], fontSize:"25px"}} />
+         </Button>
         <Box m="100px 0 100px 10px">
           <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
         </Box>
