@@ -20,6 +20,7 @@ import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { CalendarTodayOutlined, NoteAltOutlined } from '@mui/icons-material';
+import Diversity2Icon from '@mui/icons-material/Diversity2';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const settings = ['Profile', 'Account', 'Log Out'];
@@ -102,7 +103,7 @@ function Menubar() {
                   },
                 }}>
                     Patient Management
-                    <ArrowDropDownIcon sx={{ ml: '2px', }} />
+                    <ArrowDropDownIcon sx={{ ml: '3px', }} />
                 </Button>
                     <Menu id="simple-menu" anchorEl={anchorElPatientMgmt} keepMounted 
                     open={Boolean(anchorElPatientMgmt)} onClose={handlePatientMgmtClose}
@@ -110,13 +111,13 @@ function Menubar() {
                         <MenuItem onClick={() => handlePatientMgmtNavigation('/create-patient')}
                         style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', mr: '8px',
                         fontWeight:'bold', borderRadius: "12px", justifyItems:"center" }} > 
-                            <ContactsOutlinedIcon sx={{  mr: '8px', }} />
+                            <ContactsOutlinedIcon sx={{  mr: '10px', }} />
                             Create New Patient
                         </MenuItem>
                         <MenuItem onClick={() => handlePatientMgmtNavigation('/all-patients')}
                         style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', 
                         fontWeight:'bold', borderRadius: "12px" }} > 
-                            <PeopleOutlinedIcon sx={{  mr: '8px', }} />
+                            <PeopleOutlinedIcon sx={{  mr: '10px', }} />
                             View All Patients
                         </MenuItem>
                     </Menu>
@@ -125,7 +126,7 @@ function Menubar() {
                 style={{ color: '#ffffff', width: '10em', height: '2.5em', fontSize:'20px', 
                 fontWeight:'bold', borderRadius: "12px", textTransform: 'none', mr: '80px', }}>
                     Resources
-                    <ArrowDropDownIcon sx={{ ml: '2px', }} />
+                    <ArrowDropDownIcon sx={{ ml: '3px', }} />
                 </Button>
                     <Menu id="simple-menu" anchorEl={anchorElResource} keepMounted 
                     open={Boolean(anchorElResource)} onClose={handleResourceClose}
@@ -133,21 +134,21 @@ function Menubar() {
                         <MenuItem onClick={() => handleResourceNavigation('/manual')}
                         style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', mr: '8px',
                         fontWeight:'bold', borderRadius: "12px", justifyItems:"center" }} > 
-                            <NoteAltOutlined sx={{  mr: '8px', }} />
+                            <NoteAltOutlined sx={{  mr: '10px', }} />
                             Instructional Manual
                         </MenuItem>
                         <MenuItem onClick={() => handleResourceNavigation('/about')}
                         style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', mr: '8px',
                         fontWeight:'bold', borderRadius: "12px", justifyItems:"center" }} > 
-                            <NoteAltOutlined sx={{  mr: '8px', }} />
+                            <Diversity2Icon sx={{  mr: '10px', }} />
                             About Us
                         </MenuItem>
-                        <MenuItem onClick={() => handleResourceNavigation('/calendar')}
+                        {/* <MenuItem onClick={() => handleResourceNavigation('/calendar')}
                         style={{ color: '#ffffff', width: '15em', height: '3em', fontSize:'20px', 
                         fontWeight:'bold', borderRadius: "12px" }} > 
                             <CalendarTodayOutlined sx={{  mr: '8px', }} />
                             Calendar
-                        </MenuItem>
+                        </MenuItem> */}
                     </Menu>
 
             <Box sx={{ flexGrow: 0, m:"0 20px" }}>

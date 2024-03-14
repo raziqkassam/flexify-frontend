@@ -64,11 +64,11 @@ const FAQ = () => {
           four: "Repeat this motion for 10-15 repetitions, or as recommended by your healthcare provider or physical therapist.",
         }}
         rest={{
-          title: "rest",
+          title: "Rest",
           description: "After completing the desired number of repetitions, allow your wrist to rest for a moment before proceeding to the next set.",
         }}
         frequency={{
-          title: "frequency",
+          title: "Frequency",
           description: "Aim to perform these exercises 2-3 times a day initially, gradually increasing frequency as tolerated.",
         }}
         images={{

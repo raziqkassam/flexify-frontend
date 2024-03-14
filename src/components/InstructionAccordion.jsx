@@ -19,7 +19,7 @@ const InstructionAccordion = ({accordion = {}, positioning = {}, exercise = {}, 
         }}
         >
         <AccordionSummary expandIcon={<ExpandMoreIcon sx={{color: "#40ccd9", fontSize:'40px', mr:'50px'}} />}
-        sx={{ margin: "15px", }} >
+        sx={{ margin: "15px 15px 15px 30px", }} >
           <Typography color={"#4f9658"} fontWeight={"bold"} variant="h2">
             {accordion.title}
           </Typography>
