@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography, useTheme, TextField } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
@@ -12,11 +12,6 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { exampleExerciseRating } from "../../data/exerciseInfoData";
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
-import FormField from "../../components/FormField";
-
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import { patientGoals } from "../../data/patientGoals";
 import GoalField from "../../components/GoalField";
 import Subheader from "../../components/Subheader";
 
@@ -27,11 +22,6 @@ const Patient = ({patient}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
-
-  // const patientName = patient.userName;
-  // const defaultGoals = [ { patientName : [  { key : "1", goal : "First goal innit", }, ]}];
-  // const patientObject = patientGoals.find(patient => patient[patientName]);
-  // const realGoals = patientObject == null ? defaultGoals : patientObject[patientName];
 
   const [timeframeButton, setTimeframeButton] = useState(1);
   const [lineData, setLineData] = useState([]);
@@ -100,28 +90,45 @@ const Patient = ({patient}) => {
       const handleClose2 = () => {
         setOpen2(false);
       };
-      useEffect(() => {
-          const savedPatientGoals = localStorage.getItem(`patientGoals_${patient.userName}`);
-          console.log('savedPatientGoals:', savedPatientGoals);
-          
-          if (savedPatientGoals) {
-              setGoals(JSON.parse(savedPatientGoals));
-              setIsGoalSubmitted(true);
-          }
-      }, [patient.userName]);
-
       const [isGoalSubmitted, setIsGoalSubmitted] = useState(false);
-      const handleGoalSubmit = (event) => {
+      useEffect(() => {
+        fetch(`https://flexifybackend.vercel.app/get-goals/?userName=${patient.userName}`)
+          .then(response => response.json())
+          .then(data => {
+            console.log("data", data.result)
+            const userGoals = data.result[0]
+            console.log("one", userGoals.goal1)
+            setGoals([userGoals.goal1, userGoals.goal2, userGoals.goal3]);
+            setIsGoalSubmitted(true);
+          });
+      }, []);
+
+      const handleGoalSubmit = async (event) => {
         event.preventDefault();
         handleClose2();
         setIsGoalSubmitted(true);
         localStorage.setItem(`patientGoals_${patient.userName}`, JSON.stringify(goals));
-
-        // setGoals(goals);
         setOpen(false);
+
+        // Create a new object with the desired structure
+        const dataToSend = {
+          userName: patient.userName,
+          goal1: goals[0] ? goals[0] : '',
+          goal2: goals[1] ? goals[1] : '',
+          goal3: goals[2] ? goals[2] : '',
+      };
         
-        localStorage.setItem(`patientGoals_${patient.userName}`, JSON.stringify(goals));
-        alert(JSON.stringify(goals, null, 2));
+        // Send the goals to the database
+        const uploadGoals = await fetch('https://flexifybackend.vercel.app/upload-goals/', {
+          method: 'POST', // or 'PUT'
+          headers: { 'Content-Type': 'application/json', },
+          body: JSON.stringify(dataToSend),
+        });
+        if (!uploadGoals.ok) { throw new Error(`HTTP error! status: ${uploadGoals.status}`); }
+
+        const data = await uploadGoals.json();
+        console.log(data);
+        alert(JSON.stringify(dataToSend, null, 2));
       };
 
       const patientDataColumns = [

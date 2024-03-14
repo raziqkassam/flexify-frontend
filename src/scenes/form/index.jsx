@@ -30,15 +30,24 @@ const Form = () => {
     const colors = tokens(theme.palette.mode);
     const isRequired = false; // set to true to set parameters for being required (false for testing)
 
-    function handleSubmit(event) {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const patientDetails = {firstName, lastName, userName, email, dateOfBirth, hand, injury, 
                         rehabStart, injuryTime, targets}
+        
+        const uploadUser = await fetch('https://flexifybackend.vercel.app/create-user/', {
+          method: 'POST', // or 'PUT'
+          headers: { 'Content-Type': 'application/json', },
+          body: JSON.stringify(patientDetails),
+        });
+        if (!uploadUser.ok) { throw new Error(`HTTP error! status: ${uploadUser.status}`); }
+
+        const data = await uploadUser.json();
+        console.log(data);
 
         alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
         navigate('/created-patient') // navigate to new page once form is submitted
-        // Add something about sending the data to the backend
-    }
+    };
  
     return (
         <React.Fragment>

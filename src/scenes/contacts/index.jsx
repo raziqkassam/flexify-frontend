@@ -47,7 +47,7 @@ const Contacts = () => {
             fraction: fraction,
           };
         });
-        console.log(rows)
+        // console.log(rows)
         setPatientDataRows(rows);
       });
   }, []);

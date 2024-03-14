@@ -1,9 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Topbar from "./scenes/global/Topbar";
-import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/team";
 import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
 import FAQ from "./scenes/faq";
@@ -22,9 +19,21 @@ import Home from "./scenes/home";
 
 function App() {
   const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
 
-  // Add something about retrieving all patient data from the backend
+  const [usernames, setUsernames] = useState([]);
+  const [patients, setPatients] = useState([]);
+  useEffect(() => {
+    fetch('https://flexifybackend.vercel.app/get-all-patients/')
+      .then(response => response.json())
+      .then(data => {
+        setPatients(data.results);
+        const new_usernames = data.results.map(user => user.userName);
+        setUsernames([...usernames, ...new_usernames]);
+      });
+  }, []);
+
+  console.log("usernames", usernames)
+  console.log("patients", patients)
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -48,7 +57,7 @@ function App() {
           {/* <Sidebar isSidebar={isSidebar} /> */}
           <main className="content" >
             {/* <Topbar setIsSidebar={setIsSidebar} /> */}
-            <Menubar setIsSidebar={setIsSidebar} />
+            <Menubar  />
             <div style={{ padding: '20px 20px 10px 20px' }}>
             <Routes >
               <Route path="/" element={<Home />} />
@@ -64,6 +73,7 @@ function App() {
               <Route path="/about" element={<About />} />
               
               {fullPatientInfo.map((patient, i) => (
+                
                 <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
               ))}
               {fullPatientInfo.map((patient, i) => (
