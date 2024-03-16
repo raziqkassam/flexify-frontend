@@ -118,6 +118,30 @@ export const fullPatientInfo = [
         "M": [ "7",   "5",    "2",    "5" ],
         "W": [ "3",   "3",    "3",    "3" ]
       }, ],
-  }
+  },
+  {
+    id: 6,
+    firstName: "Johnathan",
+    lastName: "Cena",
+    userName: "johncena",
+    email: "john.cena@wwe.com",
+    dateOfBirth: "1977-04-23",
+    hand: "Right",
+    injury: "DRF",
+    injuryTime: "7",
+    rehabStart: "2024-03-01",
+    targets: [ "80", "75", "35", "25" ],
+    peak: [
+      { "A": [ "46", "38", "25", "15" ],
+        "M": [ "42", "37", "22", "15" ],
+        "W": [ "42", "37", "20", "10" ]
+      }, ],
+    progress: "2",
+    increase: [
+      { "A": [ "15",  "11",   "8",   "6" ],
+        "M": [ "10",   "5",   "12",   "1" ],
+        "W": [ "3",   "-1",  "-5",   "-33" ]
+      }, ],
+  },
 ];
 

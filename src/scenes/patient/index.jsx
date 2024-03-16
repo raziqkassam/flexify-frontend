@@ -10,7 +10,6 @@ import { romData } from "../../data/rehabLineData";
 import { DataGrid, GridToolbar, GridRenderCellParams } from "@mui/x-data-grid";
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { exampleExerciseRating } from "../../data/exerciseInfoData";
-import IconButton from '@mui/material/IconButton';
  import MailIcon from '@mui/icons-material/Mail';
 
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -97,11 +96,13 @@ const Patient = ({patient}) => {
         fetch(`https://flexifybackend.vercel.app/get-goals/?userName=${patient.userName}`)
           .then(response => response.json())
           .then(data => {
-            console.log("data", data.result)
-            const userGoals = data.result[0]
-            console.log("one", userGoals.goal1)
-            setGoals([userGoals.goal1, userGoals.goal2, userGoals.goal3]);
-            setIsGoalSubmitted(true);
+              console.log("data", data.result)
+              const userGoals = data.result[0]
+              if (userGoals) {
+                console.log("one", userGoals.goal1)
+                setGoals([userGoals.goal1, userGoals.goal2, userGoals.goal3]);
+                setIsGoalSubmitted(true);
+              }
           });
       }, []);
 
@@ -192,7 +193,7 @@ const Patient = ({patient}) => {
       ]
   
   return (
-    <Box m="20px 30px" pb="50px" >
+    <Box m="20px 30px" p="0 30px 100px 30px" >
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 0px 0" }}>
         <Button
@@ -212,6 +213,7 @@ const Patient = ({patient}) => {
            }} >
              <MailIcon fontSize="50px" sx={{color: colors.blueAccent[500], fontSize:"25px"}} />
          </Button>
+
         <Box m="100px 0 100px 10px">
           <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
         </Box>

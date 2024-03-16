@@ -13,7 +13,6 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material/styles';
 import { tokens } from "../../theme";
 import { useNavigate, Link } from 'react-router-dom';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
@@ -81,16 +80,16 @@ function Menubar() {
 
     return (
         <AppBar position="sticky"
-        style={{ backgroundColor: colors.primary[800], height: '85px',  
+        style={{ backgroundColor: colors.primary[800], height: '100px',  
                 justifyContent: 'center', alignItems: 'center', }}
         >
         <Container maxWidth="xl">
             <Toolbar disableGutters>
-            <Typography variant="h2" fontWeight={'bold'} fontStyle='italic' 
-                color={colors.grey[100]} margin='0 20px'>
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <DirectionsRunIcon sx={{ mr: '2px', }} />
-                    R.O.M.E.T.
+            <Typography fontWeight={'900'}  fontSize={45} letterSpacing={2}
+                color={colors.primary[100]} margin='0 0px' style={{ fontFamily: 'Verdana' }} >
+                <Link to="/home" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src="/assets/logo_white.png" alt="logo" style={{ height: '70px', margin:'0 20px 0 20px' }} />
+                    ROMET
                 </Link>
             </Typography>
 
@@ -174,7 +173,12 @@ function Menubar() {
                 onClose={handleCloseUserMenu}
                 >
                 {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <MenuItem key={setting} onClick={() => { 
+                        handleCloseUserMenu(); 
+                        if (setting === 'Log Out') {
+                            navigate('/'); 
+                        }
+                    }}>
                     <Typography textAlign="center">{setting}</Typography>
                     </MenuItem>
                 ))}

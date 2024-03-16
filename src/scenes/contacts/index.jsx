@@ -159,7 +159,7 @@ const Contacts = () => {
   ];
 
   return (
-    <Box m="40px 60px">
+    <Box m="40px 60px" pb="100px">
       <Header 
           title={"Patient List"} 
           subtitle={

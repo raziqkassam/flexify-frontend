@@ -45,14 +45,14 @@ const Form = () => {
         const data = await uploadUser.json();
         console.log(data);
 
-        alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
+        // alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
         navigate('/created-patient') // navigate to new page once form is submitted
     };
  
     return (
         <React.Fragment>
             
-      <Box m="40px 80px">
+      <Box m="40px 80px" pb="150px">
       <Header title="Add New Patient" subtitle="Create a new detailed Patient Profile by filling out the form below." />
       
             <form onSubmit={handleSubmit} >

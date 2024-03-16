@@ -21,14 +21,14 @@ const Home = () => {
   
   // Get today's date
   const today = new Date();
-  const todayString = today.toDateString(); // Format: Day Month Date Year
-
+  const todayString = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' });
+  
   // Create reference to store the DOM element containing the animation
   const el = useRef(null);
   useEffect(() => {
     if (el && el.current) {
       const typed = new Typed(el.current, {
-        strings: ['Welcome <span style="color: #2c5331;">Physiotherapist</span>!'],
+        strings: [`<span >${todayString}</span>`],
         typeSpeed: 50,
       });
 
@@ -41,131 +41,92 @@ const Home = () => {
 
   return (
     
-    <Box m="10px 30px auto"> 
-    <div style={{ height: '50px' }}></div>
-            
-    <Grid container >
-        <Grid item xs={4} p="20px 50px 20px 30px" 
-        sx={{ color: colors.greenAccent[700], fontSize: '15px', textAlign: 'left', m: "0 0 0px 0",
-        fontWeight: '500', 
-        }}>
-            {/* Left column */}
-            {/* ROMET is a Fifth Year Design Project, built to help improve the experience of completing and 
-            tracking at home rehabilitaiton exercises for both the patient and their physiotherapist. */}
-        </Grid>
-        <Grid item xs={4}>
-            {/* Middle column */}
-            {/* TYPING ANIMATION HEADER */}
-            <Box sx={{ color: colors.greenAccent[900], fontSize: '30px', textAlign: 'center', m: "0 0 20px 0",
-                    fontWeight: '700', 
+    <>
+    <Box
+    style={{ 
+        width: '99vw', height: '90vh', 
+        backgroundImage: `url("/assets/bg1.png")`, 
+        backgroundSize: '110% 110%', backgroundPosition: 'center' 
+    }} >
+        <Box   > 
+        <div style={{ height: '15vh' }}></div>
+                
+        <Grid container p="0 40px">
+            <Grid item xs={7} p="0px 50px 20px 100px" 
+            sx={{ color: colors.greenAccent[700], fontSize: '15px', textAlign: 'left', m: "0 0 0px 0",
+            display: 'flex', flexDirection:'column',  
             }}>
-                <span ref={el} />
-            </Box>
-            <Box
-                sx={{
-                    display: 'flex', // Add this line
-                    justifyContent: 'center', // Add this line
-                }}
-            >
-                <Box p="20px" mt="20px"
-                    sx={{
-                        width: '35em', height: '10em',
-                        display: 'flex', 
-                        flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign:'center',
-                        borderRadius:'12px', backgroundColor:colors.grey[100], color:colors.greenAccent[900],
-                    }}
-                >
-                    <Typography fontSize={50} fontWeight="900" sx={{ color: colors.primary[900] }} >
-                        R.O.M.E.T.
-                    </Typography>
-                    <Typography fontSize={20} fontWeight="900" sx={{ color: colors.primary[600] }} >
-                        Range of Motion Exercise Tracker
-                    </Typography>
+                {/* Left column */}
+                
+                
+                <Typography sx={{ color: colors.primary[900], margin:"0px 0 0px 0",
+                    fontSize:'50px', fontWeight:'800', color: colors.blueAccent[900],
+                    textStroke: '10px #ffffff',
+                }} >
+                    Rehabilitation Tracking.
+                </Typography>
+                <Typography sx={{ color: colors.primary[900], margin:"-10px 0 0px 0",
+                    fontSize:'100px', fontWeight:'800', color: colors.blueAccent[400],
+                    textStroke: '10px #ffffff',
+                }} >
+                    Redesigned.
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', textAlign:'left',
+                            color:colors.blueAccent[900],
+                        }}
+                    >
+                        <Typography fontSize={40} fontWeight="900" sx={{ color: colors.blueAccent[900], margin:"80px 0 0px 0" }} >
+                            Welcome to R.O.M.E.T.
+                        </Typography>
+                        <Typography fontSize={30} fontWeight="900" sx={{ color: colors.blueAccent[900], margin:"-5px 0 40px 0" }} >
+                            Range of Motion Exercise Tracker
+                        </Typography>
+                    </Box>
+            </Grid>
+            
+            <Grid item xs={5} p="0px 0px 0px 0px" 
+            sx={{display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center', }}>
+                {/* Right column */}
+                <img src="/assets/logo_color.png" alt="logo" style={{ height: '250px', margin:'-70px 0px 50px 0px' }} />
+                
+                <Box sx={{ color: colors.blueAccent[900], fontSize: '30px', textAlign: 'left', margin: "30px 0 30px 0",
+                        fontWeight: '700', 
+                }}>
+                    <span ref={el} />
                 </Box>
-            </Box>
+                <Button variant="outlined" 
+                    style={{ backgroundColor: colors.blueAccent[800], color: colors.blueAccent[400],
+                        fontWeight:"550", fontSize:'20px', textTransform: 'none',
+                        height:"50px", borderRadius: "15px", padding: "0 50px"
+                    }} onClick={() => navigate('/all-patients')} >
+                    <PeopleOutlinedIcon sx={{  mr: '8px', }} />
+                    View All Patients
+                </Button>
+                <Button variant="outlined" 
+                    style={{ backgroundColor: colors.blueAccent[400], color: colors.blueAccent[800],
+                        fontWeight:"550", fontSize:'20px', textTransform: 'none',
+                        height:"50px", borderRadius: "15px", padding: "0 50px", margin:"10px"
+                    }} onClick={() => navigate('/create-patient')} >
+                    <ContactsOutlinedIcon sx={{  mr: '8px', }} />
+                    Add New Patient
+                </Button>
+                
+            </Grid>
         </Grid>
-        <Grid item xs={4} p="0px 30px 20px 150px" >
-            {/* Right column */}
-            <LineHeader title="Today's Date:" value={todayString} />
-            <LineHeader title="Total Patient Count:" value="10" />
-            <LineHeader title="Patient's in their Final Week:" value="2" />
-            <LineHeader title="Patient's in their Final Month:" value="4" />
-        </Grid>
-    </Grid>
 
-    {/* BUTTONS */}
-    <Grid container spacing={1} p="60px 180px">
-        <Grid item xs={3} p="0 10px" >
-            <Button
-                variant="outlined"
-                fullWidth
-                style={{
-                    backgroundColor: colors.primary[400],
-                    color: colors.primary[800],
-                    // border: '1px solid #000000', 
-                    fontWeight:"550", fontSize:'20px', textTransform: 'none',
-                    height:"65px",
-                    borderRadius: "12px",
-                    
-                }} onClick={() => navigate('/create-patient')} >
-                <ContactsOutlinedIcon sx={{  mr: '8px', }} />
-                Add New Patient
-            </Button>
-        </Grid>
-        {/* <Grid item xs={1} /> */}
-        <Grid item xs={5} p="0 10px" >
-            <Button
-                variant="outlined"
-                fullWidth
-                style={{
-                    backgroundColor: colors.primary[800],
-                    color: colors.primary[400],
-                    // border: `3px solid ${colors.blueAccent[400]}`, 
-                    fontWeight:"550", fontSize:'20px', textTransform: 'none',
-                    height:"65px",
-                    borderRadius: "12px",
-                }} onClick={() => navigate('/all-patients')} >
-                <PeopleOutlinedIcon sx={{  mr: '8px', }} />
-                View All Patients
-            </Button>
-        </Grid>
-        {/* <Grid item xs={1} /> */}
-        <Grid item xs={2} p="0 10px" >
-            <Button
-                variant="outlined"
-                fullWidth
-                style={{
-                    backgroundColor: colors.primary[400],
-                    color: colors.primary[800],
-                    // border: '1px solid #000000',
-                    fontWeight:"550", fontSize:'20px', textTransform: 'none',
-                    height:"65px",
-                    borderRadius: "12px",
-                }} onClick={() => navigate('/calendar')} >
-                <CalendarTodayOutlined sx={{  mr: '8px', }} />
-                Calendar
-            </Button>
-        </Grid>
-        {/* <Grid item xs={1} /> */}
-        <Grid item xs={2} p="0 10px">
-            <Button
-                variant="outlined"
-                fullWidth
-                style={{
-                    backgroundColor: colors.primary[400],
-                    color: colors.primary[800],
-                    // border: '1px solid #000000',
-                    fontWeight:"550", fontSize:'20px', textTransform: 'none',
-                    height:"65px",
-                    borderRadius: "12px",
-                }} onClick={() => navigate('/manual')} >
-                <NoteAltOutlined sx={{  mr: '8px', }} />
-                Manual
-            </Button>
-        </Grid>
-    </Grid>
-    <div style={{ height: '20px' }}></div>
+        
+        <div style={{ height: '20px' }}></div>
+        </Box>
     </Box>
+    {/* <Box style={{ width: '100vw', height: '100px', backgroundColor: '#6ad7e1' }} />
+        <Box
+        style={{ 
+            width: '99vw', height: '90vh', 
+            backgroundImage: `url("/assets/bg1.png")`, 
+            backgroundSize: '110% 110%', backgroundPosition: 'center' 
+        }} >
+    </Box> */}
+    </>
   );
 };
 

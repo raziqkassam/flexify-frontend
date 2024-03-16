@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Dashboard from "./scenes/dashboard";
 import Contacts from "./scenes/contacts";
 import Form from "./scenes/form";
@@ -35,6 +35,29 @@ function App() {
   console.log("usernames", usernames)
   console.log("patients", patients)
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const Login = () => {
+    const [password, setPassword] = useState('');
+  
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      if (password === 'redhawk') {
+        setIsLoggedIn(true);
+        navigate('/home');
+      } else {
+        alert('Incorrect password');
+      }
+    };
+  
+    return (
+      <form onSubmit={handleSubmit}>
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button type="submit">Log in</button>
+      </form>
+    );
+  };
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -58,27 +81,32 @@ function App() {
           <main className="content" >
             {/* <Topbar setIsSidebar={setIsSidebar} /> */}
             <Menubar  />
-            <div style={{ padding: '20px 20px 10px 20px' }}>
+            <div style={{ padding: '0px 0px 0px 0px' }}>
             <Routes >
-              <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              {/* <Route path="/team" element={<Team />} /> */}
-              <Route path="/all-patients" element={<Contacts />} />
-              <Route path="/create-patient" element={<Form />} />
-              <Route path="/created-patient" element={<Thanks />} />
+            <Route path="/" element={<Login />} />
+            {isLoggedIn && (
+              <>
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  {/* <Route path="/team" element={<Team />} /> */}
+                  <Route path="/all-patients" element={<Contacts />} />
+                  <Route path="/create-patient" element={<Form />} />
+                  <Route path="/created-patient" element={<Thanks />} />
 
-              {/* <Route path="/line" element={<Line />} /> */}
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/manual" element={<FAQ />} />
-              <Route path="/about" element={<About />} />
-              
-              {fullPatientInfo.map((patient, i) => (
-                
-                <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
-              ))}
-              {fullPatientInfo.map((patient, i) => (
-              <Route path={`/${patient.userName}/plan`} element={<Planner patient={patient}/>} />
-              ))}
+                  {/* <Route path="/line" element={<Line />} /> */}
+                  <Route path="/calendar" element={<Calendar />} />
+                  <Route path="/manual" element={<FAQ />} />
+                  <Route path="/about" element={<About />} />
+                  
+                  {fullPatientInfo.map((patient, i) => (
+                    
+                    <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
+                  ))}
+                  {fullPatientInfo.map((patient, i) => (
+                  <Route path={`/${patient.userName}/plan`} element={<Planner patient={patient}/>} />
+                  ))}
+                  </>
+                )}
             </Routes>
             </div>
           </main>
