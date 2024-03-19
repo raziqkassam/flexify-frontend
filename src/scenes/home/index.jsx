@@ -65,20 +65,21 @@ const Home = () => {
                 }} >
                     Rehabilitation Tracking.
                 </Typography>
-                <Typography sx={{ color: colors.primary[900], margin:"-10px 0 0px 0",
+                <Typography sx={{ color: colors.primary[900], margin:"-30px 0 0px 0",
                     fontSize:'100px', fontWeight:'800', color: colors.blueAccent[400],
                     textStroke: '10px #ffffff',
                 }} >
                     Redesigned.
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', textAlign:'left',
-                            color:colors.blueAccent[900],
+                            color:colors.blueAccent[900], backgroundColor: colors.grey[100],
+                            margin:"50px 0 0px -300px", padding:"20px", borderRadius:"35px",
                         }}
                     >
-                        <Typography fontSize={40} fontWeight="900" sx={{ color: colors.blueAccent[900], margin:"80px 0 0px 0" }} >
+                        <Typography fontSize={45} fontWeight="900" sx={{ color: colors.blueAccent[900], margin:"50px 0 0px 300px" }} >
                             Welcome to R.O.M.E.T.
                         </Typography>
-                        <Typography fontSize={30} fontWeight="900" sx={{ color: colors.blueAccent[900], margin:"-5px 0 40px 0" }} >
+                        <Typography fontSize={30} fontWeight="900" sx={{ color: colors.blueAccent[900], margin:"-5px 0 40px 300px" }} >
                             Range of Motion Exercise Tracker
                         </Typography>
                     </Box>
@@ -118,14 +119,15 @@ const Home = () => {
         <div style={{ height: '20px' }}></div>
         </Box>
     </Box>
-    {/* <Box style={{ width: '100vw', height: '100px', backgroundColor: '#6ad7e1' }} />
-        <Box
-        style={{ 
-            width: '99vw', height: '90vh', 
-            backgroundImage: `url("/assets/bg1.png")`, 
-            backgroundSize: '110% 110%', backgroundPosition: 'center' 
-        }} >
-    </Box> */}
+    <Box style={{ width: '100vw', height: '100px', backgroundColor: '#6ad7e1' }} />
+    <Box
+    style={{ 
+        width: '99vw', height: '90vh', 
+        backgroundImage: `url("/assets/bg1.png")`, 
+        backgroundSize: '110% 110%', backgroundPosition: 'center' 
+    }} >
+        
+    </Box>
     </>
   );
 };

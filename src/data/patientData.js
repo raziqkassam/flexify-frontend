@@ -121,7 +121,7 @@ export const fullPatientInfo = [
   },
   {
     id: 6,
-    firstName: "Johnathan",
+    firstName: "John",
     lastName: "Cena",
     userName: "johncena",
     email: "john.cena@wwe.com",

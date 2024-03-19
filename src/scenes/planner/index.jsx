@@ -145,15 +145,15 @@ const Planner = ({patient}) => {
     return (
     <React.Fragment>
             
-      <Box m="20px 60px">
+      <Box m="50px 60px">
         {/* HEADER */}
         <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 -5px 0" }}>
             <Button
             onClick={() => navigate(`/${patient.userName}`)}
             type="submit" color="secondary" variant="outlined"
-            style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '50px', top: '110px', 
+            style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '60px', top: '140px', 
             width: '16em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
-            }}  >
+          }} >
             <ArrowLeftIcon />
             View Patient Dashboard
             </Button>

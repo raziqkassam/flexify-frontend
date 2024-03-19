@@ -87,7 +87,7 @@ function Menubar() {
             <Toolbar disableGutters>
             <Typography fontWeight={'900'}  fontSize={45} letterSpacing={2}
                 color={colors.primary[100]} margin='0 0px' style={{ fontFamily: 'Verdana' }} >
-                <Link to="/home" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img src="/assets/logo_white.png" alt="logo" style={{ height: '70px', margin:'0 20px 0 20px' }} />
                     ROMET
                 </Link>

@@ -23,6 +23,10 @@ const Form = () => {
     const [injuryTime, setInjuryTime] = useState('')
 
     const [targets, setTargets] = useState(['73','71','33','19']); // initialized targets
+    // const [wfTarget, setWfTarget] = useState('73');
+    // const [weTarget, setWeTarget] = useState('71');
+    // const [udTarget, setUdTarget] = useState('33');
+    // const [rdTarget, setRdTarget] = useState('19');
 
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate(); // Get the history object
@@ -32,8 +36,13 @@ const Form = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const patientDetails = {firstName, lastName, userName, email, dateOfBirth, hand, injury, 
-                        rehabStart, injuryTime, targets}
+        const targetWristExtension = targets[0];
+        const targetWristFlexion = targets[1];
+        const targetUlnarDeviation = targets[2];
+        const targetRadialDeviation = targets[3];
+
+        const patientDetails = {firstName, lastName, userName, email, dateOfBirth, hand, injury, rehabStart, injuryTime, 
+                        targetWristExtension, targetWristFlexion, targetUlnarDeviation, targetRadialDeviation};
         
         const uploadUser = await fetch('https://flexifybackend.vercel.app/create-user/', {
           method: 'POST', // or 'PUT'
@@ -45,7 +54,7 @@ const Form = () => {
         const data = await uploadUser.json();
         console.log(data);
 
-        // alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
+        alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
         navigate('/created-patient') // navigate to new page once form is submitted
     };
  
@@ -186,7 +195,7 @@ const Form = () => {
                 {exerciseInfo.map((exercise, i) => (
                   <Box display="flex" justifyContent="center" mt="10px"  marginTop="-20px" 
                   style={{ color: colors.greenAccent[800] }} >
-                    {exercise.title}
+                    <b>{exercise.title}</b>
                   </Box>
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" sx={{gridColumn: "span 4" }}>
