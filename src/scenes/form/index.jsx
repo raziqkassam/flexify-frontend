@@ -36,10 +36,10 @@ const Form = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const targetWristExtension = targets[0];
-        const targetWristFlexion = targets[1];
-        const targetUlnarDeviation = targets[2];
-        const targetRadialDeviation = targets[3];
+        const targetWristExtension = parseInt(targets[0]);
+        const targetWristFlexion = parseInt(targets[1]);
+        const targetUlnarDeviation = parseInt(targets[2]);
+        const targetRadialDeviation = parseInt(targets[3]);
 
         const patientDetails = {firstName, lastName, userName, email, dateOfBirth, hand, injury, rehabStart, injuryTime, 
                         targetWristExtension, targetWristFlexion, targetUlnarDeviation, targetRadialDeviation};
@@ -160,7 +160,7 @@ const Form = () => {
                     label="Expected Injury Duration (weeks)"
                     type="number"
                     inputProps={{min: 0, max: 52, style: { textAlign: 'center', fontSize:'20px' }}}
-                    onChange={e => setInjuryTime(e.target.value)}
+                    onChange={e => setInjuryTime(parseInt(e.target.value) || 0)}
                     sx={{
                       "input::-webkit-outer-spin-button, input::-webkit-inner-spin-button": {
                         WebkitAppearance: "none",

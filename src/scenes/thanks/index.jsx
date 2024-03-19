@@ -16,8 +16,8 @@ const Thanks = () => {
       <Box display="flex" flexDirection="column" alignItems="center" m="40px 0">
         {/* Button to navigate back to the form page */}
         <Button color="secondary" variant="contained" onClick={() => navigate("/all-patients")} 
-        style={{ marginBottom: '30px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
-        width: '25em', height: '3em', fontSize:'15px', fontWeight:'bold', 
+        style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
+        width: '25em', height: '3em', fontSize:'15px', fontWeight:'bold', borderRadius: "18px",
         }}>
           View All Patients
         </Button >
@@ -25,8 +25,8 @@ const Thanks = () => {
         <Box mt="10px">
           {/* Button to navigate to the "View All Patients" page */}
           <Button type="button" color="secondary" variant="contained" onClick={() => navigate("/create-patient")}
-          style={{ marginBottom: '30px', backgroundColor: colors.blueAccent[900], color: colors.blueAccent[400], boxShadow: 'none',
-          width: '25em', height: '3em', fontSize:'15px', fontWeight:'bold', 
+          style={{ marginBottom: '30px', backgroundColor: colors.blueAccent[800], color: colors.blueAccent[400], boxShadow: 'none',
+          width: '25em', height: '3em', fontSize:'15px', fontWeight:'bold', borderRadius: "18px",
           }}>
             Add Another Patient
           </Button>

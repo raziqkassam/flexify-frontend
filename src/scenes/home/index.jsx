@@ -119,7 +119,7 @@ const Home = () => {
         <div style={{ height: '20px' }}></div>
         </Box>
     </Box>
-    <Box style={{ width: '100vw', height: '100px', backgroundColor: '#6ad7e1' }} />
+    <Box style={{ width: '99vw', height: '100px', backgroundColor: '#6ad7e1' }} />
     <Box
     style={{ 
         width: '99vw', height: '90vh', 

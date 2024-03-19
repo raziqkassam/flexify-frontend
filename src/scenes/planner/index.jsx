@@ -114,8 +114,14 @@ const Planner = ({patient}) => {
                 if (day === 'Thrice') return 3;
                 return 0; // default value if none of the above
             })),
-            sets: sets,
-            reps: reps,
+            sets: sets.map(set => {
+                const setNumber = parseInt(set);
+                return isNaN(setNumber) ? 0 : setNumber;
+            }),
+            reps: reps.map(rep => {
+                const repNumber = parseInt(rep);
+                return isNaN(repNumber) ? 0 : repNumber;
+            }),
         };
         console.log(JSON.stringify(reps));
         console.log(JSON.stringify(sets));

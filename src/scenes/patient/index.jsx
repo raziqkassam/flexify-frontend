@@ -126,30 +126,6 @@ const Patient = ({patient}) => {
           goal2: goals[1] ? goals[1] : '',
           goal3: goals[2] ? goals[2] : '',
         };
-        
-        try {
-          // Send the goals to the server
-          const response = await fetch('https://flexifybackend.vercel.app/upload-goals/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataToSend),
-          });
-      
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-      
-          const data = await response.json();
-          console.log(data);
-          // Indicate that the goals were successfully saved
-          setIsGoalSubmitted(true);
-        } catch (error) {
-          // Handle errors gracefully
-          console.error('Error saving goals:', error.message);
-          // Display an error message to the user
-          alert('Failed to save goals. Please try again later.');
-        //}
-        };
       
         // Send the goals to the database
         const uploadGoals = await fetch('https://flexifybackend.vercel.app/upload-goals/', {
@@ -161,7 +137,7 @@ const Patient = ({patient}) => {
 
         const data = await uploadGoals.json();
         console.log(data);
-        //alert(JSON.stringify(dataToSend, null, 2));
+        alert(JSON.stringify(dataToSend, null, 2));
       };
 
       const patientDataColumns = [

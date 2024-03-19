@@ -12,7 +12,7 @@ const FAQ = () => {
   const ulnarDeviationGif = "/assets/Ulnar Deviation.gif"; // Path to ulnar deviation GIF
 
   return (
-    <Box m="30px 80px 200px 80px">
+    <Box m="30px 80px 200px 80px" p="30px 0px 200px" >
       <Header title="Instructional Manual" 
       subtitle="Quick tips to help with instructing the exercise form is best for the motion tracking model" 
       sx={{margin:"0px 0 0px 0"}}/>

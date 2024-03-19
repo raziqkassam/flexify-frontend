@@ -75,9 +75,12 @@ function App() {
                   
                   
                   
-                {fullPatientInfo.map((patient, i) => (
+                  {fullPatientInfo.map((patient, i) => (
                     <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
                   ))}
+                  {/* {patients.map((patient, i) => (
+                    <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
+                  ))} */}
                   {fullPatientInfo.map((patient, i) => (
                   <Route path={`/${patient.userName}/plan`} element={<Planner patient={patient}/>} />
                   ))}
