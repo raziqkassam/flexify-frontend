@@ -153,7 +153,20 @@ function Menubar() {
             <Box sx={{ flexGrow: 0, m:"0 20px" }}>
                 <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="John Cena" src="../../assets/user.png" />
+                    <Box
+                        sx={{
+                            backgroundColor: colors.grey[200], // white background color
+                            borderRadius: '50%', // ensures it's a circle
+                            //padding: '2px', // padding for the Avatar
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '40px', // adjust the size of the Avatar
+                            height: '40px', // adjust the size of the Avatar
+                        }}
+                    >
+                        <Avatar alt="John Cena" src="../../assets/logo_color.png" sx={{ width: '100%', height: 'auto' }}  />
+                    </Box>
                 </IconButton>
                 </Tooltip>
                 <Menu
