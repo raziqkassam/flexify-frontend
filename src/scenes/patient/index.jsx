@@ -109,7 +109,6 @@ const Patient = ({patient}) => {
       const handleGoalSubmit = async (event) => {
         event.preventDefault();
         handleClose2();
-        //setIsGoalSubmitted(true);
         // Check if any goals are set
         if (!goals.some(goal => goal.trim() !== '')) {
           setGoals(['', '', '']); // Clear the goals area
@@ -301,7 +300,7 @@ const Patient = ({patient}) => {
           
           {isGoalSubmitted && (goals[0] || goals[1] || goals[2] ) && (
             <Box sx={{ marginTop:'-255px', position:'absolute', width:'26em', right:'330px'}}>
-              <Typography sx={{color:colors.blueAccent[700], fontSize:'25px', fontWeight:'700'}}>
+              <Typography sx={{color:colors.blueAccent[800], fontSize:'25px', fontWeight:'700'}}>
                 Rehab Goals:
               </Typography>
               {goals.map((goal, index) => (
@@ -432,8 +431,6 @@ const Patient = ({patient}) => {
             />
             </Box>
           </Box>
-          
-          
 
         </Box>
 

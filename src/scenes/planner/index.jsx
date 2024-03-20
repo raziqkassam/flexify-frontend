@@ -37,26 +37,43 @@ const Planner = ({patient}) => {
     const [reps, setReps] = useState(Array(weeks.length).fill(''));
     
     const lastSubmit = localStorage.getItem(`lastSubmit_${patient.userName}`);
+    
+    const [isSaved, setIsSaved] = useState(false);
 
     // Load saved selections and checkbox states from localStorage when component mounts
     useEffect(() => {
-        const savedRehabWeeks = localStorage.getItem(`rehabWeeks_${patient.userName}`);
+        fetch(`https://flexifybackend.vercel.app/get-patient-plan/?userName=${patient.userName}`)
+          .then(response => response.json())
+          .then(data => {
+              console.log("data", data.result)
+              const userPlan = data.result[0]
+              if (userPlan) {
+                console.log("one", userPlan.rehabWeeks)
+                setRehabWeeks(userPlan.rehabWeeks.map(week => week.map(day => {
+                    switch(day) {
+                      case 1:
+                        return "Once";
+                      case 2:
+                        return "Twice";
+                      case 3:
+                        return "Thrice";
+                      default:
+                        return "None";
+                    }
+                })));
+                console.log("rw", rehabWeeks)
+                setSets(userPlan.sets);
+                setReps(userPlan.reps);
+              }
+          });
+
         const savedCheckboxes = localStorage.getItem(`checkboxes_${patient.userName}`);
-        const savedReps = localStorage.getItem(`reps_${patient.userName}`);
-        const savedSets = localStorage.getItem(`sets_${patient.userName}`);
-        if (savedRehabWeeks) {
-            setRehabWeeks(JSON.parse(savedRehabWeeks));
-        }
         if (savedCheckboxes) {
             setCheckboxes(JSON.parse(savedCheckboxes));
         }
-        if (savedReps) {
-            setReps(JSON.parse(savedReps));
-        }
-        if (savedSets) {
-            setSets(JSON.parse(savedSets));
-        }
+
     }, [patient.userName]);
+
     useEffect(() => {
         setCheckboxes(rehabWeeks.map(week => {
             const uniqueValues = [...new Set(week)];
@@ -68,6 +85,7 @@ const Planner = ({patient}) => {
     }, [rehabWeeks]);
 
     const handleSelectChange = (weekIndex, dayIndex, newValue) => {
+        setIsSaved(true);
         setRehabWeeks(prevRehabWeeks => {
             const newRehabWeeks = [...prevRehabWeeks];
             newRehabWeeks[weekIndex][dayIndex] = newValue;
@@ -76,6 +94,7 @@ const Planner = ({patient}) => {
     };
 
     const handleWeekChange = (weekIndex, checked, frequency) => {
+        setIsSaved(true);
         setRehabWeeks(prevRehabWeeks => {
             const newRehabWeeks = [...prevRehabWeeks];
             newRehabWeeks[weekIndex] = newRehabWeeks[weekIndex].map(() => checked ? frequency : '');
@@ -89,6 +108,7 @@ const Planner = ({patient}) => {
     };
     
     const handleRepChange = (weekIndex, newValue) => {
+        setIsSaved(true);
         setReps(prevReps => {
             const newReps = [...prevReps];
             newReps[weekIndex] = newValue;
@@ -96,7 +116,7 @@ const Planner = ({patient}) => {
         });
     };
     const handleSetChange = (weekIndex, newValue) => {
-
+        setIsSaved(true);
         setSets(prevSets => {
             const newSets = [...prevSets];
             newSets[weekIndex] = newValue;
@@ -104,10 +124,11 @@ const Planner = ({patient}) => {
         });
     };
 
-    function handleSubmit(event) {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const values = {
+        const dataToSend = {
+            userName: patient.userName,
             rehabWeeks: rehabWeeks.map(week => week.map(day => {
                 if (day === 'Once') return 1;
                 if (day === 'Twice') return 2;
@@ -133,7 +154,18 @@ const Planner = ({patient}) => {
         localStorage.setItem(`reps_${patient.userName}`, JSON.stringify(reps));
         localStorage.setItem(`sets_${patient.userName}`, JSON.stringify(sets));
         
-        alert(JSON.stringify(values, null, 2)); // make a popup to show all the inputted data
+        // Send the patient plan to the database
+        const uploadPlan = await fetch('https://flexifybackend.vercel.app/upload-patient-plan/', {
+          method: 'POST', // or 'PUT'
+          headers: { 'Content-Type': 'application/json', },
+          body: JSON.stringify(dataToSend),
+        });
+        if (!uploadPlan.ok) { throw new Error(`HTTP error! status: ${uploadPlan.status}`); }
+
+        const data = await uploadPlan.json();
+        // console.log(data);
+
+        alert(JSON.stringify(dataToSend, null, 2)); // make a popup to show all the inputted data
         navigate(`/${patient.userName}`) 
     }
 
@@ -146,7 +178,7 @@ const Planner = ({patient}) => {
         localStorage.removeItem(`sets_${patient.userName}`);
         alert(JSON.stringify("Patient Schedule has been RESET for this User", null, 2)); // make a popup to show all the inputted data
         navigate(`/${patient.userName}`) 
-      }
+    }
  
     return (
     <React.Fragment>
@@ -184,9 +216,11 @@ const Planner = ({patient}) => {
                 <Box display="flex" justifyContent="center" sx={{margin:"30px 0 -20px 0"}}>
                     <Button
                         onClick={handleSubmit} 
-                        type="submit" color="secondary" variant="contained" fullWidth
-                        style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
-                        width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
+                        type="submit" color="secondary" variant="contained" fullWidth disabled={!isSaved}
+                        style={{ marginBottom: '10px', width: '15em', height: '2.5em', fontSize:'15px', 
+                        fontWeight:'bold', borderRadius: "12px", boxShadow: 'none',
+                        backgroundColor: colors.blueAccent[400], // backgroundColor: !isSaved ? colors.grey[200] : colors.blueAccent[400],  
+                        color: colors.blueAccent[900], // color: !isSaved ? colors.grey[100] : colors.blueAccent[900], 
                         }}
                     >
                     Save Patient Plan
@@ -340,9 +374,12 @@ const Planner = ({patient}) => {
                 ))}
                 <Box display="flex" justifyContent="center" mt="10px" 
                 sx={{gridColumn: "span 8", margin:"30px 0 80px 280px"}}>
-                  <Button type="submit" color="secondary" variant="contained" 
-                  style={{ marginBottom: '10px', backgroundColor: colors.blueAccent[400], color: colors.blueAccent[900], boxShadow: 'none',
-                  width: '40em', height: '3em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px", }}>
+                  <Button type="submit" color="secondary" variant="contained" disabled={!isSaved}
+                    style={{ marginBottom: '10px', boxShadow: 'none',
+                    width: '40em', height: '3em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px", 
+                    backgroundColor: !isSaved ? colors.grey[200] : colors.blueAccent[400],  
+                    color: !isSaved ? colors.grey[100] : colors.blueAccent[900],
+                    }}>
                     Save Patient Plan
                   </Button>
                 </Box>
