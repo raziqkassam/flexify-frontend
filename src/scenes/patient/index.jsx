@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme, Grid } from "@mui/material";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
@@ -15,55 +15,105 @@ import { exampleExerciseRating } from "../../data/exerciseInfoData";
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import GoalField from "../../components/GoalField";
 import Subheader from "../../components/Subheader";
+import { set } from "mongoose";
 
 
 const exercises = [ "Wrist Flexion", "Wrist Extension",  "Ulnar Deviation", "Radial Deviation", ];
 
-const Patient = ({patient}) => {
+const Patient = ({username}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
   const [timeframeButton, setTimeframeButton] = useState(1);
+  
+  const [lineGraphButton, setLineGraphButton] = useState(1);
+  const [lineLegend, setLineLegend] = useState(true);
   const [lineData, setLineData] = useState([]);
 
+  const [injuryTime, setInjuryTime] = useState(0);
+  const [injury, setInjury] = useState('None');
+  const [dob, setDob] = useState('01-01-2000'); 
+  const [email, setEmail] = useState('test@test.com'); 
+  const [rehabStart, setRehabStart] = useState('01-01-2024');
+  const [currentWeek, setCurrentWeek] = useState(0); 
+  const [hand, setHand] = useState('None');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  const [peaks, setPeaks] = useState([10,10,10,10]); // changes as the timeframe changes
+  const [allPeaks, setAllPeaks] = useState([[1,2,3,4], [5,6,7,8], [9,10,11,12]]);
+  const [increases, setIncreases] = useState([0,0,0,0]); // changes as the timeframe changes
+  const [allIncreases, setAllIncreases] = useState([[1,2,3,4], [5,6,7,8], [9,10,11,12]]);
+  
+  const [targets, setTargets] = useState([0,0,0,0]); 
+
+  useEffect(() => {
+      fetch(`https://flexifybackend.vercel.app/get-dashboard-data-web/?userName=${username}`)
+        .then(response => response.json() )
+        .then(data => {
+          console.log("data", data.result)
+
+          setInjuryTime(data.result.injuryTime);
+          setRehabStart(data.result.rehabStart);
+          setCurrentWeek(data.result.currentWeek);
+          setHand(data.result.hand);
+          setFirstName(data.result.firstName);
+          setLastName(data.result.lastName);
+          setInjury(data.result.injury);
+          setDob(data.result.dateOfBirth); 
+          setEmail(data.result.email); 
+          setTargets([data.result.targetWristFlexion, data.result.targetWristExtension, 
+                      data.result.targetUlnarDeviation, data.result.targetRadialDeviation]);
+
+          // peaks
+          const alltimePeaks = [data.result.maxWristFlexion, data.result.maxWristExtension, 
+                            data.result.maxUlnarDeviation, data.result.maxRadialDeviation];
+          const monthPeaks = [10, 10, 10, 10];
+          const weekPeaks = [0, 0, 0, 0];
+          setAllPeaks([alltimePeaks, monthPeaks, weekPeaks]);
+
+          // increases
+          
+        })
+  }, []);
+
   const allTimeLineData = romData.map(item => ({
-    ...item, data: item.data.slice(0, patient.injuryTime) }));
+    ...item, data: item.data.slice(0, injuryTime) }));
   
   const lastMonthLineData = romData.map(item => ({
-    ...item, data: item.data.slice(patient.injuryTime-5, patient.injuryTime) }));
+    ...item, data: item.data.slice(injuryTime-5, injuryTime) }));
 
   const lastWeekLineData = romData.map(item => ({
-    ...item, data: item.data.slice(patient.injuryTime-2, patient.injuryTime) }));  
+    ...item, data: item.data.slice(injuryTime-2, injuryTime) }));  
   
   const [timePeriod, setTimePeriod] = useState("All Time");
-  const [increase, setIncrease] = useState([]);
-  const [peak, setPeak] = useState([]);
+  
   useEffect(() => {
     switch (timeframeButton) {
       case 1:
         setLineData(allTimeLineData);
         setTimePeriod("All Time");
-        setIncrease(patient.increase[0].A);
-        setPeak(patient.peak[0].A);
+        setIncreases(allIncreases[0]);
+        setPeaks(allPeaks[0]);
         break;
       case 2:
         setLineData(lastMonthLineData);
         setTimePeriod("the Last Month");
-        setIncrease(patient.increase[0].M);
-        setPeak(patient.peak[0].M);
+        setIncreases(allIncreases[1]);
+        setPeaks(allPeaks[1]);
         break;
       case 3:
         setLineData(lastWeekLineData);
         setTimePeriod("the Last Week");
-        setIncrease(patient.increase[0].W);
-        setPeak(patient.peak[0].W);
+        setIncreases(allIncreases[2]);
+        setPeaks(allPeaks[2]);
         break;
       default:
         setLineData(allTimeLineData);
     }
   }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData, 
-      timePeriod, patient.increase, patient.peak]);
+      timePeriod, allIncreases, allPeaks]);
 
       const [open, setOpen] = useState(false);
       const [dialogContent, setDialogContent] = useState(''); // for clicking to expand notes section
@@ -93,13 +143,11 @@ const Patient = ({patient}) => {
       };
       const [isGoalSubmitted, setIsGoalSubmitted] = useState(false);
       useEffect(() => {
-        fetch(`https://flexifybackend.vercel.app/get-goals/?userName=${patient.userName}`)
+        fetch(`https://flexifybackend.vercel.app/get-goals/?userName=${username}`)
           .then(response => response.json())
           .then(data => {
-              console.log("data", data.result)
               const userGoals = data.result[0]
               if (userGoals) {
-                console.log("one", userGoals.goal1)
                 setGoals([userGoals.goal1, userGoals.goal2, userGoals.goal3]);
                 setIsGoalSubmitted(true);
               }
@@ -115,12 +163,11 @@ const Patient = ({patient}) => {
           setIsGoalSubmitted(true); // Mark as submitted
           return; // Exit the function
         }
-        localStorage.setItem(`patientGoals_${patient.userName}`, JSON.stringify(goals));
         setOpen(false);
 
         // Create a new object with the desired structure
         const dataToSend = {
-          userName: patient.userName,
+          userName: username,
           goal1: goals[0] ? goals[0] : '',
           goal2: goals[1] ? goals[1] : '',
           goal3: goals[2] ? goals[2] : '',
@@ -135,7 +182,6 @@ const Patient = ({patient}) => {
         if (!uploadGoals.ok) { throw new Error(`HTTP error! status: ${uploadGoals.status}`); }
 
         const data = await uploadGoals.json();
-        console.log(data);
         alert(JSON.stringify(dataToSend, null, 2));
       };
 
@@ -157,7 +203,7 @@ const Patient = ({patient}) => {
           field: "exerciseName",
           headerName: "Exercise",
           headerAlign: "center",
-          flex: 1,
+          flex: 1.5,
           fontWeight: "heavy",
         },
         {
@@ -196,6 +242,81 @@ const Patient = ({patient}) => {
           ),
         },
       ]
+      
+      const [exerciseDataRows, setExerciseDataRows] = useState([]);
+      useEffect(() => {
+        fetch(`https://flexifybackend.vercel.app/get-completed-exercises/?userName=${username}`)
+          .then(response => response.json())
+          .then(data => {
+            const rows = data.result
+              .filter(exercise => exercise.isCompleted)
+              .map((exercise, index) => {
+                console.log("e", exercise);
+                return {
+                  id: index,
+                  completionDate: exercise.date,
+                  exerciseName: exercise.exerciseName,
+                  maxAngle: exercise.maxAngle,
+                  pain: exercise.painRating,
+                  difficulty: exercise.difficultyRating,
+                  notes: exercise.notes === "Write any notes here" ? "N/A" : exercise.notes,
+                };
+              });
+            console.log(rows)
+            setExerciseDataRows(rows);
+          });
+      }, []);
+
+      const [exerciseDataLines, setExerciseDataLines] = useState([]);
+      const [exertionDataLines, setExertionDataLines] = useState([]);
+      const colorMapping = {
+        'Pain': '#3f6344', 
+        'Difficulty': '#26b2bf', 
+        'Radial Deviation': '#3da58a', 
+        'Ulnar Deviation': '#69b071', 
+        'Wrist Extension': '#1e8b95', 
+        'Wrist Flexion': '#1e5345' 
+      };
+      useEffect(() => {
+        fetch(`https://flexifybackend.vercel.app/get-exercise-data/?userName=${username}`)
+          .then(response => response.json())
+          .then(data => {
+            const exertionKeys = ['painArray', 'difficultyArray'];
+            const exertionIDs = ['Pain', 'Difficulty']; // replace with your desired IDs
+            const exerciseKeys = ['maxRadialDeviationArray', 'maxUlnarDeviationArray', 'maxWristExtensionArray', 'maxWristFlexionArray'];
+            const exerciseIDs = ['Radial Deviation', 'Ulnar Deviation', 'Wrist Extension', 'Wrist Flexion']; // replace with your desired IDs
+            
+            const exertionLines = exertionKeys.map((key, index) => {
+              const color = colorMapping[exertionIDs[index]]; // get color from mapping
+              return {
+                id: exertionIDs[index],
+                color: color,
+                data: data.result[key].map((value, index) => {
+                  return {
+                    x: index+1,
+                    y: value,
+                  };
+                }),
+              };
+            });
+            setExertionDataLines(exertionLines);
+
+            const exerciseLines = exerciseKeys.map((key, index) => {
+              const color = colorMapping[exerciseIDs[index]]; // get color from mapping
+              return {
+                id: exerciseIDs[index],
+                color: color,
+                data: data.result[key].map((value, index) => {
+                  return {
+                    x: index+1,
+                    y: value,
+                  };
+                }),
+              };
+            });
+            setExerciseDataLines(exerciseLines);
+          });
+      }, []);
   
   return (
     <Box m="20px 30px" p="0 30px 100px 30px" >
@@ -211,7 +332,7 @@ const Patient = ({patient}) => {
           View All Patients
         </Button>
         <Button
-           onClick={() => window.location.href = `mailto:${patient.email}`}
+           onClick={() => window.location.href = `mailto:${email}`}
            type="submit" color="secondary" variant="outlined"
            style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '285px', top: '140px', 
              width: '2em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
@@ -220,18 +341,18 @@ const Patient = ({patient}) => {
          </Button>
 
         <Box m="100px 0 100px 10px">
-          <Header title={`${patient.firstName} ${patient.lastName}`} subtitle={`Summary of ${patient.firstName}'s Rehab Progress`} />
+          <Header title={`${firstName} ${lastName}`} subtitle={`Summary of ${firstName}'s Rehab Progress`} />
         </Box>
         
         <Box mb="20px" justifyItems={"right"}>
-          <LineHeader title="Injured Hand: " value={patient.hand} />
-          <LineHeader title="Date of Birth: " value={patient.dateOfBirth} />
-          <LineHeader title="Injury: " value={patient.injury} />
-          <LineHeader title="Rehab Start Date: " value={`${patient.rehabStart}`} />
-          <LineHeader title="Progress: " value={`${patient.progress} / ${patient.injuryTime} Weeks`} />
+          <LineHeader title="Injured Hand: " value={hand} />
+          <LineHeader title="Date of Birth: " value={dob} />
+          <LineHeader title="Injury: " value={injury} />
+          <LineHeader title="Rehab Start Date: " value={`${rehabStart}`} />
+          <LineHeader title="Progress: " value={`${currentWeek} / ${injuryTime} Weeks`} />
           <Box sx={{textAlign: "center", m: "20px 0 0 0", }} >
             <Button
-                onClick={() => navigate(`/${patient.userName}/plan`)}
+                onClick={() => navigate(`/${username}/plan`)}
                 color="secondary" variant="contained" fullWidth type="submit"
                 style={{ backgroundColor: colors.blueAccent[400],  color: colors.blueAccent[900], boxShadow: 'none',
                 width: '15em', height: '2.5em', fontSize:'15px', fontWeight:'bold', borderRadius: "12px",
@@ -384,22 +505,45 @@ const Patient = ({patient}) => {
           >
             <ROMBox 
               exerciseName={exercise}
-              targetAngle={patient.targets[i]}
-              maxAngle={peak[i]}
-              increase={increase[i]} 
+              targetAngle={targets[i]}
+              maxAngle={peaks[i]}
+              increase={increases[i]} 
               timePeriod={timePeriod}
               subtitle="Rehabilitation Exercise Progress" 
             />
+            
           </Box>
         ))}
-
+          
           {/* ROW 2 */}
+          <Grid container spacing={3} direction={"row"} mt="50px" gridColumn="span 9">
+          <Grid item xs={2}>
+            <Button variant="outlined" flex="none" mt="5px"
+              style={{
+                backgroundColor:lineGraphButton === 1 ? colors.blueAccent[400] : colors.grey[100],
+                color: colors.blueAccent[900], fontWeight:"550", fontSize:'12',
+                width:"150px", height:"40px", borderRadius: "12px", 
+              }}
+              onClick={() => setLineGraphButton(1)}
+            > EXERCISE ROM</Button>
+            </Grid>
+            <Grid item xs={2}>
+              <Button 
+              style={{
+                backgroundColor:lineGraphButton === 2 ? colors.blueAccent[400] : colors.grey[100],
+                color: colors.blueAccent[900], fontWeight:"550", fontSize:'12',
+                width:"150px", height:"40px", borderRadius: "12px", marginLeft:"-10px",
+              }}
+              onClick={() => setLineGraphButton(2)}
+            > EXERTION RATINGS</Button>
+            </Grid>
+          </Grid>
           <Box
             gridColumn="span 12"
             gridRow="span 3"
             backgroundColor={colors.grey[100]}
             borderRadius={5}
-            mt="20px"
+            mt="10px"
           >
             <Box
               mt="25px"
@@ -409,26 +553,22 @@ const Patient = ({patient}) => {
               alignItems="center"
             >
               <Box>
-                <Typography
-                  variant="h5"
-                  fontWeight="600"
-                  color={colors.primary[700]}
-                >
+                <Typography variant="h5" fontWeight="600" color={colors.primary[700]} >
                   Range of Motion Improvement
                 </Typography>
-                <Typography
-                  variant="h3"
-                  fontWeight="bold"
-                  color={colors.primary[900]}
+                <Typography variant="h3" fontWeight="bold" color={colors.primary[900]}
                 >
                   Total Rehabilitation Exercise Progress
                 </Typography>
               </Box>
             </Box>
-            <Box height="550px" m="20px 0 20px 0" p="0 30px">
-              <LineChart isDashboard={true} 
-              data={lineData}
-            />
+            
+            <Box height="550px" m="20px 0 20px 0" p="0 10px 0 30px">
+              <LineChart 
+                data={lineGraphButton === 1 ? exerciseDataLines : exertionDataLines}
+                // xAxisLegend={lineGraphButton === 1 ? 'Time' : 'Exertion X Legend'}
+                yAxisLegend={lineGraphButton === 1 ? 'Degrees' : 'Likert Scale'}
+              />
             </Box>
           </Box>
 
@@ -482,7 +622,7 @@ const Patient = ({patient}) => {
             }}
           >
             <DataGrid
-              rows={exampleExerciseRating}
+              rows={exerciseDataRows}
               columns={patientDataColumns}
               components={{ Toolbar: GridToolbar }}
               disableRowSelectionOnClick

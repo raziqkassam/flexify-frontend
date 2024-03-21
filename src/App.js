@@ -35,8 +35,6 @@ function App() {
   console.log("usernames", usernames)
   console.log("patients", patients)
 
-  
-
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -75,14 +73,18 @@ function App() {
                   
                   
                   
-                  {fullPatientInfo.map((patient, i) => (
-                    <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
-                  ))}
-                  {/* {patients.map((patient, i) => (
+                  {/* {fullPatientInfo.map((patient, i) => (
                     <Route path={`/${patient.userName}`} element={<Patient patient={patient}/>} />
                   ))} */}
-                  {fullPatientInfo.map((patient, i) => (
+                  {usernames.map((username, i) => (
+                    <Route path={`/${username}`} element={<Patient username={username}/>} />
+                  ))}
+                  {/* {fullPatientInfo.map((patient, i) => (
                   <Route path={`/${patient.userName}/plan`} element={<Planner patient={patient}/>} />
+                  ))} */}
+                  {usernames.map((username, i) => (
+                    console.log("username2", username),
+                  <Route path={`/${username}/plan`} element={<Planner username={username}/>} />
                   ))}
                   
             </Routes>

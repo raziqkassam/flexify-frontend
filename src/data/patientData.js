@@ -143,5 +143,29 @@ export const fullPatientInfo = [
         "W": [ "3",   "-1",  "-5",   "-33" ]
       }, ],
   },
+  {
+    id: 6,
+    firstName: "Dwayne",
+    lastName: "Johnson",
+    userName: "therock",
+    email: "the@rock.com",
+    dateOfBirth: "1972-05-02",
+    hand: "Left",
+    injury: "DRF",
+    injuryTime: "8",
+    rehabStart: "2024-02-01",
+    targets: [ "80", "75", "35", "25" ],
+    peak: [
+      { "A": [ "66", "58", "25", "20" ],
+        "M": [ "65", "58", "23", "20" ],
+        "W": [ "62", "58", "25", "18" ]
+      }, ],
+    progress: "7",
+    increase: [
+      { "A": [ "15",  "11",   "8",   "6" ],
+        "M": [ "10",   "5",   "12",   "1" ],
+        "W": [ "3",   "-1",  "-5",   "-33" ]
+      }, ],
+  },
 ];
 

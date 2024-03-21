@@ -2,7 +2,7 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 
-const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) => {
+const LineChart = ({ data, yAxisLegend }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -16,9 +16,10 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) =>
               stroke: colors.grey[900],
             },
           },
-          legend: {
+          legends: {
             text: {
               fill: colors.grey[900],
+              fontSize: "20px",
             },
           },
           ticks: {
@@ -28,12 +29,18 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) =>
             },
             text: {
               fill: colors.grey[900],
+              fontSize: "15px",
+            },
+            text: {
+              fill: colors.grey[900],
+              fontSize: "15px",
             },
           },
         },
         legends: {
           text: {
-            fill: colors.grey[900],
+            fill: colors.primary[900],
+            fontSize: "14px",
           },
         },
         tooltip: {
@@ -42,14 +49,14 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) =>
           },
         },
       }}
-      colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }} // added
-      margin={{ top: 50, right: 140, bottom: 50, left: 80 }}
+      colors={{ datum: "color" }} // added
+      margin={{ top: 40, right: 160, bottom: 50, left: 80 }}
       xScale={{ 
         type: "point" 
       }}
       yScale={{
         type: "linear",
-        min: "auto",
+        min: "0",
         max: "auto",
         stacked: false, // set to true to prevent overlap of points
         reverse: false,
@@ -60,44 +67,54 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false, data }) =>
       axisRight={null}
       axisBottom={{
         orient: "bottom",
-        tickSize: 0,
+        tickSize: 10,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "Weeks", // added
+        legend: "Time", // added
         legendOffset: 36,
         legendPosition: "middle",
+        padding: 2,
       }}
       axisLeft={{
         orient: "left",
         tickValues: 5, // added
-        tickSize: 3,
+        tickSize: 10,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "Degrees", // added
+        legend: yAxisLegend, // added
         legendOffset: -50,
         legendPosition: "middle",
       }}
       enableGridX={false}
       enableGridY={false}
-      pointSize={8}
+      pointSize={10}
       pointColor={{ theme: "background" }}
       pointBorderWidth={2}
       pointBorderColor={{ from: "serieColor" }}
       pointLabelYOffset={-12}
       useMesh={true}
+      tooltip={({ point }) => {
+        return (
+          <div style={{ padding: '10px', color: 'black', background: 'white' }}>
+            <strong>{point.serieId}</strong>
+            <br />
+            {`--  ${point.data.yFormatted}`}
+          </div>
+        );
+      }}
       legends={[
         {
           anchor: "bottom-right",
           direction: "column",
           justify: false,
           translateX: 100,
-          translateY: 0,
+          translateY: -350,
           itemsSpacing: 0,
           itemDirection: "left-to-right",
           itemWidth: 80,
-          itemHeight: 20,
+          itemHeight: 30,
           itemOpacity: 0.75,
-          symbolSize: 12,
+          symbolSize: 20,
           symbolShape: "circle",
           symbolBorderColor: "rgba(0, 0, 0, .5)",
           effects: [

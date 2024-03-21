@@ -5,11 +5,9 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { useState, useEffect } from 'react';
 import ProgressCircle from "../../components/ProgressCircle";
-import { fullPatientInfo } from "../../data/patientData";
 
 import 'isomorphic-fetch';
 import 'es6-promise';
-
 
 const Contacts = () => {
   const theme = useTheme();

@@ -27,6 +27,7 @@
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "es6-promise": "^4.2.8",
+    "firebase": "^10.9.0",
     "formik": "^2.4.5",
     "framer-motion": "^11.0.5",
     "isomorphic-fetch": "^3.0.0",

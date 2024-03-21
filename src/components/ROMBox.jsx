@@ -23,6 +23,8 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
     setOpen(false);
   };
 
+  const progress = (maxAngle === 0 || targetAngle === 0) ? 0 : (maxAngle/targetAngle);
+
   return (
     <Grid container p="20px">
       <Grid item xs={6} >
@@ -35,7 +37,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
       <Grid item xs={6} >
         {/* Content of the second column of the first row */}
         <Box ml={"40px"} display="flex" justifyContent="space-between">
-          <ProgressCircle progress={(maxAngle/targetAngle)} size="60" /> {/*}.toFixed(3)*/}
+          <ProgressCircle progress={progress} size="60" /> {/*}.toFixed(3)*/}
         </Box>
       </Grid>
       <Grid item xs={6} >
@@ -75,7 +77,7 @@ const ROMBox = ({ exerciseName, targetAngle, maxAngle, increase, timePeriod }) =
         <Box display="flex" flexDirection="column">
           <Typography fontSize={25} fontWeight="700"  mt="5px" fontStyle={"italic"} textAlign="center"
             sx={{ color: colors.blueAccent[700] }} >
-            {((maxAngle/targetAngle)*100).toFixed(1)}%
+            {(progress*100).toFixed(1)}%
           </Typography>
           <Typography fontSize={15} fontWeight="700"  mt="-4px" fontStyle={"italic"} textAlign="center"
             sx={{ color: colors.blueAccent[700] }} >

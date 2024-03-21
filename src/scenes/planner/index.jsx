@@ -9,25 +9,45 @@ import { tokens } from "../../theme";
 import PlannerField from '../../components/PlannerField';
 import FormField from '../../components/FormField';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { set } from 'mongoose';
 
 const exerciseFrequency = [
     {value: 'None'}, {value: 'Once'}, {value: 'Twice'}, {value: 'Thrice'}
 ];
 
-const Planner = ({patient}) => {
+const Planner = ({username}) => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const isRequired = false; // set to true to set parameters for being required (false for testing)   
     const navigate = useNavigate(); // Get the history object
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
+    const [injuryTime, setInjuryTime] = useState(0);
+    const [rehabStart, setRehabStart] = useState('01-01-2024');
+    const [hand, setHand] = useState('None');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    console.log("username", username);
+    useEffect(() => {
+        fetch(`https://flexifybackend.vercel.app/get-dashboard-data-web/?userName=${username}`)
+          .then(response => response.json() )
+          .then(data => {
+            console.log("data", data.result)
+            setInjuryTime(data.result.injuryTime);
+            setRehabStart(data.result.rehabStart);
+            setHand(data.result.hand);
+            setFirstName(data.result.firstName);
+            setLastName(data.result.lastName);
+          })
+    }, []);
+    
     // const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const days = ["SUN", "MON", "TUE", "WED", "THUR", "FRI", "SAT"];
-    const weeks = Array.from({ length: patient.injuryTime }, (_, i) => `W${i + 1}`);
-    const [rehabWeeks, setRehabWeeks] = useState(Array.from({ length: patient.injuryTime }, () => Array.from({ length: 7 }, () => '')));
+    const weeks = Array.from({ length: injuryTime }, (_, i) => `W${i + 1}`);
+    const [rehabWeeks, setRehabWeeks] = useState(Array.from({ length: injuryTime }, () => Array.from({ length: 7 }, () => '')));
     const [checkboxes, setCheckboxes] = useState(Array(weeks.length).fill({ once: false, twice: false }));
 
-    const [year, month, day] = patient.rehabStart.split("-");
+    const [year, month, day] = rehabStart.split("-");
     const rehabStartDate = new Date(year, month - 1, day);
     const rehabStartIndex = rehabStartDate.getDay();
     const rehabStartDay = days[rehabStartIndex];
@@ -36,19 +56,18 @@ const Planner = ({patient}) => {
     const [sets, setSets] = useState(Array(weeks.length).fill(''));
     const [reps, setReps] = useState(Array(weeks.length).fill(''));
     
-    const lastSubmit = localStorage.getItem(`lastSubmit_${patient.userName}`);
+    const lastSubmit = localStorage.getItem(`lastSubmit_${username}`);
     
     const [isSaved, setIsSaved] = useState(false);
 
     // Load saved selections and checkbox states from localStorage when component mounts
     useEffect(() => {
-        fetch(`https://flexifybackend.vercel.app/get-patient-plan/?userName=${patient.userName}`)
+        fetch(`https://flexifybackend.vercel.app/get-patient-plan/?userName=${username}`)
           .then(response => response.json())
           .then(data => {
-              console.log("data", data.result)
+            //   console.log("data", data.result)
               const userPlan = data.result[0]
               if (userPlan) {
-                console.log("one", userPlan.rehabWeeks)
                 setRehabWeeks(userPlan.rehabWeeks.map(week => week.map(day => {
                     switch(day) {
                       case 1:
@@ -67,12 +86,12 @@ const Planner = ({patient}) => {
               }
           });
 
-        const savedCheckboxes = localStorage.getItem(`checkboxes_${patient.userName}`);
+        const savedCheckboxes = localStorage.getItem(`checkboxes_${username}`);
         if (savedCheckboxes) {
             setCheckboxes(JSON.parse(savedCheckboxes));
         }
 
-    }, [patient.userName]);
+    }, [username]);
 
     useEffect(() => {
         setCheckboxes(rehabWeeks.map(week => {
@@ -88,7 +107,9 @@ const Planner = ({patient}) => {
         setIsSaved(true);
         setRehabWeeks(prevRehabWeeks => {
             const newRehabWeeks = [...prevRehabWeeks];
-            newRehabWeeks[weekIndex][dayIndex] = newValue;
+            if (newRehabWeeks[weekIndex]) {
+                newRehabWeeks[weekIndex][dayIndex] = newValue;
+            }
             return newRehabWeeks;
         });
     };
@@ -128,7 +149,7 @@ const Planner = ({patient}) => {
         event.preventDefault();
 
         const dataToSend = {
-            userName: patient.userName,
+            userName: username,
             rehabWeeks: rehabWeeks.map(week => week.map(day => {
                 if (day === 'Once') return 1;
                 if (day === 'Twice') return 2;
@@ -144,15 +165,10 @@ const Planner = ({patient}) => {
                 return isNaN(repNumber) ? 0 : repNumber;
             }),
         };
-        console.log(JSON.stringify(reps));
-        console.log(JSON.stringify(sets));
+        console.log(dataToSend);
         // Save selections and checkbox states to localStorage when form is submitted
-        localStorage.setItem(`rehabWeeks_${patient.userName}`, JSON.stringify(rehabWeeks));
-        localStorage.setItem(`checkboxes_${patient.userName}`, JSON.stringify(checkboxes));
-        localStorage.setItem(`lastSubmit_${patient.userName}`, new Date().toLocaleString('en-US', 
+        localStorage.setItem(`lastSubmit_${username}`, new Date().toLocaleString('en-US', 
         { month: '2-digit', day: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false }));
-        localStorage.setItem(`reps_${patient.userName}`, JSON.stringify(reps));
-        localStorage.setItem(`sets_${patient.userName}`, JSON.stringify(sets));
         
         // Send the patient plan to the database
         const uploadPlan = await fetch('https://flexifybackend.vercel.app/upload-patient-plan/', {
@@ -163,21 +179,18 @@ const Planner = ({patient}) => {
         if (!uploadPlan.ok) { throw new Error(`HTTP error! status: ${uploadPlan.status}`); }
 
         const data = await uploadPlan.json();
-        // console.log(data);
+        console.log(data);
 
         alert(JSON.stringify(dataToSend, null, 2)); // make a popup to show all the inputted data
-        navigate(`/${patient.userName}`) 
+        navigate(`/${username}`) 
     }
 
     function handleReset() {
         // Clear saved selections for the current user from localStorage
-        localStorage.removeItem(`checkboxes_${patient.userName}`);
-        localStorage.removeItem(`rehabWeeks_${patient.userName}`);
-        localStorage.removeItem(`lastSubmit_${patient.userName}`);
-        localStorage.removeItem(`reps_${patient.userName}`);
-        localStorage.removeItem(`sets_${patient.userName}`);
+        localStorage.removeItem(`checkboxes_${username}`);
+        localStorage.removeItem(`lastSubmit_${username}`);
         alert(JSON.stringify("Patient Schedule has been RESET for this User", null, 2)); // make a popup to show all the inputted data
-        navigate(`/${patient.userName}`) 
+        navigate(`/${username}`) 
     }
  
     return (
@@ -187,7 +200,7 @@ const Planner = ({patient}) => {
         {/* HEADER */}
         <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ m: "0 0 -5px 0" }}>
             <Button
-            onClick={() => navigate(`/${patient.userName}`)}
+            onClick={() => navigate(`/${username}`)}
             type="submit" color="secondary" variant="outlined"
             style={{ marginBottom: '10px', color: colors.blueAccent[900], position: 'absolute', left: '60px', top: '140px', 
             width: '16em', height: '3em', fontSize:'14px', fontWeight:'400', borderRadius: "12px", border: '1px solid colors.blueAccent[400]'
@@ -197,10 +210,10 @@ const Planner = ({patient}) => {
             </Button>
             <Box m="60px 0 70px 10px">
                 <Header 
-                    title={`${patient.firstName} ${patient.lastName}`} 
+                    title={`${firstName} ${lastName}`} 
                     subtitle={
                         <>
-                            <br /><b>Update {patient.firstName}'s Rehab Schedule by setting their Exercise Frequency.</b>
+                            <br /><b>Update {firstName}'s Rehab Schedule by setting their Exercise Frequency.</b>
                             <br /><br />To set the exercise frequency for the whole week, use the checkboxes. For each day, manually use the dropdowns.
                             <br />Then, set the intended reps and sets for all exercises for each week. <b>Don't forget to save once complete!</b>
                         </>
@@ -208,9 +221,9 @@ const Planner = ({patient}) => {
                 />            
             </Box>
             <Box mt="10px" justifyItems={"right"} marginBottom={"80px"}>
-                <LineHeader title="Injured Hand: " value={patient.hand}/>
-                <LineHeader title="Rehab Length: " value={`${patient.injuryTime} Weeks`} />
-                <LineHeader title="Rehab Start: " value={`${rehabStartDay}, ${patient.rehabStart}`} />
+                <LineHeader title="Injured Hand: " value={hand}/>
+                <LineHeader title="Rehab Length: " value={`${injuryTime} Weeks`} />
+                <LineHeader title="Rehab Start: " value={`${rehabStartDay}, ${rehabStart}`} />
                 <LineHeader /><LineHeader /><LineHeader />
                 <LineHeader title="Last Saved: " value={lastSubmit || 'Not yet saved'} />
                 <Box display="flex" justifyContent="center" sx={{margin:"30px 0 -20px 0"}}>

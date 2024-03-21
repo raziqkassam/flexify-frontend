@@ -89,12 +89,12 @@ const Form = () => {
                 />
                 <FormField
                     type="text"
-                    label="Username (choose a unique patient identifier)"
+                    label="Username (Choose a Unique Patient Identifier)"
                     onChange={e => setUserName(e.target.value)}
                     value={userName}
                     sx={{ gridColumn: "span 4",}}
                     inputProps={{style: {fontSize:'20px', textAlign: 'center'}}}
-                    required={isRequired}
+                    required
                 />
                 <FormField
                     type="email"
