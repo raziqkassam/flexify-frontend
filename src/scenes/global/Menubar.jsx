@@ -155,9 +155,8 @@ function Menubar() {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Box
                         sx={{
-                            backgroundColor: colors.grey[200], // white background color
-                            borderRadius: '50%', // ensures it's a circle
-                            //padding: '2px', // padding for the Avatar
+                            backgroundColor: colors.grey[200], // grey background color
+                            borderRadius: '80%', // ensures it's a circle
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
@@ -165,7 +164,16 @@ function Menubar() {
                             height: '40px', // adjust the size of the Avatar
                         }}
                     >
-                        <Avatar alt="John Cena" src="../../assets/logo_color.png" sx={{ width: '100%', height: 'auto' }}  />
+                        <Avatar 
+                            alt="PT Logo" 
+                            src="../../assets/logo_color.png" 
+                            sx={{ 
+                                width: '85%', 
+                                height: '85%', 
+                                borderRadius: '0%', // Adjust the value to control roundness
+                            }} 
+                            variant="rounded" 
+                        />
                     </Box>
                 </IconButton>
                 </Tooltip>
