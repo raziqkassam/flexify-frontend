@@ -85,12 +85,17 @@ const Patient = ({username}) => {
   }, []);
 
   const getLineDataForTimeframe = (data) => {
+    // console.log("data", data)
     switch (timeframeButton) {
       case 1: // All data
+        console.log("data", data)
         return data;
       case 2: // Last 30 values
+        console.log("data30", data.slice(Math.max(data.length - 30, 0)))
         return data.slice(Math.max(data.length - 30, 0));
+        
       case 3: // Last 7 values
+        console.log("data7", data.slice(Math.max(data.length - 7, 0)))
         return data.slice(Math.max(data.length - 7, 0));
       default:
         return data;
@@ -99,7 +104,7 @@ const Patient = ({username}) => {
   
   
   const [timePeriod, setTimePeriod] = useState("All Time");
-  
+  // const [dataForLineGraph, setDataForLineGraph] = useState([]);
   useEffect(() => {
     switch (timeframeButton) {
       case 1:
@@ -295,8 +300,6 @@ const Patient = ({username}) => {
             const exerciseKeys = ['maxRadialDeviationArray', 'maxUlnarDeviationArray', 'maxWristExtensionArray', 'maxWristFlexionArray'];
             const exerciseIDs = ['Radial Deviation', 'Ulnar Deviation', 'Wrist Extension', 'Wrist Flexion']; // replace with your desired IDs
             
-             
-
             const exertionLines = exertionKeys.map((key, index) => {
               const dataForLineGraph = getLineDataForTimeframe(data.result[key]);
               const color = colorMapping[exertionIDs[index]]; // get color from mapping
@@ -329,7 +332,7 @@ const Patient = ({username}) => {
             });
             setExerciseDataLines(exerciseLines);
           });
-      }, []);
+      }, [username]);
   
   return (
     <Box m="20px 30px" p="0 30px 100px 30px" >

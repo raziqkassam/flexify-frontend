@@ -21,7 +21,7 @@ const Planner = ({username}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [injuryTime, setInjuryTime] = useState(3);
+    const [injuryTime, setInjuryTime] = useState(10);
     const [rehabStart, setRehabStart] = useState('2024-01-01');
     const [hand, setHand] = useState('None');
     const [firstName, setFirstName] = useState('');
