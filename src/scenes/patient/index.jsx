@@ -71,9 +71,13 @@ const Patient = ({username}) => {
                             data.result.maxUlnarDeviation, data.result.maxRadialDeviation];
           const monthPeaks = [10, 10, 10, 10];
           const weekPeaks = [0, 0, 0, 0];
-          setAllPeaks([alltimePeaks, monthPeaks, weekPeaks]);
+          setAllPeaks([alltimePeaks, alltimePeaks, alltimePeaks]);
 
           // increases
+          const alltimeInc = [data.result.wfAllTime, data.result.weAllTime, data.result.udAllTime, data.result.rdAllTime];
+          const monthInc = [data.result.wfLastMonth, data.result.weLastMonth, data.result.udLastMonth, data.result.rdLastMonth];
+          const weekInc = [data.result.wfLastWeek, data.result.weLastWeek, data.result.udLastWeek, data.result.rdLastWeek];
+          setAllIncreases([alltimeInc, monthInc, weekInc]);
           
         })
   }, []);

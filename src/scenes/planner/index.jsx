@@ -9,7 +9,6 @@ import { tokens } from "../../theme";
 import PlannerField from '../../components/PlannerField';
 import FormField from '../../components/FormField';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import { set } from 'mongoose';
 
 const exerciseFrequency = [
     {value: 'None'}, {value: 'Once'}, {value: 'Twice'}, {value: 'Thrice'}
@@ -22,12 +21,12 @@ const Planner = ({username}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [injuryTime, setInjuryTime] = useState(0);
+    const [injuryTime, setInjuryTime] = useState(2);
     const [rehabStart, setRehabStart] = useState('01-01-2024');
     const [hand, setHand] = useState('None');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    console.log("username", username);
+    console.log("injuryTime2", injuryTime);
     useEffect(() => {
         fetch(`https://flexifybackend.vercel.app/get-dashboard-data-web/?userName=${username}`)
           .then(response => response.json() )
@@ -38,14 +37,26 @@ const Planner = ({username}) => {
             setHand(data.result.hand);
             setFirstName(data.result.firstName);
             setLastName(data.result.lastName);
-          })
-    }, []);
+        })
+        
+    }, [username, injuryTime]);
     
     // const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const days = ["SUN", "MON", "TUE", "WED", "THUR", "FRI", "SAT"];
+        
     const weeks = Array.from({ length: injuryTime }, (_, i) => `W${i + 1}`);
-    const [rehabWeeks, setRehabWeeks] = useState(Array.from({ length: injuryTime }, () => Array.from({ length: 7 }, () => '')));
-    const [checkboxes, setCheckboxes] = useState(Array(weeks.length).fill({ once: false, twice: false }));
+    console.log("weeks", weeks);
+
+    //const [rehabWeeks, setRehabWeeks] = useState(Array.from({ length: injuryTime }, () => Array.from({ length: 7 }, () => '')));
+    const [rehabWeeks, setRehabWeeks] = useState([]);
+
+    useEffect(() => {
+        if (injuryTime > 0) {
+            setRehabWeeks(Array.from({ length: injuryTime }, () => Array.from({ length: 7 }, () => '')));
+        }
+    }, [injuryTime]);
+
+    const [checkboxes, setCheckboxes] = useState(Array(injuryTime).fill({ once: false, twice: false }));
 
     const [year, month, day] = rehabStart.split("-");
     const rehabStartDate = new Date(year, month - 1, day);
@@ -53,8 +64,8 @@ const Planner = ({username}) => {
     const rehabStartDay = days[rehabStartIndex];
 
     // reps and sets
-    const [sets, setSets] = useState(Array(weeks.length).fill(''));
-    const [reps, setReps] = useState(Array(weeks.length).fill(''));
+    const [sets, setSets] = useState(Array(weeks.length).fill(3));
+    const [reps, setReps] = useState(Array(weeks.length).fill(5));
     
     const lastSubmit = localStorage.getItem(`lastSubmit_${username}`);
     
@@ -65,9 +76,10 @@ const Planner = ({username}) => {
         fetch(`https://flexifybackend.vercel.app/get-patient-plan/?userName=${username}`)
           .then(response => response.json())
           .then(data => {
-            //   console.log("data", data.result)
-              const userPlan = data.result[0]
-              if (userPlan) {
+              console.log("data", data.result)
+              const userPlan = data.result[0];
+
+              if (userPlan && userPlan.rehabWeeks) {
                 setRehabWeeks(userPlan.rehabWeeks.map(week => week.map(day => {
                     switch(day) {
                       case 1:
@@ -80,10 +92,15 @@ const Planner = ({username}) => {
                         return "None";
                     }
                 })));
-                console.log("rw", rehabWeeks)
                 setSets(userPlan.sets);
                 setReps(userPlan.reps);
               }
+            else {
+                // setRehabWeeks(Array.from({ length: injuryTime }, () => Array.from({ length: 7 }, () => '')));
+                // console.log("wks", weeks.length)
+                setSets(Array(weeks.length).fill(3));
+                setReps(Array(weeks.length).fill(5));
+            }
           });
 
         const savedCheckboxes = localStorage.getItem(`checkboxes_${username}`);
@@ -91,27 +108,32 @@ const Planner = ({username}) => {
             setCheckboxes(JSON.parse(savedCheckboxes));
         }
 
-    }, [username]);
+    }, [injuryTime, weeks.length, username]);
+
+    console.log("rw", rehabWeeks);
 
     useEffect(() => {
         setCheckboxes(rehabWeeks.map(week => {
             const uniqueValues = [...new Set(week)];
+            console.log("uv", uniqueValues);
             if (uniqueValues.length === 1 && uniqueValues[0] !== '') {
                 return { once: uniqueValues[0] === 'Once', twice: uniqueValues[0] === 'Twice' };
             }
             return { once: false, twice: false };
         }));
-    }, [rehabWeeks]);
+    }, [username, rehabWeeks, injuryTime, weeks.length]);
 
     const handleSelectChange = (weekIndex, dayIndex, newValue) => {
         setIsSaved(true);
-        setRehabWeeks(prevRehabWeeks => {
-            const newRehabWeeks = [...prevRehabWeeks];
-            if (newRehabWeeks[weekIndex]) {
-                newRehabWeeks[weekIndex][dayIndex] = newValue;
-            }
-            return newRehabWeeks;
-        });
+        // if( rehabWeeks && rehabWeeks.length > 0) {
+            setRehabWeeks(prevRehabWeeks => {
+                const newRehabWeeks = [...prevRehabWeeks];
+                if (newRehabWeeks[weekIndex]) {
+                    newRehabWeeks[weekIndex][dayIndex] = newValue;
+                }
+                return newRehabWeeks;
+            });
+        // }
     };
 
     const handleWeekChange = (weekIndex, checked, frequency) => {
@@ -328,7 +350,7 @@ const Planner = ({username}) => {
                             labelPlacement="bottom"
                             variant='outlined'
                             color='secondary'
-                            value={rehabWeeks[weekIndex][dayIndex]}
+                            value={rehabWeeks[weekIndex] && rehabWeeks[weekIndex][dayIndex] ? rehabWeeks[weekIndex][dayIndex] : ''}
                             onChange={e => handleSelectChange(weekIndex, dayIndex, e.target.value)}
                             sx={{ gridRow: "span 1", marginTop: "5px", textAlign:'center', }}
                         >
