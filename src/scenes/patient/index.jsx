@@ -189,7 +189,7 @@ const Patient = ({username}) => {
           body: JSON.stringify(dataToSend),
         });
         if (!uploadGoals.ok) { throw new Error(`HTTP error! status: ${uploadGoals.status}`); }
-
+        window.location.reload();
         const data = await uploadGoals.json();
         // alert(JSON.stringify(dataToSend, null, 2));
       };
