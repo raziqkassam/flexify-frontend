@@ -23,15 +23,15 @@ const FAQ = () => {
           title: "Positioning",
           description: "Sit or stand comfortably with your forearm supported on a table. Your wrist should be perpendicular to the table.",
           startingTitle: "Starting Position",
-          starting: "Begin with your wrist in a neutral position, neither flexed nor extended. Your fingers should be relaxed.",
+          starting: "Begin with your wrist in a neutral position, positioning the ulnar side (pinky side) toward the camera, ensuring it's neither flexed nor extended. Keep your fingers relaxed.",
         }} 
         exercise={{
           title: "Wrist Flexion",
           gif: wristFlexionGif,
-          one: "Slowly bend your wrist forward, bringing your palm closer to your forearm.",
-          two: "Hold the position for 5-10 seconds, feeling a gentle stretch in your wrist and forearm muscles.",
-          three: "Make sure to keep the movement slow and controlled, avoiding any sudden jerks.",
-          four: "Repeat this motion for 10-15 repetitions, or as recommended by your healthcare provider or physical therapist.",
+          one: "Slowly bend your wrist forward, drawing your palm closer to your forearm.",
+          two: "Hold this position for up to 3 seconds.",
+          three: "Gradually bend your wrist backward, returning it to the neutral position.",
+          four: "Repeat this motion as recommended by your physiotherapist.",
         }}
         rest={{ 
           title: "Rest",
@@ -53,15 +53,15 @@ const FAQ = () => {
           title: "Positioning",
           description: "Sit or stand comfortably with your forearm supported on a table. Your wrist should be perpendicular to the table.",
           startingTitle: "Starting Position",
-          starting: "Begin with your wrist in a neutral position, neither flexed nor extended. Your fingers should be relaxed.",
-        }}
+          starting: "Begin with your wrist in a neutral position, positioning the ulnar side (pinky side) toward the camera, ensuring it's neither flexed nor extended. Keep your fingers relaxed.",
+        }} 
         exercise={{
           title: "Wrist Extension",
           gif: wristExtensionGif,
-          one: "Slowly bend your wrist backward, bringing the back of your hand closer to your forearm.",
-          two: "Hold the position for 5-10 seconds, feeling a gentle stretch in your wrist and forearm muscles.",
-          three: "Make sure to keep the movement slow and controlled, avoiding any sudden jerks.",
-          four: "Repeat this motion for 10-15 repetitions, or as recommended by your healthcare provider or physical therapist.",
+          one: "Slowly bend your wrist backwards, bringing the back of your hand closer to your forearm.",
+          two: "Hold this position for up to 3 seconds.",
+          three: "Gradually bend your wrist backward, returning it to the neutral position.",
+          four: "Repeat this motion as recommended by your physiotherapist.",
         }}
         rest={{
           title: "Rest",
@@ -83,15 +83,15 @@ const FAQ = () => {
           title: "Positioning",
           description: "Sit or stand comfortably with your forearm supported on a table. Your wrist should be perpendicular to the table.",
           startingTitle: "Starting Position",
-          starting: "Begin with your wrist in a neutral position, neither deviated towards the ulnar side (pinky side) nor the radial side (thumb side). Keep your fingers relaxed.",
+          starting: "Begin with your wrist in a neutral position, positioning the back of your hand to face the camera, ensuring it is neither deviated towards the ulnar side (pinky side) nor the radial side (thumb side). Keep your fingers relaxed.",
         }}
         exercise={{
           title: "Wrist Ulnar Deviation",
           gif: ulnarDeviationGif,
-          one: "Slowly tilt your wrist towards the ulnar side, moving your hand so that your pinky side moves closer to your forearm.",
-          two: "Hold this position for 5-10 seconds, feeling a gentle stretch on the ulnar side of your wrist and forearm.",
-          three: "Make sure to keep the movement slow and controlled, avoiding any sudden jerks.",
-          four: "Repeat this motion for 10-15 repetitions, or as recommended by your healthcare provider or physical therapist.",
+          one: "Slowly tilt your wrist towards the ulnar side, moving your hand so that the pinky side comes closer to your forearm.",
+          two: "Hold this position for up to 3 seconds.",
+          three: "Gradually tilt your wrist away from the ulnar side to return to the neutral position.",
+          four: "Repeat this motion as recommended by your physiotherapist.",
         }}
         rest={{
           title: "Rest",
@@ -113,15 +113,15 @@ const FAQ = () => {
           title: "Positioning",
           description: "Sit or stand comfortably with your forearm supported on a table. Your wrist should be perpendicular to the table.",
           startingTitle: "Starting Position",
-          starting: "Begin with your wrist in a neutral position, neither deviated towards the ulnar side (pinky side) nor the radial side (thumb side). Keep your fingers relaxed.",
+          starting: "Begin with your wrist in a neutral position, positioning the back of your hand to face the camera, ensuring it is neither deviated towards the ulnar side (pinky side) nor the radial side (thumb side). Keep your fingers relaxed.",
         }}
         exercise={{
           title: "Wrist Radial Deviation",
           gif: radialDeviationGif,
-          one: "Slowly tilt your wrist towards the radial side, moving your hand so that your thumb side moves closer to your forearm.",
-          two: "Hold this position for 5-10 seconds, feeling a gentle stretch on the radial side of your wrist and forearm.",
-          three: "Make sure to keep the movement slow and controlled, avoiding any sudden jerks.",
-          four: "Repeat this motion for 10-15 repetitions, or as recommended by your healthcare provider or physical therapist.",
+          one: "Slowly tilt your wrist towards the radial side, moving your hand so that the thumb side comes closer to your forearm.",
+          two: "Hold this position for up to 3 seconds.",
+          three: "Gradually tilt your wrist away from the ulnar side to return to the neutral position.",
+          four: "Repeat this motion as recommended by your physiotherapist.",
         }}
         rest={{
           title: "Rest",
