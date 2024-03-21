@@ -21,8 +21,8 @@ const Planner = ({username}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [injuryTime, setInjuryTime] = useState(2);
-    const [rehabStart, setRehabStart] = useState('01-01-2024');
+    const [injuryTime, setInjuryTime] = useState(3);
+    const [rehabStart, setRehabStart] = useState('2024-01-01');
     const [hand, setHand] = useState('None');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -203,16 +203,28 @@ const Planner = ({username}) => {
         const data = await uploadPlan.json();
         console.log(data);
 
-        alert(JSON.stringify(dataToSend, null, 2)); // make a popup to show all the inputted data
+        // alert(JSON.stringify(dataToSend, null, 2)); // make a popup to show all the inputted data
         navigate(`/${username}`) 
     }
 
-    function handleReset() {
+    const handleReset = async (event) => {
         // Clear saved selections for the current user from localStorage
         localStorage.removeItem(`checkboxes_${username}`);
         localStorage.removeItem(`lastSubmit_${username}`);
-        alert(JSON.stringify("Patient Schedule has been RESET for this User", null, 2)); // make a popup to show all the inputted data
-        navigate(`/${username}`) 
+
+        const response = await fetch(`https://flexifybackend.vercel.app/delete-user/?userName=${username}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userName: username }),
+        });
+
+        if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
+
+        const data = await response.json();
+        console.log(data);
+
+        alert(JSON.stringify("THIS PATIENT HAS BEEN DELETED", null, 2)); // make a popup to show all the inputted data
+        navigate('/all-patients') 
     }
  
     return (

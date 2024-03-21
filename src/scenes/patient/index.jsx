@@ -28,7 +28,6 @@ const Patient = ({username}) => {
   const [timeframeButton, setTimeframeButton] = useState(1);
   
   const [lineGraphButton, setLineGraphButton] = useState(1);
-  const [lineLegend, setLineLegend] = useState(true);
   const [lineData, setLineData] = useState([]);
 
   const [injuryTime, setInjuryTime] = useState(0);
@@ -77,47 +76,53 @@ const Patient = ({username}) => {
           const alltimeInc = [data.result.wfAllTime, data.result.weAllTime, data.result.udAllTime, data.result.rdAllTime];
           const monthInc = [data.result.wfLastMonth, data.result.weLastMonth, data.result.udLastMonth, data.result.rdLastMonth];
           const weekInc = [data.result.wfLastWeek, data.result.weLastWeek, data.result.udLastWeek, data.result.rdLastWeek];
-          setAllIncreases([alltimeInc, monthInc, weekInc]);
+          const alltimeIncRounded = alltimeInc.map(Math.round);
+          const monthIncRounded = monthInc.map(Math.round);
+          const weekIncRounded = weekInc.map(Math.round);
+          setAllIncreases([alltimeIncRounded, monthIncRounded, weekIncRounded]);
           
         })
   }, []);
 
-  const allTimeLineData = romData.map(item => ({
-    ...item, data: item.data.slice(0, injuryTime) }));
+  const getLineDataForTimeframe = (data) => {
+    switch (timeframeButton) {
+      case 1: // All data
+        return data;
+      case 2: // Last 30 values
+        return data.slice(Math.max(data.length - 30, 0));
+      case 3: // Last 7 values
+        return data.slice(Math.max(data.length - 7, 0));
+      default:
+        return data;
+    }
+  };
   
-  const lastMonthLineData = romData.map(item => ({
-    ...item, data: item.data.slice(injuryTime-5, injuryTime) }));
-
-  const lastWeekLineData = romData.map(item => ({
-    ...item, data: item.data.slice(injuryTime-2, injuryTime) }));  
   
   const [timePeriod, setTimePeriod] = useState("All Time");
   
   useEffect(() => {
     switch (timeframeButton) {
       case 1:
-        setLineData(allTimeLineData);
         setTimePeriod("All Time");
         setIncreases(allIncreases[0]);
         setPeaks(allPeaks[0]);
         break;
       case 2:
-        setLineData(lastMonthLineData);
         setTimePeriod("the Last Month");
         setIncreases(allIncreases[1]);
         setPeaks(allPeaks[1]);
         break;
       case 3:
-        setLineData(lastWeekLineData);
         setTimePeriod("the Last Week");
         setIncreases(allIncreases[2]);
         setPeaks(allPeaks[2]);
         break;
       default:
-        setLineData(allTimeLineData);
+        setTimePeriod("All Time");
+        setIncreases(allIncreases[0]);
+        setPeaks(allPeaks[0]);
     }
-  }, [timeframeButton, allTimeLineData, lastMonthLineData, lastWeekLineData, 
-      timePeriod, allIncreases, allPeaks]);
+  }, [timeframeButton, timePeriod, allIncreases, allPeaks]);
 
       const [open, setOpen] = useState(false);
       const [dialogContent, setDialogContent] = useState(''); // for clicking to expand notes section
@@ -186,7 +191,7 @@ const Patient = ({username}) => {
         if (!uploadGoals.ok) { throw new Error(`HTTP error! status: ${uploadGoals.status}`); }
 
         const data = await uploadGoals.json();
-        alert(JSON.stringify(dataToSend, null, 2));
+        // alert(JSON.stringify(dataToSend, null, 2));
       };
 
       const patientDataColumns = [
@@ -290,12 +295,15 @@ const Patient = ({username}) => {
             const exerciseKeys = ['maxRadialDeviationArray', 'maxUlnarDeviationArray', 'maxWristExtensionArray', 'maxWristFlexionArray'];
             const exerciseIDs = ['Radial Deviation', 'Ulnar Deviation', 'Wrist Extension', 'Wrist Flexion']; // replace with your desired IDs
             
+             
+
             const exertionLines = exertionKeys.map((key, index) => {
+              const dataForLineGraph = getLineDataForTimeframe(data.result[key]);
               const color = colorMapping[exertionIDs[index]]; // get color from mapping
               return {
                 id: exertionIDs[index],
                 color: color,
-                data: data.result[key].map((value, index) => {
+                data: dataForLineGraph.map((value, index) => {
                   return {
                     x: index+1,
                     y: value,
@@ -306,11 +314,12 @@ const Patient = ({username}) => {
             setExertionDataLines(exertionLines);
 
             const exerciseLines = exerciseKeys.map((key, index) => {
+              const dataForLineGraph = getLineDataForTimeframe(data.result[key]);
               const color = colorMapping[exerciseIDs[index]]; // get color from mapping
               return {
                 id: exerciseIDs[index],
                 color: color,
-                data: data.result[key].map((value, index) => {
+                data: dataForLineGraph.map((value, index) => {
                   return {
                     x: index+1,
                     y: value,

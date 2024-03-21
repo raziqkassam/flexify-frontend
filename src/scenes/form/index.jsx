@@ -54,7 +54,7 @@ const Form = () => {
         const data = await uploadUser.json();
         console.log(data);
 
-        alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
+        // alert(JSON.stringify(patientDetails, null, 2)); // make a popup to show all the inputted data
         navigate('/created-patient') // navigate to new page once form is submitted
     };
  
